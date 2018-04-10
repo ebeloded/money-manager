@@ -1,0 +1,19 @@
+{
+  "currencies": [
+    {
+      "symbol": "$",
+      "code": "USD",
+      "name": "American Dollar"
+    },
+    {
+      "symbol": "C$",
+      "code": "CAD",
+      "name": "Canadian Dollar"
+    },
+    {
+      "symbol": "₿",
+      "code": "BTC",
+      "name": "Bitcoin"
+    }
+  ]
+}
