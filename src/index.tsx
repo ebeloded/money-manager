@@ -1,10 +1,10 @@
-import * as React from 'react'
+import React from 'react'
 import * as ReactDOM from 'react-dom'
-// import App from './App'
+import App from './App'
 // import registerServiceWorker from './registerServiceWorker';
-const MyApp = () => (<div>Hello</div>)
+
 ReactDOM.render(
-  <MyApp />,
+  <App />,
   document.getElementById('root') as HTMLElement
 )
 
