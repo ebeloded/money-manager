@@ -1,4 +1,4 @@
-import firebase from 'firebase'
+import firebase from 'firebase/app'
 
 export default class Transactions {
 
@@ -9,12 +9,6 @@ export default class Transactions {
     const firestore = await this.initDB
 
     return firestore.collection('transactions').add(transaction)
-      .then((docRef) => {
-        console.log('Document added with ID', docRef.id)
-      })
-      .catch((error) => {
-        console.error('Error adding document', error)
-      })
 
   }
 
@@ -22,10 +16,17 @@ export default class Transactions {
 
     console.log('get all called')
 
+    observer([{ value: 999 }])
+
     const firestore = await this.initDB
+
+    console.time('get_transactions')
 
     firestore.collection('transactions').onSnapshot((querySnapshot) => {
       const transactions: Transaction[] = []
+
+      console.timeEnd('get_transactions')
+
       querySnapshot.forEach((doc) => {
         transactions.push(doc.data() as Transaction)
       })
