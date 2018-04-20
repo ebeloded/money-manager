@@ -3,10 +3,7 @@
     "outDir": "build/dist",
     "module": "esnext",
     "target": "es5",
-    "lib": [
-      "es6",
-      "dom"
-    ],
+    "lib": ["es6", "dom"],
     "sourceMap": true,
     "allowJs": true,
     "jsx": "react",
@@ -24,12 +21,9 @@
     "noEmitOnError": true,
     "baseUrl": "src",
     "paths": {
-      "@db/*": [
-        "db/*"
-      ],
-      "@constants": [
-        "constants.ts"
-      ]
+      "@db": ["db"],
+      "@config/*": ["config/*"],
+      "@constants": ["constants.ts"]
     },
     "plugins": [
       {

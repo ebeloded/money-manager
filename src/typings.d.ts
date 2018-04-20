@@ -12,7 +12,9 @@ interface Category {
   created?: number
   type: CategoryType
 }
+type TransactionID = string
 
 interface Transaction {
+  id?: TransactionID
   value: number
 }

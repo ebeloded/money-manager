@@ -4,24 +4,23 @@ interface Props {
   transactions: Transaction[]
 }
 
-interface State {
-}
+interface State {}
 
 const TransactionItem = (t: Transaction) => {
   return <li>{t.value}</li>
 }
 
 export class ListTransactionsContainer extends React.Component<Props, State> {
-
-  constructor (props: Props) {
+  constructor(props: Props) {
     super(props)
   }
 
-  render () {
+  public render() {
     return (
       <ol>
-        {this.props.transactions.map((t, i) =>
-          <TransactionItem key={i.toString()} {...t} />)}
+        {this.props.transactions.map((t, i) => (
+          <TransactionItem key={i.toString()} {...t} />
+        ))}
       </ol>
     )
   }

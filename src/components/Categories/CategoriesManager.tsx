@@ -1,13 +1,12 @@
 import * as React from 'react'
-import { CategoriesListContainer } from './CategoriesListContainer'
+import styled from 'react-emotion'
+
 import { CategoryType } from '@constants'
-import styled from 'styled-components'
+import { CategoriesListContainer } from './CategoriesListContainer'
 
 const debug = require('debug')('App:CategoriesManager')
 
-interface Props {
-
-}
+interface Props {}
 
 interface State {
   categoryType: CategoryType
@@ -26,7 +25,7 @@ const Select = styled.select`
 const CategoriesManagerWrap = styled.div`
   background: #333;
   padding: 10px;
-  display:inline-block;
+  display: inline-block;
   &:before {
     content: '[';
   }
@@ -36,23 +35,22 @@ const CategoriesManagerWrap = styled.div`
 `
 
 export class CategoriesManager extends React.Component<Props, State> {
-
-  constructor (props: Props) {
+  constructor(props: Props) {
     super(props)
     this.state = {
-      categoryType: CategoryType.EXPENSE
+      categoryType: CategoryType.EXPENSE,
     }
   }
 
-  handleChange = (event: React.FormEvent<HTMLSelectElement>) => {
+  public handleChange = (event: React.FormEvent<HTMLSelectElement>) => {
     this.setState({ categoryType: event.currentTarget.value as CategoryType })
   }
 
-  addCategory = (name: string) => {
+  public addCategory = (name: string) => {
     debug('add category %j', name)
   }
 
-  render () {
+  public render() {
     return (
       <CategoriesManagerWrap>
         <Select onChange={this.handleChange} value={this.state.categoryType}>
@@ -60,7 +58,6 @@ export class CategoriesManager extends React.Component<Props, State> {
           <option value={CategoryType.EXPENSE}>Expense</option>
         </Select>
         <CategoriesListContainer categoryType={this.state.categoryType} />
-
       </CategoriesManagerWrap>
     )
   }

@@ -6,12 +6,12 @@ interface CategoriesListProps {
 }
 
 export class CategoriesList extends React.Component<CategoriesListProps> {
-  render () {
+  public render() {
     return (
       <div>
-        {this.props.categories.map(category =>
+        {this.props.categories.map(category => (
           <CategoryItem key={category.id} {...category} />
-        )}
+        ))}
       </div>
     )
   }

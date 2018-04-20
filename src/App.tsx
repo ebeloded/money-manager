@@ -1,60 +1,70 @@
-import React from 'react'
-import styled, { injectGlobal } from 'styled-components'
-import { AddTransactionForm } from './components/Transactions/AddTransactionForm'
-import { ListTransactionsContainer } from 'components/Transactions/ListTransactionsContainer'
-import db from 'db'
+// import React from 'react'
+// import styled, { css, injectGlobal } from 'react-emotion'
 
-const AppWrap = styled.div`
-  font-family: 'Fira Mono';
-`
+// // import { AddTransactionForm } from './components/Transactions/AddTransactionForm'
+// // import { ListTransactionsContainer } from './components/Transactions/ListTransactionsContainer'
+// import Database from './db/Database'
+// import { DatabaseConsumer, DatabaseProvider } from './db/DatabaseContext'
+// import Transactions from './db/Transactions'
 
-const Title = styled.h1`
-  color: #eee;
-`
+// function DatabaseName(props: { name: string; transactions: Transactions }) {
+//   console.log('render db name', props)
+//   return <div>Name is: {props.name}</div>
+// }
 
-injectGlobal`
-  html {
-    background: #222;
-    color:#eee;
-  }
-`
+// interface TransactionsContainerProps {
+//   transactions: Transactions
+// }
 
-interface State {
-  transactions: Transaction[]
-}
+// class TransactionsContainer extends React.Component<TransactionsContainerProps> {
+//   private transactionsSubscription
 
-class App extends React.Component<{}, State> {
+//   componentDidMount() {
+//     console.log('component did mount')
+//     this.props.transactions.getAll(transactions => {
+//       this.setState({
+//         transactions,
+//       })
+//     })
+//   }
 
-  constructor (props: {}) {
-    super(props)
-    this.state = {
-      transactions: []
-    }
-  }
+//   componentWillUnmount() {
+//     console.log('component will unmount')
+//   }
 
-  subscribeToTransactions () {
-    db.transactions.getAll((transactions) => {
-      this.setState({ transactions })
-    })
-  }
+//   render() {
+//     return <div>Transactions Container</div>
+//   }
+// }
 
-  componentDidMount () {
-    this.subscribeToTransactions()
-  }
+// const AppWrap = styled('div')({
+//   fontFamily: 'FiraMono',
+// })
 
-  addTransaction = (transaction: Transaction) => {
-    db.transactions.addTransaction(transaction)
-  }
+// const Title = styled('h1')({
+//   color: '#eee',
+// })
 
-  render () {
-    return (
-      <AppWrap>
-        <Title>Money Manager</Title>
-        <AddTransactionForm onSubmit={this.addTransaction} />
-        <ListTransactionsContainer transactions={this.state.transactions} />
-      </AppWrap>
-    )
-  }
-}
+// injectGlobal('html', {
+//   background: '#222',
+//   color: '#eee',
+// })
 
-export default App
+// interface State {
+//   transactions: Transaction[]
+// }
+
+// class App extends React.Component<{}, State> {
+//   public render() {
+//     return (
+//       <DatabaseProvider>
+//         <AppWrap>
+//           <Title>Money Manager</Title>
+//           <DatabaseConsumer>{({ name, transactions }: Database) => <DatabaseName name={name} />}</DatabaseConsumer>
+//         </AppWrap>
+//       </DatabaseProvider>
+//     )
+//   }
+// }
+
+// export default App

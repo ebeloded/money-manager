@@ -14,7 +14,7 @@
 // }
 
 // const FormWrap = styled.form`
-//   border: solid 1px #333;  
+//   border: solid 1px #333;
 // `;
 
 // export class EditCategoryForm extends React.Component<Props, State> {

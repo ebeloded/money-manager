@@ -1,43 +1,119 @@
 import firebase from 'firebase/app'
+import Debug from 'debug'
 
-export default class Transactions {
+import { Observable } from 'rxjs/Observable'
+import { fromPromise } from 'rxjs/observable/fromPromise'
+import { concatMap } from 'rxjs/operators'
 
-  public async addTransaction (transaction: Transaction) {
+const debug = Debug('Database.Transactions')
 
-    console.log('addTransaction', transaction)
+// export default class Transactions {
+//   constructor(private firestorePromise: Promise<firebase.firestore.Firestore>) {
+//     console.log('init transactions subclass')
+//   }
 
-    const firestore = await this.initDB
+//   public async addTransaction(transaction: Transaction) {
+//     console.log('addTransaction', transaction)
 
-    return firestore.collection('transactions').add(transaction)
+//     const firestore = await this.firestorePromise
 
-  }
+//     return firestore.collection('transactions').add(transaction)
+//   }
 
-  public async getAll (observer: (transactions: Transaction[]) => void) {
+//   // public async deleteTransaction(txid: string) {}
 
-    console.log('get all called')
+//   public getAll(): Observable<Transaction[]> {
 
-    observer([{ value: 999 }])
+//   }
+// }
 
-    const firestore = await this.initDB
-
-    console.time('get_transactions')
-
-    firestore.collection('transactions').onSnapshot((querySnapshot) => {
-      const transactions: Transaction[] = []
-
-      console.timeEnd('get_transactions')
-
-      querySnapshot.forEach((doc) => {
-        transactions.push(doc.data() as Transaction)
-      })
-      observer(transactions)
-    })
-
-  }
-
-  constructor (private initDB: Promise<firebase.firestore.Firestore>) {
-    console.log('init transactions subclass')
-
-  }
-
+interface TransactionsAPI {
+  add: (t: Transaction) => Promise<TransactionID>
+  get: (txid: TransactionID) => Promise<Transaction>
+  list: () => Observable<Transaction[]>
+  remove: (txid: TransactionID) => Promise<boolean>
 }
+
+type Firestore = firebase.firestore.Firestore
+
+export class Transactions implements TransactionsAPI {
+  constructor(private dbPromise: Promise<Firestore>) {}
+
+  public async add(t: Transaction) {
+    debug('add %o', t)
+    console.log('about to add', t)
+    const db = await this.dbPromise
+    // const txid = `tx-${'' + Date.now()}`
+    const docRef = await db.collection('transactions').add(t)
+
+    return docRef.id
+  }
+
+  public async get(txid: TransactionID) {
+    const db = await this.dbPromise
+
+    const doc = await db
+      .collection('transactions')
+      .doc(txid)
+      .get()
+
+    const data = doc.data() as Transaction
+
+    return data
+  }
+
+  public list() {
+    debug('list')
+    return fromPromise(this.dbPromise).pipe(
+      concatMap(
+        db =>
+          new Observable<Transaction[]>(subscriber => {
+            return db.collection('transactions').onSnapshot(querySnapshot => {
+              const transactions: Transaction[] = []
+              const result = querySnapshot.docs.map(d => {
+                const t = { id: d.id, ...d.data() } as Transaction
+                return t
+              })
+              subscriber.next(result)
+            })
+          }),
+      ),
+    )
+  }
+
+  public async remove(txid: TransactionID) {
+    debug('remove %o', txid)
+    const db = await this.dbPromise
+
+    await db
+      .collection('transactions')
+      .doc(txid)
+      .delete()
+
+    return true
+  }
+}
+
+// export function TransactionsF(firestorePromise: Promise<Firestore>): TransactionsAPI {
+//   const api: TransactionsAPI = {
+//     add: async t => {},
+//     list: () => {
+//       return fromPromise(firestorePromise).concatMap(
+//         db =>
+//           new Observable<Transaction[]>(subscriber => {
+//             return db.collection('transactions').onSnapshot(querySnapshot => {
+//               const transactions: Transaction[] = []
+//               const result = querySnapshot.docs.map(d => d.data() as Transaction)
+//               subscriber.next(result)
+//             })
+//           }),
+//       )
+//     },
+//     remove: async txid => {
+//       return true
+//     },
+//   }
+
+//   return api
+// }
+//TODO: Implement debug decorator
