@@ -47,5 +47,3 @@ export class EditCategoryForm extends React.Component<Props, State> {
     )
   }
 }
-
-export const AddCategoryForm = (props: Props) => <EditCategoryForm {...props} />

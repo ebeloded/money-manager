@@ -2,8 +2,8 @@ import * as React from 'react'
 import styled from 'react-emotion'
 
 import { CategoryTypeEnum } from '@constants'
-import { CategoriesListContainer } from './CategoriesListContainer'
-import { AddCategoryForm } from './EditCategoryForm'
+import { AddCategoryForm } from './AddCategoryForm'
+import CategoriesListContainer from './CategoriesListContainer'
 
 const debug = require('debug')('App:CategoriesManager')
 

@@ -5,11 +5,11 @@ import { fromPromise } from 'rxjs/observable/fromPromise'
 
 const add = (dbPromise: Promise<Firestore>) => async (c: NewCategory) => {
   const db = await dbPromise
-
+  console.log('adding category', c)
   const categoryRef = await db.collection('categories').add(c)
 
   const result: Category = { ...c, id: categoryRef.id }
-
+  console.log('added', result)
   return result
 }
 

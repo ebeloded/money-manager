@@ -1,14 +1,13 @@
-// import React from 'react'
-// import Database from './Database'
+import React, { ReactNode } from 'react'
+import { Database } from './Database'
 
-// console.log('call db context')
+interface DatabaseProviderProps {
+  db: Database
+  children: ReactNode
+}
 
-// const { Provider, Consumer } = React.createContext<Database>()
+const { Provider, Consumer } = React.createContext<Database>()
 
-// export class DatabaseProvider extends React.Component {
-//   public render() {
-//     return <Provider value={new Database()}>{this.props.children}</Provider>
-//   }
-// }
+export const DatabaseProvider = ({ db, children }: DatabaseProviderProps) => <Provider value={db}>{children}</Provider>
 
-// export const DatabaseConsumer = Consumer
+export const DatabaseConsumer = Consumer

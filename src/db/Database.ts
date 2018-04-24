@@ -35,6 +35,8 @@ const isReady = (promise: Promise<any>) => {
 export class Database implements DatabaseAPI {
   public isReady: () => boolean
 
+  public dbName = 'My Database'
+
   public initPromise: Promise<boolean>
 
   public transactions: Transactions
