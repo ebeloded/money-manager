@@ -8,18 +8,31 @@
       "type": "shell",
       "command": "yarn start",
       "isBackground": true,
-      "problemMatcher": [],
-      "group": {
-        "kind": "build",
-        "isDefault": true
-      }
+      "problemMatcher": ["$tsc-watch"]
     },
     {
       "type": "shell",
       "label": "Lint",
       "command": "yarn lint",
       "problemMatcher": [],
+      "isBackground": true
+    },
+    {
+      "label": "TSC",
+      "type": "shell",
+      "command": "tsc --watch --noEmit --project tsconfig.json",
       "isBackground": true,
+      "problemMatcher": ["$tsc-watch"],
+      "presentation": {
+        "echo": false,
+        "reveal": "silent",
+        "focus": false,
+        "panel": "shared"
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
     }
   ]
 }

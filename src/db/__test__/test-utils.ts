@@ -12,9 +12,11 @@ export const wait = (ms: number) => {
 export const initNonPersistentDatabase = (() => {
   let db: Database
   const app = initFirebase()
+  console.log('init NonPersistentDatabase')
 
   return () => {
     if (!db) {
+      console.log('Initializing database')
       db = new Database(app, { enablePersistence: false })
     }
     return db

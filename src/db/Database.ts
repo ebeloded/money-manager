@@ -2,6 +2,8 @@ import firebase from 'firebase/app'
 import 'firebase/firestore'
 
 import { Transactions } from './Transactions'
+import { CategoriesAPI, DatabaseAPI } from './dbTypes'
+import { Categories } from './Categories'
 
 async function initFirestore(app: firebase.app.App, enablePersistence: boolean) {
   const settings: firebase.firestore.Settings = {
@@ -24,15 +26,6 @@ async function initFirestore(app: firebase.app.App, enablePersistence: boolean) 
   return firestore
 }
 
-interface DatabaseSettings {
-  enablePersistence: boolean
-}
-interface DatabaseAPI {
-  // constructor: (app: firebase.app.App, settings: DatabaseSettings) => void
-  isReady: () => boolean
-  transactions: Transactions
-}
-
 const isReady = (promise: Promise<any>) => {
   let isReady = false
   promise.then(() => (isReady = true))
@@ -45,25 +38,12 @@ export class Database implements DatabaseAPI {
   public initPromise: Promise<boolean>
 
   public transactions: Transactions
+  public categories: CategoriesAPI
 
   constructor(app: firebase.app.App, { enablePersistence = true }: DatabaseSettings) {
     const dbPromise = initFirestore(app, enablePersistence)
     this.isReady = isReady(dbPromise)
-
     this.transactions = new Transactions(dbPromise)
+    this.categories = Categories(dbPromise)
   }
 }
-
-// export function initDatabase(enablePersistence: boolean = true): DatabaseAPI {
-//   const dbPromise = initFirestore(enablePersistence)
-//   let isReady = false
-
-//   dbPromise.then(() => (isReady = true))
-
-//   const api = {
-//     isReady: () => isReady,
-//     transactions: Transactions(dbPromise),
-//   }
-
-//   return api
-// }

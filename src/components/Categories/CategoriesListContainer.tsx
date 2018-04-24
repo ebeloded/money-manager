@@ -1,6 +1,5 @@
 import * as React from 'react'
 
-import { CategoryType } from '@constants'
 import { CategoriesList } from './CategoriesList'
 
 interface Props {
@@ -12,18 +11,14 @@ interface State {
 }
 
 export class CategoriesListContainer extends React.Component<Props, State> {
-  public state = {
-    categories: [],
+  state: State = {
+    categories: [{ name: 'bla', id: '1', type: 'EXPENSE' }],
   }
 
-  constructor(props: Props) {
-    super(props)
-  }
   public render() {
-    return (
-      <ul>
-        <CategoriesList categories={this.state.categories} />
-      </ul>
-    )
+    const { categoryType } = this.props
+    console.log(categoryType)
+
+    return <CategoriesList categories={this.state.categories} />
   }
 }

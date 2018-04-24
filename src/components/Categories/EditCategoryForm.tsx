@@ -1,53 +1,51 @@
-// import * as React from 'react';
-// import styled from 'styled-components';
-// import { CategoryType } from '@constants';
+import * as React from 'react'
+import styled from 'react-emotion'
+import { CategoryTypeEnum } from '@constants'
 
-// interface Props {
-//   category?: Category;
-// }
+interface Props {
+  categoryType: CategoryType
+}
 
-// interface State {
-//   id?: string;
-//   name: string;
-//   created?: number;
-//   readonly type: CategoryType;
-// }
+interface State {
+  id?: string
+  name: string
+  type: CategoryType
+}
 
-// const FormWrap = styled.form`
-//   border: solid 1px #333;
-// `;
+const FormWrap = styled('form')``
 
-// export class EditCategoryForm extends React.Component<Props, State> {
+export class EditCategoryForm extends React.Component<Props, State> {
+  state = {
+    name: '',
+    type: this.props.categoryType,
+  }
 
-//   constructor (props: Props) {
-//     super(props);
-//     this.state = props.category ? { ...props.category } : {
-//       name: '',
-//       type: CategoryType.EXPENSE
-//     };
-//   }
+  handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    // Add the category to the database
+  }
 
-//   handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-//     event.preventDefault();
-//     // Add the category to the database
-//   }
+  handleChange = (event: React.FormEvent<HTMLInputElement>) => {
+    this.setState({
+      name: event.currentTarget.value,
+    })
+  }
 
-//   handleChange = (event: React.FormEvent<HTMLInputElement>) => {
-//     this.setState({
-//       name: event.currentTarget.value
-//     });
-//   }
+  render() {
+    return (
+      <FormWrap onSubmit={this.handleSubmit}>
+        <label htmlFor="">
+          <input
+            placeholder="Add Category"
+            type="text"
+            name="name"
+            onChange={this.handleChange}
+            value={this.state.name}
+          />
+        </label>
+      </FormWrap>
+    )
+  }
+}
 
-//   render () {
-//     return (
-//       <FormWrap onSubmit={this.handleSubmit}>
-//         <label htmlFor="">Name
-//           <input type="text" name="name" onChange={this.handleChange} value={this.state.name} />
-//         </label>
-//         <input type="submit" value="Submit" />
-//       </FormWrap>
-//     );
-//   }
-// }
-
-// export const AddCategoryForm = () => (<EditCategoryForm />);
+export const AddCategoryForm = (props: Props) => <EditCategoryForm {...props} />

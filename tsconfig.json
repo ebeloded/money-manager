@@ -18,26 +18,13 @@
     "suppressImplicitAnyIndexErrors": true,
     "noUnusedLocals": false,
     "allowSyntheticDefaultImports": true,
-    "noEmitOnError": true,
+    "noEmitOnError": false,
     "baseUrl": "src",
     "paths": {
-      "@db": ["db"],
-      "@config/*": ["config/*"],
+      // "@db": ["db"],
+      // "@config/*": ["config/*"],
       "@constants": ["constants.ts"]
-    },
-    "plugins": [
-      {
-        "name": "typescript-styled-plugin"
-      }
-    ]
+    }
   },
-  "exclude": [
-    "node_modules",
-    "build",
-    "scripts",
-    "acceptance-tests",
-    "webpack",
-    "jest",
-    "src/setupTests.ts"
-  ]
+  "exclude": ["node_modules", "build", "scripts", "acceptance-tests", "webpack", "jest", "src/setupTests.ts"]
 }

@@ -1,9 +1,7 @@
 import React from 'react'
 import styled from 'react-emotion'
 
-interface Props {
-  onSubmit: (transaction: Transaction) => void
-}
+interface Props {}
 
 interface State {
   value: string
@@ -14,12 +12,8 @@ const Input = styled('input')({
   padding: '5px',
 })
 
-const NumberInput = (props: React.InputHTMLAttributes<HTMLInputElement>) => {
-  return <Input {...props} />
-}
-
 export class AddTransactionForm extends React.Component<Props, State> {
-  public state: State = {
+  state: State = {
     value: '',
   }
 
@@ -27,22 +21,22 @@ export class AddTransactionForm extends React.Component<Props, State> {
     super(props)
   }
 
-  public onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     const transaction: Transaction = {
       value: +this.state.value,
     }
-    this.props.onSubmit(transaction)
   }
 
-  public onChange = (event: React.FormEvent<HTMLInputElement>) => {
+  onChange = (event: React.FormEvent<HTMLInputElement>) => {
     this.setState({ value: event.currentTarget.value })
   }
 
-  public render() {
+  render() {
     return (
       <form onSubmit={this.onSubmit}>
-        <input value={this.state.value} onChange={this.onChange} />
+        Add transaction form
+        <Input value={this.state.value} onChange={this.onChange} />
       </form>
     )
   }

@@ -1,20 +1,28 @@
+type TransactionID = string
+type CategoryID = string
+type CategoryType = 'INCOME' | 'EXPENSE'
+
+interface DatabaseSettings {
+  enablePersistence: boolean
+}
+
 interface Currency {
   symbol: string
   code: string
   name: string
 }
 
-type CategoryType = 'INCOME' | 'EXPENSE'
-
-interface Category {
-  id?: string
+interface NewCategory {
   name: string
-  created?: number
   type: CategoryType
 }
-type TransactionID = string
+
+interface Category extends NewCategory {
+  id: CategoryID
+}
 
 interface Transaction {
   id?: TransactionID
+  // category: Category
   value: number
 }

@@ -1,8 +1,9 @@
 import * as React from 'react'
 import styled from 'react-emotion'
 
-import { CategoryType } from '@constants'
+import { CategoryTypeEnum } from '@constants'
 import { CategoriesListContainer } from './CategoriesListContainer'
+import { AddCategoryForm } from './EditCategoryForm'
 
 const debug = require('debug')('App:CategoriesManager')
 
@@ -12,52 +13,49 @@ interface State {
   categoryType: CategoryType
 }
 
-const Select = styled.select`
-  background: transparent;
-  color: #eee;
-  font-size: 1em;
-  border: none;
-  padding: 3px;
-  border-radius: 1px;
-  -webkit-appearance: none;
-`
+const Select = styled('select')``
 
-const CategoriesManagerWrap = styled.div`
-  background: #333;
-  padding: 10px;
-  display: inline-block;
-  &:before {
-    content: '[';
-  }
-  &:after {
-    content: ']';
-  }
-`
+const CategoriesManagerWrap = styled('div')``
+
+interface CategoryTypeSelectProps {
+  onChange: (categoryType: CategoryType) => void
+  selected: CategoryType
+}
+
+const handleChange = (handler: (categoryType: CategoryType) => void) => (event: React.FormEvent<HTMLSelectElement>) =>
+  handler(event.currentTarget.value as CategoryType)
+
+const CategoryTypeSelect = ({ selected, onChange }: CategoryTypeSelectProps) => {
+  return (
+    <Select value={selected} onChange={handleChange(onChange)}>
+      {Object.keys(CategoryTypeEnum).map(key => (
+        <option key={key} value={CategoryTypeEnum[key]}>
+          {CategoryTypeEnum[key]}
+        </option>
+      ))}
+    </Select>
+  )
+}
 
 export class CategoriesManager extends React.Component<Props, State> {
-  constructor(props: Props) {
-    super(props)
-    this.state = {
-      categoryType: CategoryType.EXPENSE,
-    }
+  state = {
+    categoryType: CategoryTypeEnum.EXPENSE,
   }
 
-  public handleChange = (event: React.FormEvent<HTMLSelectElement>) => {
-    this.setState({ categoryType: event.currentTarget.value as CategoryType })
-  }
-
-  public addCategory = (name: string) => {
+  addCategory = (name: string) => {
     debug('add category %j', name)
   }
 
-  public render() {
+  handleChange = (categoryType: CategoryType) => {
+    this.setState({ categoryType })
+  }
+
+  render() {
     return (
       <CategoriesManagerWrap>
-        <Select onChange={this.handleChange} value={this.state.categoryType}>
-          <option value={CategoryType.INCOME}>Income</option>
-          <option value={CategoryType.EXPENSE}>Expense</option>
-        </Select>
+        <CategoryTypeSelect selected={this.state.categoryType} onChange={this.handleChange} />
         <CategoriesListContainer categoryType={this.state.categoryType} />
+        <AddCategoryForm categoryType={this.state.categoryType} />
       </CategoriesManagerWrap>
     )
   }

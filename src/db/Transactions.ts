@@ -1,49 +1,19 @@
 import firebase from 'firebase/app'
 import Debug from 'debug'
-
+import { concatMap } from 'rxjs/operators'
 import { Observable } from 'rxjs/Observable'
 import { fromPromise } from 'rxjs/observable/fromPromise'
-import { concatMap } from 'rxjs/operators'
+
+import { TransactionsAPI, Firestore } from './dbTypes'
 
 const debug = Debug('Database.Transactions')
-
-// export default class Transactions {
-//   constructor(private firestorePromise: Promise<firebase.firestore.Firestore>) {
-//     console.log('init transactions subclass')
-//   }
-
-//   public async addTransaction(transaction: Transaction) {
-//     console.log('addTransaction', transaction)
-
-//     const firestore = await this.firestorePromise
-
-//     return firestore.collection('transactions').add(transaction)
-//   }
-
-//   // public async deleteTransaction(txid: string) {}
-
-//   public getAll(): Observable<Transaction[]> {
-
-//   }
-// }
-
-interface TransactionsAPI {
-  add: (t: Transaction) => Promise<TransactionID>
-  get: (txid: TransactionID) => Promise<Transaction>
-  list: () => Observable<Transaction[]>
-  remove: (txid: TransactionID) => Promise<boolean>
-}
-
-type Firestore = firebase.firestore.Firestore
 
 export class Transactions implements TransactionsAPI {
   constructor(private dbPromise: Promise<Firestore>) {}
 
   public async add(t: Transaction) {
-    debug('add %o', t)
     console.log('about to add', t)
     const db = await this.dbPromise
-    // const txid = `tx-${'' + Date.now()}`
     const docRef = await db.collection('transactions').add(t)
 
     return docRef.id
@@ -66,7 +36,7 @@ export class Transactions implements TransactionsAPI {
     debug('list')
     return fromPromise(this.dbPromise).pipe(
       concatMap(
-        db =>
+        (db: Firestore) =>
           new Observable<Transaction[]>(subscriber => {
             return db.collection('transactions').onSnapshot(querySnapshot => {
               const transactions: Transaction[] = []
