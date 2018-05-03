@@ -7,8 +7,7 @@
     "lint": "tslint -p . --fix && chokidar './src/**/*.ts' './src/**/*.tsx' -c 'tslint {path} --fix'",
     "build": "react-scripts-ts build",
     "test": "react-scripts-ts test --env=jsdom",
-    "eject": "react-scripts-ts eject",
-    "precommit": "pretty-quick --staged"
+    "eject": "react-scripts-ts eject"
   },
   "dependencies": {
     "debug": "^3.1.0",
