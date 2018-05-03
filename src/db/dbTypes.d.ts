@@ -1,5 +1,5 @@
-import { Observable } from 'rxjs/Observable'
 import firebase from 'firebase/app'
+import { Observable } from 'rxjs'
 
 type Firestore = firebase.firestore.Firestore
 

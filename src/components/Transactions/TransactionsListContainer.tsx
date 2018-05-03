@@ -1,6 +1,10 @@
 import * as React from 'react'
 
-export class TransactionsListContainer extends React.Component {
+interface State {
+  filter: 'recent&overdue' | 'upcoming'
+}
+
+export class TransactionsListContainer extends React.Component<{}, State> {
   render() {
     return <div />
   }

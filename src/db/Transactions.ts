@@ -1,8 +1,6 @@
-import firebase from 'firebase/app'
 import Debug from 'debug'
 import { concatMap } from 'rxjs/operators'
-import { Observable } from 'rxjs/Observable'
-import { fromPromise } from 'rxjs/observable/fromPromise'
+import { Observable, from as fromPromise } from 'rxjs'
 
 import { TransactionsAPI, Firestore } from './dbTypes'
 
@@ -36,7 +34,7 @@ export class Transactions implements TransactionsAPI {
     debug('list')
     return fromPromise(this.dbPromise).pipe(
       concatMap(
-        (db: Firestore) =>
+        db =>
           new Observable<Transaction[]>(subscriber => {
             return db.collection('transactions').onSnapshot(querySnapshot => {
               const transactions: Transaction[] = []

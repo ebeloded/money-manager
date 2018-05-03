@@ -1,5 +1,5 @@
 {
-  "extends": ["tslint-config-prettier", "tslint-react"],
+  "extends": ["tslint-config-prettier", "tslint-react", "rxjs-tslint"],
   "rules": {
     "interface-name": [true, "never-prefix"],
     "no-console": [false],

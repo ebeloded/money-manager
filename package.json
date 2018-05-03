@@ -2,17 +2,6 @@
   "name": "money-manager",
   "version": "0.0.1",
   "private": true,
-  "dependencies": {
-    "debug": "^3.1.0",
-    "emotion": "^9.1.2",
-    "firebase": "^4.12.1",
-    "mobx": "^4.2.0",
-    "mobx-react": "^5.0.0",
-    "react": "^16.3.0",
-    "react-dom": "^16.3.2",
-    "react-emotion": "^9.1.2",
-    "rxjs": "^5.5.10"
-  },
   "scripts": {
     "start": "react-scripts-ts start",
     "lint": "tslint -p . --fix && chokidar './src/**/*.ts' './src/**/*.tsx' -c 'tslint {path} --fix'",
@@ -21,18 +10,39 @@
     "eject": "react-scripts-ts eject",
     "precommit": "pretty-quick --staged"
   },
+  "dependencies": {
+    "debug": "^3.1.0",
+    "emotion": "^9.1.2",
+    "firebase": "^4.13.1",
+    "mobx": "^4.2.0",
+    "mobx-react": "^5.0.0",
+    "react": "^16.3.0",
+    "react-dom": "^16.3.2",
+    "react-emotion": "^9.1.2",
+    "react-redux": "^5.0.7",
+    "react-router": "^4.2.0",
+    "react-router-dom": "^4.2.2",
+    "redux": "^4.0.0",
+    "rxjs": "^6.0.0",
+    "tslib": "^1.9.0"
+  },
   "devDependencies": {
     "@types/chance": "^1.0.0",
     "@types/debug": "0.0.30",
     "@types/jest": "^22.2.3",
     "@types/react": "^16.3.1",
     "@types/react-dom": "^16.0.5",
+    "@types/react-redux": "^5.0.18",
+    "@types/react-router": "^4.0.24",
+    "@types/react-router-dom": "^4.2.6",
+    "@types/redux": "^3.6.0",
     "chance": "^1.0.13",
     "concurrently": "^3.5.1",
     "husky": "^0.14.3",
     "prettier": "1.12.1",
     "pretty-quick": "^1.4.1",
     "react-scripts-ts": "^2.15.1",
+    "rxjs-tslint": "^0.1.2",
     "tslint-config-prettier": "^1.10.0",
     "typescript": "^2.8.1"
   }

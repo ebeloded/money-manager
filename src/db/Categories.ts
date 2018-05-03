@@ -1,7 +1,6 @@
 import { Firestore, CategoriesAPI } from './dbTypes'
 import { concatMap } from 'rxjs/operators'
-import { Observable } from 'rxjs/Observable'
-import { fromPromise } from 'rxjs/observable/fromPromise'
+import { Observable, from as fromPromise } from 'rxjs'
 
 const add = (dbPromise: Promise<Firestore>) => async (c: NewCategory) => {
   const db = await dbPromise

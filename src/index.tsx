@@ -1,10 +1,11 @@
 import { initFirebase } from './firebase'
-import { Database } from './db/Database'
+import { Database } from './db'
+import { DatabaseProvider } from './db/DatabaseContext'
+import { App } from './components/App'
 
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
-import App from 'components/App'
-import { DatabaseProvider } from 'db/DatabaseContext'
+import { BrowserRouter } from 'react-router-dom'
 
 const firebaseApp = initFirebase()
 
@@ -14,7 +15,9 @@ const db = new Database(firebaseApp, { enablePersistence: true })
 
 ReactDOM.render(
   <DatabaseProvider db={db}>
-    <App />
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
   </DatabaseProvider>,
 
   document.getElementById('root') as HTMLElement,
