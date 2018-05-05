@@ -19,7 +19,6 @@ ReactDOM.render(
       <App />
     </BrowserRouter>
   </DatabaseProvider>,
-
   document.getElementById('root') as HTMLElement,
 )
 

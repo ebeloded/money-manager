@@ -1,40 +1,31 @@
 import React from 'react'
-import { TransactionFormContainer } from './Transactions/TransactionForm'
-// import Chance from 'chance'
+import styled from 'react-emotion'
+import { Route, Switch, BrowserRouter } from 'react-router-dom'
 
-// const chance = new Chance()
+import { CategoriesPage } from './Categories/CategoriesPage'
+import { Dashboard } from './Dashboard'
+import { Header } from './Header'
+import { TransactionForm, TransactionFormContainer } from './Transactions/TransactionForm'
+import { TransactionsList, TransactionsListContainer } from './Transactions/TransactionsList'
 
-// interface SimpleProps {
-//   name: string
-// }
+const Main = () => (
+  <Switch>
+    <Route path="/categories" component={CategoriesPage} />
+    <Route exact={true} path="/" component={Dashboard} />
+  </Switch>
+)
 
-// class SimpleClassComponent extends React.Component<SimpleProps, {}> {
-//   render() {
-//     const { name } = this.props
-//     return <div>This is Simple Container {name}</div>
-//   }
-// }
+const AppLayout = styled('div')({
+  backgroundColor: '#333',
+})
 
-// const SimpleFunctionalComponent = ({ name }: SimpleProps) => {
-//   return <div>This is Simple Functional Component {name}</div>
-// }
-
-// const simpleClassConnect = (ownProps) => (OriginalComponent) =>
-//   class ConnectedComponent extends React.Component<any> {
-//     render() {
-//       return <OriginalComponent {...ownProps} {...this.props} />
-//     }
-//   }
-
-// const simpleFunctionalConnect = (ownProps) => (OriginalComponent) => (props) => {
-//   return <OriginalComponent {...ownProps} {...props} />
-// }
-
-// const withConnect = simpleFunctionalConnect({ name: chance.word() })
-
-// const SimpleFunctionalContainer = withConnect(SimpleFunctionalComponent)
-// const SimpleClassContainer = withConnect(SimpleClassComponent)
-
-export const App = () => {
-  return <TransactionFormContainer />
+export class App extends React.Component {
+  render() {
+    return (
+      <div>
+        <Header />
+        <Main />
+      </div>
+    )
+  }
 }
