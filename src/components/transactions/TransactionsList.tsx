@@ -1,37 +1,32 @@
-import React from 'react'
 import { connectDB } from 'db/DatabaseContext'
+import React from 'react'
+import { TransactionListItem, TransactionListItemContainer } from './TransactionListItem'
 
 interface Props {
   transactions: Transaction[]
 }
-
-class TransactionComponent extends React.PureComponent<Transaction> {
-  render() {
-    const { value, created } = this.props
-    return (
-      <tr>
-        <td>{value}</td>
-        <td>{new Date(created).toTimeString()}</td>
-      </tr>
-    )
-  }
-}
-
 export class TransactionsList extends React.PureComponent<Props> {
   render() {
     const { transactions } = this.props
     return transactions ? (
       <table>
         <tbody>
-          {transactions.map((transaction) => <TransactionComponent key={transaction.id.toString()} {...transaction} />)}
+          {transactions.map((transaction) => (
+            <TransactionListItemContainer key={transaction.id.toString()} transaction={transaction} />
+          ))}
         </tbody>
       </table>
     ) : null
   }
 }
 
-const withDB = connectDB((db) => ({
-  transactions: db.transactions.list(),
-}))
+const withDB = connectDB(
+  (db) => ({
+    transactions: db.transactions.list(),
+  }),
+  (db) => ({
+    deleteTransaction: (id: TransactionID) => db.transactions.remove(id),
+  }),
+)
 
 export const TransactionsListContainer = withDB(TransactionsList)

@@ -1,9 +1,9 @@
 import firebase from 'firebase/app'
 import 'firebase/firestore'
 
-import { Transactions } from './Transactions'
-import { CategoriesAPI, DatabaseAPI } from './dbTypes'
 import { Categories } from './Categories'
+import { CategoriesAPI, DatabaseAPI } from './dbTypes'
+import { Transactions } from './Transactions'
 
 async function initFirestore(app: firebase.app.App, enablePersistence: boolean) {
   const settings: firebase.firestore.Settings = {
@@ -33,14 +33,14 @@ const isReady = (promise: Promise<any>) => {
 }
 
 export class Database implements DatabaseAPI {
-  public isReady: () => boolean
+  isReady: () => boolean
 
-  public dbName = 'My Database'
+  dbName = 'My Database'
 
-  public initPromise: Promise<boolean>
+  initPromise: Promise<boolean>
 
-  public transactions: Transactions
-  public categories: CategoriesAPI
+  transactions: Transactions
+  categories: CategoriesAPI
 
   constructor(app: firebase.app.App, { enablePersistence = true }: DatabaseSettings) {
     const dbPromise = initFirestore(app, enablePersistence)

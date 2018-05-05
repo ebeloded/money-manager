@@ -1,9 +1,9 @@
 import Debug from 'debug'
 import firebase from 'firebase/app'
+import { defer, from, from as fromPromise, Observable } from 'rxjs'
 import { concatMap } from 'rxjs/operators'
-import { Observable, from as fromPromise, from, defer } from 'rxjs'
 
-import { TransactionsAPI, Firestore } from './dbTypes'
+import { Firestore, TransactionsAPI } from './dbTypes'
 
 const debug = Debug('Database.Transactions')
 
@@ -21,7 +21,7 @@ export class Transactions implements TransactionsAPI {
     return docRef.id
   }
 
-  public async get(txid: TransactionID) {
+  async get(txid: TransactionID) {
     const db = await this.dbPromise
 
     const doc = await db
@@ -34,7 +34,7 @@ export class Transactions implements TransactionsAPI {
     return data
   }
 
-  public list() {
+  list() {
     debug('list')
     return fromPromise(this.dbPromise).pipe(
       concatMap(
@@ -53,7 +53,7 @@ export class Transactions implements TransactionsAPI {
     )
   }
 
-  public async remove(txid: TransactionID) {
+  async remove(txid: TransactionID) {
     const db = await this.dbPromise
 
     await db

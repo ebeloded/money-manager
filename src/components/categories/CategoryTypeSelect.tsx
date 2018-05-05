@@ -1,6 +1,6 @@
 import * as React from 'react'
-import { Select, Option } from '../elements/Select'
 import { CategoryTypeEnum } from '~/constants'
+import { Option, Select } from '../elements/Select'
 
 interface CategoryTypeSelectProps {
   onChange: (categoryType: CategoryType) => void

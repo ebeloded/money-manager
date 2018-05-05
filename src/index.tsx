@@ -1,7 +1,7 @@
-import { initFirebase } from './firebase'
+import { App } from './components/App'
 import { Database } from './db'
 import { DatabaseProvider } from './db/DatabaseContext'
-import { App } from './components/App'
+import { initFirebase } from './firebase'
 
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'

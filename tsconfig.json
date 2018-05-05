@@ -24,7 +24,7 @@
     "baseUrl": "src",
     "paths": {
       "~/db/*": ["db/*"],
-      "~/constants": ["constants.ts"]
+      "~/constants": ["constants/index"]
       // "@config/*": ["config/*"],
     }
   },

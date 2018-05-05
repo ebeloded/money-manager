@@ -1,5 +1,5 @@
-import { Observable, from, defer, of } from 'rxjs'
-import { switchMap, concatMap, share, publish, tap } from 'rxjs/operators'
+import { defer, from, Observable, of } from 'rxjs'
+import { concatMap, publish, share, switchMap, tap } from 'rxjs/operators'
 
 const myPromise = () =>
   new Promise((resolve, reject) => {

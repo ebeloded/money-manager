@@ -1,7 +1,7 @@
-import { Firestore, CategoriesAPI } from './dbTypes'
-import { concatMap, shareReplay, share, publishLast } from 'rxjs/operators'
-import { Observable, from as fromPromise } from 'rxjs'
 import Debug from 'debug'
+import { from as fromPromise, Observable } from 'rxjs'
+import { concatMap, publishLast, share, shareReplay } from 'rxjs/operators'
+import { CategoriesAPI, Firestore } from './dbTypes'
 
 const debug = Debug('App:Database:Categories')
 

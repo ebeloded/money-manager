@@ -4,23 +4,56 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "Start",
-      "type": "shell",
-      "command": "yarn start",
-      "isBackground": true,
-      "problemMatcher": []
+      "label": "Start All",
+      "problemMatcher": [],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "dependsOn": ["tsc", "tslint", "start"]
     },
     {
-      "label": "TSC",
-      "type": "shell",
-      "command": "yarn run tsc:watch",
+      "identifier": "start",
+      "label": "START",
+      "type": "npm",
+      "script": "start",
       "isBackground": true,
-      "problemMatcher": "$tsc-watch",
+      "problemMatcher": [],
       "presentation": {
-        "echo": true,
+        "echo": false,
         "reveal": "silent",
         "focus": false,
         "panel": "dedicated"
+      }
+    },
+    {
+      "identifier": "tsc",
+      "label": "TSC",
+      "type": "npm",
+      "script": "tsc:watch",
+      "isBackground": true,
+      "group": "build",
+      "problemMatcher": "$tsc-watch",
+      "presentation": {
+        "echo": false,
+        "reveal": "never",
+        "focus": false,
+        "panel": "shared"
+      }
+    },
+    {
+      "identifier": "tslint",
+      "label": "TSLINT",
+      "type": "npm",
+      "script": "tslint:fix:watch",
+      "isBackground": true,
+      // "problemMatcher": ["$tslint5"],
+      "group": "build",
+      "presentation": {
+        "echo": false,
+        "reveal": "never",
+        "focus": false,
+        "panel": "shared"
       }
     }
   ]

@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'react-emotion'
-import { Route, Switch, BrowserRouter } from 'react-router-dom'
+import { BrowserRouter, Route, Switch } from 'react-router-dom'
 
 import { CategoriesPage } from './categories/CategoriesPage'
 import { Dashboard } from './Dashboard'

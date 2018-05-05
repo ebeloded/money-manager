@@ -13,13 +13,13 @@ interface State {
 
 export class CategoryForm extends React.Component<Props, State> {
   defaultState = {
-    name: '',
     disabled: false,
+    name: '',
   }
 
   state = {
-    name: this.props.name || '',
     disabled: false,
+    name: this.props.name || '',
   }
 
   inputRef = React.createRef<HTMLInputElement>()
@@ -29,14 +29,16 @@ export class CategoryForm extends React.Component<Props, State> {
   }
 
   focusOnInput = () => {
-    if (this.inputRef.current) this.inputRef.current.focus()
+    if (this.inputRef.current) {
+      this.inputRef.current.focus()
+    }
   }
 
   onFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const category = {
-      type: this.props.type,
       name: this.state.name,
+      type: this.props.type,
     }
 
     this.setState({ disabled: true }, () => {

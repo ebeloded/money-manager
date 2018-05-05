@@ -31,12 +31,12 @@ interface Props {
 const debug = Debug('Database:ConnectedToDatabaseComponent:')
 
 class ObservablesResolver extends React.Component<Props> {
-  private subscriptions: Subscription[]
+  private dataSubscriptions: Subscription[] = []
 
   componentDidMount() {
     const { mapDataToProps } = this.props
     if (mapDataToProps !== null) {
-      this.subscriptions = Object.keys(mapDataToProps).map((key) =>
+      this.dataSubscriptions = Object.keys(mapDataToProps).map((key) =>
         mapDataToProps[key].subscribe((data) => {
           debug('Data Updated %s %j', key, data)
           this.setState({ [key]: data })
@@ -47,7 +47,8 @@ class ObservablesResolver extends React.Component<Props> {
 
   componentWillUnmount() {
     debug('willUnmount')
-    this.subscriptions.forEach((sub) => {
+
+    this.dataSubscriptions.forEach((sub) => {
       sub.unsubscribe()
     })
   }
@@ -56,13 +57,13 @@ class ObservablesResolver extends React.Component<Props> {
     return this.props.children({ ...this.state, ...this.props.mapActionsToProps })
   }
 }
-type mapDataToPropsFactory = (db: Database, ownProps: {}) => MapDataToProps
-type mapActionsToPropsFactory = (db: Database, ownProps: {}) => MapActionsToProps
+type mapDataToPropsFactory = (db: Database, ownProps: any) => MapDataToProps
+type mapActionsToPropsFactory = (db: Database, ownProps: any) => MapActionsToProps
 
-type connectDBType = (
-  mapDataToProps?: mapDataToPropsFactory,
-  mapActionsToProps?: mapActionsToPropsFactory,
-) => (OriginalComopnent: React.ComponentType) => React.SFC
+type connectDBType = <T>(
+  mapDataToProps: mapDataToPropsFactory | null,
+  mapActionsToProps: mapActionsToPropsFactory,
+) => (OriginalComopnent: React.ComponentType<T>) => React.SFC<any>
 
 export const connectDB: connectDBType = (mapDataToProps, mapActionsToProps) => (OriginalComponent) => (props) => (
   <Consumer>

@@ -1,12 +1,12 @@
 import * as React from 'react'
-import { filter } from 'rxjs/operators'
 import styled from 'react-emotion'
+import { filter } from 'rxjs/operators'
+
+import { CategoriesList } from './CategoriesList'
+import { CategoryForm } from './CategoryForm'
+import { CategoryTypeSelect } from './CategoryTypeSelect'
 
 import { CategoryTypeEnum } from '~/constants'
-import { CategoryTypeSelect } from './CategoryTypeSelect'
-import { CategoryForm } from './CategoryForm'
-import { CategoriesList } from './CategoriesList'
-
 import { connectDB } from '~/db/DatabaseContext'
 
 const debug = require('debug')('App:CategoriesManager')

@@ -1,0 +1,18 @@
+{
+  "extends": ["tslint:latest", "tslint-config-prettier", "tslint-react", "rxjs-tslint"],
+  "rules": {
+    "interface-name": [true, "never-prefix"],
+    "no-console": [false],
+    "jsx-no-multiline-js": [false],
+    "no-var-requires": [false],
+    "no-empty-interface": [false],
+    "member-access": [true, "no-public"],
+    "max-classes-per-file": false,
+    "no-submodule-imports": [false],
+    "no-implicit-dependencies": false,
+    "member-ordering": [true, "public-before-private", "static-before-instance", "variables-before-functions"]
+  },
+  "linterOptions": {
+    "exclude": ["node_modules/**/*.ts"]
+  }
+}

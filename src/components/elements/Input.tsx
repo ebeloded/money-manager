@@ -1,11 +1,11 @@
+import moment from 'moment'
 import React from 'react'
 import styled from 'react-emotion'
-import moment from 'moment'
 
 const StyledInput = styled('input')({
   border: 'solid 1px grey',
-  padding: '5px',
   fontSize: 12,
+  padding: '5px',
 })
 
 export const Input = StyledInput

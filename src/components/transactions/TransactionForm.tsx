@@ -4,7 +4,7 @@ import { Observable, of } from 'rxjs'
 
 import { Database } from 'db'
 import { connectDB } from 'db/DatabaseContext'
-import { NumberInput, DateInput } from '../elements/Input'
+import { DateInput, NumberInput } from '../elements/Input'
 
 interface TransactionFormOwnProps {
   transaction?: Transaction
@@ -29,8 +29,8 @@ export class TransactionForm extends React.Component<
   TransactionFormState
 > {
   state: TransactionFormState = {
-    value: 0,
     date: new Date(),
+    value: 0,
   }
 
   valueInputRef = React.createRef()
@@ -39,8 +39,8 @@ export class TransactionForm extends React.Component<
     event.preventDefault()
     if (this.state.value) {
       this.props.onSubmitTransaction({
-        value: this.state.value,
         transactionDate: this.state.date.getTime(),
+        value: this.state.value,
       })
     }
   }
