@@ -11,7 +11,7 @@ interface TransactionsAPI {
 }
 
 interface CategoriesAPI {
-  add: (c: NewCategory) => Promise<Category>
+  add: (c: NewCategory) => Promise<CategoryID>
   getAll: () => Observable<Category[]>
   get: (cid: CategoryID) => Promise<Category>
   // edit: (c: Category) => Promise<Category>

@@ -45,7 +45,7 @@ export class Transactions implements TransactionsAPI {
               const result = querySnapshot.docs.map((d) => {
                 return { id: d.id, ...d.data() } as Transaction
               })
-              console.log('calculate result', result)
+
               subscriber.next(result)
             })
           }),

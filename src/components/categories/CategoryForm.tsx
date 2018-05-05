@@ -1,67 +1,69 @@
-// import * as React from 'react'
-// import { dataConsumer } from 'db/DatabaseContext'
-// import { Database } from 'db/Database'
+import * as React from 'react'
 
-// interface AddCategoryFormProps {
-//   categoryType: CategoryType
-// }
+interface Props {
+  name?: string
+  type: CategoryType
+  onSubmit: (category: NewCategory | Category) => Promise<CategoryID>
+}
 
-// class CategoryForm extends React.Component<AddCategoryFormProps> {
-//   state = {
-//     name: '',
-//     disabled: false,
-//   }
+interface State {
+  name: string
+  disabled: boolean
+}
 
-//   inputRef = React.createRef<HTMLInputElement>()
+export class CategoryForm extends React.Component<Props, State> {
+  defaultState = {
+    name: '',
+    disabled: false,
+  }
 
-//   componentDidMount() {
-//     console.log('component did mount')
-//     this.focusOnInput()
-//   }
+  state = {
+    name: this.props.name || '',
+    disabled: false,
+  }
 
-//   focusOnInput = () => {
-//     if (this.inputRef.current) this.inputRef.current.focus()
-//   }
+  inputRef = React.createRef<HTMLInputElement>()
 
-//   componentWillUnmount() {
-//     console.log('component will unmount')
-//   }
+  componentDidMount() {
+    this.focusOnInput()
+  }
 
-//   onFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-//     e.preventDefault()
-//     const { name } = this.state
-//     const type = this.props.categoryType
-//     this.setState({ disabled: true }, () => {
-//       this.db.categories.add({ name, type }).then(() => {
-//         this.setState({
-//           name: '',
-//           disabled: false,
-//         })
-//         this.focusOnInput()
-//       })
-//     })
-//   }
+  focusOnInput = () => {
+    if (this.inputRef.current) this.inputRef.current.focus()
+  }
 
-//   handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-//     this.setState({ name: e.currentTarget.value })
-//   }
+  onFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    const category = {
+      type: this.props.type,
+      name: this.state.name,
+    }
 
-//   render() {
-//     return (
-//       <form onSubmit={this.onFormSubmit}>
-//         <input
-//           ref={this.inputRef}
-//           disabled={this.state.disabled}
-//           type="text"
-//           value={this.state.name}
-//           onChange={this.handleChange}
-//           placeholder="Add Category"
-//         />
-//       </form>
-//     )
-//   }
-// }
+    this.setState({ disabled: true }, () => {
+      this.props.onSubmit(category).then(() => {
+        this.setState(this.defaultState)
+        this.focusOnInput()
+      })
+    })
+  }
 
-// // export const AddCategoryForm = (props: AddCategoryFormProps) => (
-// //   <DatabaseConsumer>{(db: Database) => <AddCategoryFormWithDB db={db} {...props} />}</DatabaseConsumer>
-// // )
+  handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    this.setState({ name: e.currentTarget.value })
+  }
+
+  render() {
+    return (
+      <form onSubmit={this.onFormSubmit}>
+        <input
+          ref={this.inputRef}
+          disabled={this.state.disabled}
+          type="text"
+          value={this.state.name}
+          onChange={this.handleChange}
+          placeholder="Add Category"
+          required={true}
+        />
+      </form>
+    )
+  }
+}
