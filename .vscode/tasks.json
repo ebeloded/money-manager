@@ -12,20 +12,15 @@
     },
     {
       "label": "TSC",
-      "type": "typescript",
-      "tsconfig": "tsconfig.json",
-      "option": "watch",
-      "problemMatcher": ["$tsc-watch"],
-      "group": {
-        "kind": "build",
-        "isDefault": true
-      },
+      "type": "shell",
+      "command": "yarn run tsc:watch",
       "isBackground": true,
+      "problemMatcher": "$tsc-watch",
       "presentation": {
         "echo": true,
-        "reveal": "always",
+        "reveal": "silent",
         "focus": false,
-        "panel": "shared"
+        "panel": "dedicated"
       }
     }
   ]
