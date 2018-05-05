@@ -15,6 +15,7 @@
     "firebase": "^4.13.1",
     "mobx": "^4.2.0",
     "mobx-react": "^5.0.0",
+    "moment": "^2.22.1",
     "react": "^16.3.0",
     "react-dom": "^16.3.2",
     "react-emotion": "^9.1.2",
