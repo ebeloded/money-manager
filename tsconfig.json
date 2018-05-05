@@ -23,7 +23,7 @@
     "noEmitOnError": false,
     "baseUrl": "src",
     "paths": {
-      "~/db/*": ["db/*"],
+      "~/db": ["db/*"],
       "~/constants": ["constants.ts"]
       // "@config/*": ["config/*"],
     }

@@ -20,8 +20,6 @@ interface NewCategory {
 
 interface Category extends NewCategory {
   id: CategoryID
-  created: Timestamp
-  updated?: Timestamp
 }
 interface NewTransaction {
   value: number
