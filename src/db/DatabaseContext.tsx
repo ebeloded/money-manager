@@ -19,12 +19,12 @@ interface MapDataToProps {
 }
 
 interface MapActionsToProps {
-  [name: string]: (...args: any[]) => Observable<any>
+  [name: string]: (...args: any[]) => Promise<any>
 }
 
 interface Props {
-  mapDataToProps: MapDataToProps
-  mapActionsToProps: MapActionsToProps
+  mapDataToProps: MapDataToProps | null
+  mapActionsToProps: MapActionsToProps | null
   children: (derivedProps: any) => React.ReactNode
 }
 
@@ -34,14 +34,15 @@ class ObservablesResolver extends React.Component<Props> {
   private subscriptions: Subscription[]
 
   componentDidMount() {
-    debug('didMount %f', this.props.mapDataToProps)
-
-    this.subscriptions = Object.keys(this.props.mapDataToProps).map((key) =>
-      this.props.mapDataToProps[key].subscribe((data) => {
-        debug('Data Updated %s %j', key, data)
-        this.setState({ [key]: data })
-      }),
-    )
+    const { mapDataToProps } = this.props
+    if (mapDataToProps !== null) {
+      this.subscriptions = Object.keys(mapDataToProps).map((key) =>
+        mapDataToProps[key].subscribe((data) => {
+          debug('Data Updated %s %j', key, data)
+          this.setState({ [key]: data })
+        }),
+      )
+    }
   }
 
   componentWillUnmount() {
@@ -59,14 +60,17 @@ type mapDataToPropsFactory = (db: Database, ownProps: {}) => MapDataToProps
 type mapActionsToPropsFactory = (db: Database, ownProps: {}) => MapActionsToProps
 
 type connectDBType = (
-  mapDataToProps: mapDataToPropsFactory,
-  mapActionsToProps: mapActionsToPropsFactory,
+  mapDataToProps?: mapDataToPropsFactory,
+  mapActionsToProps?: mapActionsToPropsFactory,
 ) => (OriginalComopnent: React.ComponentType) => React.SFC
 
 export const connectDB: connectDBType = (mapDataToProps, mapActionsToProps) => (OriginalComponent) => (props) => (
   <Consumer>
     {(db: Database) => (
-      <ObservablesResolver mapActionsToProps={mapActionsToProps(db, props)} mapDataToProps={mapDataToProps(db, props)}>
+      <ObservablesResolver
+        mapDataToProps={mapDataToProps ? mapDataToProps(db, props) : null}
+        mapActionsToProps={mapActionsToProps ? mapActionsToProps(db, props) : null}
+      >
         {(derivedProps) => {
           return <OriginalComponent {...props} {...derivedProps} />
         }}

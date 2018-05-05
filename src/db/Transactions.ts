@@ -1,6 +1,7 @@
 import Debug from 'debug'
+import firebase from 'firebase/app'
 import { concatMap } from 'rxjs/operators'
-import { Observable, from as fromPromise } from 'rxjs'
+import { Observable, from as fromPromise, from, defer } from 'rxjs'
 
 import { TransactionsAPI, Firestore } from './dbTypes'
 
@@ -9,10 +10,13 @@ const debug = Debug('Database.Transactions')
 export class Transactions implements TransactionsAPI {
   constructor(private dbPromise: Promise<Firestore>) {}
 
-  public async add(t: Transaction) {
-    console.log('about to add', t)
+  async add(t: NewTransaction): Promise<TransactionID> {
     const db = await this.dbPromise
-    const docRef = await db.collection('transactions').add(t)
+
+    const docRef = await db.collection('transactions').add({
+      created: Date.now(),
+      ...t,
+    } as Transaction)
 
     return docRef.id
   }
@@ -34,14 +38,14 @@ export class Transactions implements TransactionsAPI {
     debug('list')
     return fromPromise(this.dbPromise).pipe(
       concatMap(
-        db =>
-          new Observable<Transaction[]>(subscriber => {
-            return db.collection('transactions').onSnapshot(querySnapshot => {
+        (db) =>
+          new Observable<Transaction[]>((subscriber) => {
+            return db.collection('transactions').onSnapshot((querySnapshot) => {
               const transactions: Transaction[] = []
-              const result = querySnapshot.docs.map(d => {
-                const t = { id: d.id, ...d.data() } as Transaction
-                return t
+              const result = querySnapshot.docs.map((d) => {
+                return { id: d.id, ...d.data() } as Transaction
               })
+              console.log('calculate result', result)
               subscriber.next(result)
             })
           }),
@@ -50,7 +54,6 @@ export class Transactions implements TransactionsAPI {
   }
 
   public async remove(txid: TransactionID) {
-    debug('remove %o', txid)
     const db = await this.dbPromise
 
     await db

@@ -1,6 +1,7 @@
 type TransactionID = string
 type CategoryID = string
 type CategoryType = 'INCOME' | 'EXPENSE'
+type Timestamp = number
 
 interface DatabaseSettings {
   enablePersistence: boolean
@@ -20,9 +21,18 @@ interface NewCategory {
 interface Category extends NewCategory {
   id: CategoryID
 }
-
-interface Transaction {
-  id?: TransactionID
-  // category: Category
+interface NewTransaction {
   value: number
+  transactionDate: Timestamp
+  //category
+  //fromAccount
+  //toAccount
+  //comment
+  //author
+}
+interface Transaction extends NewTransaction {
+  id: TransactionID
+  created: Timestamp
+  updated?: Timestamp
+  // category: Category
 }
