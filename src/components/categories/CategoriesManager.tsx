@@ -15,6 +15,7 @@ const CategoriesManagerWrap = styled('div')({})
 
 interface Props {
   onSubmitCategory: (category: NewCategory) => Promise<CategoryID>
+  onDeleteCategory: (cid: CategoryID) => Promise<boolean>
   categories?: Category[]
 }
 
@@ -41,7 +42,7 @@ export class CategoriesManager extends React.Component<Props, State> {
       <CategoriesManagerWrap>
         <CategoryTypeSelect defaultValue={this.state.categoryType} onChange={this.onCategoryTypeChange} />
 
-        <CategoriesList categories={this.getCategories()} />
+        <CategoriesList categories={this.getCategories()} onDeleteCategory={this.props.onDeleteCategory} />
         <CategoryForm type={this.state.categoryType} onSubmit={this.props.onSubmitCategory} />
       </CategoriesManagerWrap>
     )
@@ -53,6 +54,7 @@ const withDB = connectDB(
     categories: db.categories.getAll(),
   }),
   (db) => ({
+    onDeleteCategory: (cid: CategoryID) => db.categories.remove(cid),
     onSubmitCategory: (c: NewCategory) => db.categories.add(c),
   }),
 )

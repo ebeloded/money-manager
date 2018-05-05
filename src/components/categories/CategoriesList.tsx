@@ -1,21 +1,20 @@
 import * as React from 'react'
-
-const renderCategoryItem = ({ name }: Category) => <li>{name}</li>
-
-class CategoryItem extends React.PureComponent<Category> {
-  render() {
-    console.log('render category item')
-    return renderCategoryItem(this.props)
-  }
-}
+import { CategoryListItem } from './CategoryListItem'
 
 interface CategoriesListProps {
   categories: Category[]
+  onDeleteCategory: (cid: CategoryID) => Promise<boolean>
 }
 
 export class CategoriesList extends React.PureComponent<CategoriesListProps> {
   render() {
     const { categories } = this.props
-    return categories ? <ul>{categories.map((category) => <CategoryItem key={category.id} {...category} />)}</ul> : null
+    return categories ? (
+      <ul>
+        {categories.map((category) => (
+          <CategoryListItem key={category.id} category={category} onClickDelete={this.props.onDeleteCategory} />
+        ))}
+      </ul>
+    ) : null
   }
 }

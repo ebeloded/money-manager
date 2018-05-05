@@ -1,9 +1,10 @@
 import { connectDB } from 'db/DatabaseContext'
 import React from 'react'
-import { TransactionListItem, TransactionListItemContainer } from './TransactionListItem'
+import { TransactionListItem } from './TransactionListItem'
 
 interface Props {
   transactions: Transaction[]
+  deleteTransaction: (txid: TransactionID) => Promise<boolean>
 }
 export class TransactionsList extends React.PureComponent<Props> {
   render() {
@@ -12,7 +13,11 @@ export class TransactionsList extends React.PureComponent<Props> {
       <table>
         <tbody>
           {transactions.map((transaction) => (
-            <TransactionListItemContainer key={transaction.id.toString()} transaction={transaction} />
+            <TransactionListItem
+              key={transaction.id.toString()}
+              transaction={transaction}
+              onClickDelete={this.props.deleteTransaction}
+            />
           ))}
         </tbody>
       </table>
@@ -25,7 +30,7 @@ const withDB = connectDB(
     transactions: db.transactions.list(),
   }),
   (db) => ({
-    deleteTransaction: (id: TransactionID) => db.transactions.remove(id),
+    deleteTransaction: (txid: TransactionID) => db.transactions.remove(txid),
   }),
 )
 

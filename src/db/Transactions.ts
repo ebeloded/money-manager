@@ -16,7 +16,7 @@ export class Transactions implements TransactionsAPI {
     const docRef = await db.collection('transactions').add({
       created: Date.now(),
       ...t,
-    } as Transaction)
+    })
 
     return docRef.id
   }
@@ -43,8 +43,8 @@ export class Transactions implements TransactionsAPI {
             return db.collection('transactions').onSnapshot((querySnapshot) => {
               const transactions: Transaction[] = []
               const result = querySnapshot.docs.map((d) => {
-                return { id: d.id, ...d.data() } as Transaction
-              })
+                return { id: d.id, ...d.data() }
+              }) as Transaction[]
 
               subscriber.next(result)
             })
@@ -64,27 +64,3 @@ export class Transactions implements TransactionsAPI {
     return true
   }
 }
-
-// export function TransactionsF(firestorePromise: Promise<Firestore>): TransactionsAPI {
-//   const api: TransactionsAPI = {
-//     add: async t => {},
-//     list: () => {
-//       return fromPromise(firestorePromise).concatMap(
-//         db =>
-//           new Observable<Transaction[]>(subscriber => {
-//             return db.collection('transactions').onSnapshot(querySnapshot => {
-//               const transactions: Transaction[] = []
-//               const result = querySnapshot.docs.map(d => d.data() as Transaction)
-//               subscriber.next(result)
-//             })
-//           }),
-//       )
-//     },
-//     remove: async txid => {
-//       return true
-//     },
-//   }
-
-//   return api
-// }
-//TODO: Implement debug decorator

@@ -30,7 +30,7 @@ interface Props {
 
 const debug = Debug('Database:ConnectedToDatabaseComponent:')
 
-class ObservablesResolver extends React.Component<Props> {
+class ObservablesResolver extends React.PureComponent<Props> {
   private dataSubscriptions: Subscription[] = []
 
   componentDidMount() {
@@ -60,22 +60,28 @@ class ObservablesResolver extends React.Component<Props> {
 type mapDataToPropsFactory = (db: Database, ownProps: any) => MapDataToProps
 type mapActionsToPropsFactory = (db: Database, ownProps: any) => MapActionsToProps
 
-type connectDBType = <T>(
+type connectDBType = (
   mapDataToProps: mapDataToPropsFactory | null,
-  mapActionsToProps: mapActionsToPropsFactory,
-) => (OriginalComopnent: React.ComponentType<T>) => React.SFC<any>
+  mapActionsToProps?: mapActionsToPropsFactory,
+) => (OriginalComopnent: React.ComponentType) => React.ComponentType<any>
 
-export const connectDB: connectDBType = (mapDataToProps, mapActionsToProps) => (OriginalComponent) => (props) => (
-  <Consumer>
-    {(db: Database) => (
-      <ObservablesResolver
-        mapDataToProps={mapDataToProps ? mapDataToProps(db, props) : null}
-        mapActionsToProps={mapActionsToProps ? mapActionsToProps(db, props) : null}
-      >
-        {(derivedProps) => {
-          return <OriginalComponent {...props} {...derivedProps} />
-        }}
-      </ObservablesResolver>
-    )}
-  </Consumer>
-)
+export const connectDB: connectDBType = (mapDataToProps, mapActionsToProps) => (OriginalComponent) =>
+  class ConnectedComponent extends React.PureComponent {
+    render() {
+      const props = this.props
+      return (
+        <Consumer>
+          {(db: Database) => (
+            <ObservablesResolver
+              mapDataToProps={mapDataToProps ? mapDataToProps(db, props) : null}
+              mapActionsToProps={mapActionsToProps ? mapActionsToProps(db, props) : null}
+            >
+              {(derivedProps) => {
+                return <OriginalComponent {...props} {...derivedProps} />
+              }}
+            </ObservablesResolver>
+          )}
+        </Consumer>
+      )
+    }
+  }

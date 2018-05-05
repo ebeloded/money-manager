@@ -57,14 +57,15 @@ export class TransactionForm extends React.Component<
   }
 
   onChangeDate = (date: Date) => {
-    console.log('on change date', date.toDateString())
-    this.setState((state) => {
-      return state.date.toDateString() !== date.toDateString()
-        ? {
-            date,
-          }
-        : null
-    })
+    if (date !== null) {
+      this.setState((state) => {
+        return state.date.toDateString() !== date.toDateString()
+          ? {
+              date,
+            }
+          : null
+      })
+    }
   }
 
   render() {

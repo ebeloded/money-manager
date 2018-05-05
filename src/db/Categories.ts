@@ -16,6 +16,17 @@ const add = (dbPromise: Promise<Firestore>) => async (c: NewCategory) => {
   return categoryRef.id
 }
 
+const remove = (dbPromise: Promise<Firestore>) => async (cid: CategoryID) => {
+  const db = await dbPromise
+
+  await db
+    .collection('categories')
+    .doc(cid)
+    .delete()
+
+  return true
+}
+
 const get = (dbPromise: Promise<Firestore>) => async (txid: CategoryID): Promise<Category> => {
   const db = await dbPromise
   const docRef = await db
@@ -25,8 +36,8 @@ const get = (dbPromise: Promise<Firestore>) => async (txid: CategoryID): Promise
 
   return {
     id: docRef.id,
-    ...docRef.data(),
-  } as Category
+    ...(docRef.data() as Category),
+  }
 }
 
 const getCategoriesObservable = (() => {
@@ -39,13 +50,10 @@ const getCategoriesObservable = (() => {
         debug('loading categories')
         return db.collection('categories').onSnapshot((querySnapshot) => {
           const categories: Category[] = []
-          const result = querySnapshot.docs.map(
-            (d) =>
-              ({
-                id: d.id,
-                ...d.data(),
-              } as Category),
-          )
+          const result = querySnapshot.docs.map((d) => ({
+            id: d.id,
+            ...d.data(),
+          })) as Category[]
 
           subscriber.next(result)
         })
@@ -63,6 +71,7 @@ export function Categories(dbPromise: Promise<Firestore>): CategoriesAPI {
     add: add(dbPromise),
     getAll: getAll(dbPromise),
     get: get(dbPromise),
+    remove: remove(dbPromise),
   }
 
   return api

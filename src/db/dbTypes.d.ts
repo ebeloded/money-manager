@@ -15,7 +15,7 @@ interface CategoriesAPI {
   getAll: () => Observable<Category[]>
   get: (cid: CategoryID) => Promise<Category>
   // edit: (c: Category) => Promise<Category>
-  // remove: (cid: CategoryID, to?: CategoryID) => Promise<boolean>
+  remove: (cid: CategoryID, moveTransactionsTo?: CategoryID) => Promise<boolean>
 }
 
 interface DatabaseAPI {
