@@ -8,7 +8,6 @@ interface Props {
 class TransactionComponent extends React.PureComponent<Transaction> {
   render() {
     const { value, created } = this.props
-    console.log('render', value)
     return (
       <tr>
         <td>{value}</td>

@@ -1,13 +1,13 @@
 import * as React from 'react'
 import { CategoryTypeSelect } from './CategoryTypeSelect'
-import { CategoriesManager } from './CategoriesManager'
-
-const log = (v) => {
-  console.log(v)
-}
+import { CategoriesManagerContainer } from './CategoriesManager'
 
 export class CategoriesPage extends React.Component {
   render() {
-    return <CategoriesManager />
+    return (
+      <React.Fragment>
+        <CategoriesManagerContainer />
+      </React.Fragment>
+    )
   }
 }
