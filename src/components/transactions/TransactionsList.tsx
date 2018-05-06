@@ -21,7 +21,7 @@ export class TransactionsList extends React.PureComponent<Props> {
         <tbody>
           {transactions.map((transaction) => (
             <TransactionListItem
-              key={transaction.id.toString()}
+              key={transaction.id}
               transaction={transaction}
               onClickDelete={this.props.deleteTransaction}
             />
@@ -35,7 +35,7 @@ export class TransactionsList extends React.PureComponent<Props> {
 const withDB = connectDB(
   (db) => ({
     transactions: combineLatest(db.transactions.all(), db.categories.all(), (transactions, categories) => {
-      const categoriesMap = [...categories, NO_CATEGORY].reduce((obj, cat) => ({ [cat.id]: cat, ...obj }), {})
+      const categoriesMap = [...categories, NO_CATEGORY].reduce((m, cat) => ({ [cat.id]: cat, ...m }), {})
       log('categories map %O', categoriesMap)
       return transactions.map((t) => ({ category: categoriesMap[t.categoryID], ...t }))
     }),

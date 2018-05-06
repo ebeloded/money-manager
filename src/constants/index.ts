@@ -7,18 +7,17 @@ export const CategoryTypes: { [key in CategoryType]: CategoryType } = {
 }
 
 export const NO_CATEGORY = {
+  created: 0,
   id: 'NO_CATEGORY_ID',
   name: 'No Category',
 }
 
 export const NO_CATEGORY_EXPENSE: Category = {
   ...NO_CATEGORY,
-  created: 0,
   type: CategoryTypes.EXPENSE,
 }
 export const NO_CATEGORY_INCOME: Category = {
   ...NO_CATEGORY,
-  created: 0,
   type: CategoryTypes.INCOME,
 }
 
