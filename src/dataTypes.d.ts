@@ -1,6 +1,7 @@
 type TransactionID = string
 type CategoryID = string
 type CategoryType = 'INCOME' | 'EXPENSE'
+type TransactionType = CategoryType | 'TRANSFER'
 type Timestamp = number
 
 interface DatabaseSettings {
@@ -23,18 +24,19 @@ interface Category extends NewCategory {
   created: Timestamp
   updated?: Timestamp
 }
+
 interface NewTransaction {
   value: number
   transactionDate: Timestamp
-  //category
-  //fromAccount
-  //toAccount
-  //comment
-  //author
+  category?: Category
+  transactionType: TransactionType
+  comment: string
+  // fromAccount
+  // toAccount
+  // author
 }
 interface Transaction extends NewTransaction {
   id: TransactionID
   created: Timestamp
   updated?: Timestamp
-  // category: Category
 }
