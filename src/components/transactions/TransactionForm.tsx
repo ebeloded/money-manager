@@ -7,7 +7,7 @@ import { connectDB } from 'db/DatabaseContext'
 import Debug from 'debug'
 import { TransactionTypes } from '~/constants'
 import { CategorySelect } from '../categories/CategorySelect'
-import { DateInput, NumberInput } from '../elements/Input'
+import { NumberInput } from '../elements/Input'
 import { TransactionTypeSelect } from './TransactionTypeSelect'
 
 const debug = Debug('App:TransactionForm')
@@ -84,6 +84,7 @@ export class TransactionForm extends React.Component<Props, State> {
   }
 
   onChangeTransactionType = (transactionType: TransactionType) => {
+    debug('onChangeTransactionType', transactionType)
     this.setState({
       transactionType,
     })
@@ -124,7 +125,7 @@ export class TransactionForm extends React.Component<Props, State> {
 
 const mapDataToProps = (db: Database) => {
   return {
-    allCategories: db.categories.getAll(),
+    allCategories: db.categories.all(),
   }
 }
 

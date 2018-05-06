@@ -15,11 +15,12 @@ export class TransactionListItem extends React.Component<Props> {
   }
 
   render() {
-    const { value, created } = this.props.transaction
+    const { value, created, category } = this.props.transaction
     return (
       <tr onClick={this.handleClick}>
         <td>{value}</td>
-        <td>{new Date(created).toTimeString()}</td>
+        <td>{category.name}</td>
+        <td>{new Date(created).toDateString()}</td>
       </tr>
     )
   }

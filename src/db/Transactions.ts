@@ -1,16 +1,17 @@
 import Debug from 'debug'
 import firebase from 'firebase/app'
-import { defer, from, from as fromPromise, Observable } from 'rxjs'
+import { from as fromPromise, Observable } from 'rxjs'
 import { concatMap } from 'rxjs/operators'
 
 import { Firestore, TransactionsAPI } from './API'
 
-const debug = Debug('Database.Transactions')
+const debug = Debug('Database:Transactions')
 
 export class Transactions implements TransactionsAPI {
   constructor(private dbPromise: Promise<Firestore>) {}
 
   async add(t: NewTransaction): Promise<TransactionID> {
+    debug('add %o', t)
     const db = await this.dbPromise
 
     const docRef = await db.collection('transactions').add({
@@ -34,8 +35,7 @@ export class Transactions implements TransactionsAPI {
     return data
   }
 
-  list() {
-    debug('list')
+  all() {
     return fromPromise(this.dbPromise).pipe(
       concatMap(
         (db) =>
@@ -48,7 +48,7 @@ export class Transactions implements TransactionsAPI {
               const result = querySnapshot.docs.map((d) => {
                 return { id: d.id, ...d.data() }
               }) as Transaction[]
-              debug('received transactions', result)
+              debug('received transactions %O', result)
               subscriber.next(result)
             })
           }),

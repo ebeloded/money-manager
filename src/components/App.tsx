@@ -1,7 +1,7 @@
 import Debug from 'debug'
 import React from 'react'
 import styled from 'react-emotion'
-import { BrowserRouter, Route, Switch } from 'react-router-dom'
+import { Route, Switch } from 'react-router-dom'
 
 import { CategoriesPage } from './categories/CategoriesPage'
 import { Dashboard } from './Dashboard'
@@ -17,17 +17,17 @@ const Main = () => (
 )
 
 const AppLayout = styled('div')({
-  backgroundColor: '#333',
+  // backgroundColor: '#333',
 })
 
 export class App extends React.Component {
   render() {
     debug('render App')
     return (
-      <div>
+      <AppLayout>
         <Header />
         <Main />
-      </div>
+      </AppLayout>
     )
   }
 }

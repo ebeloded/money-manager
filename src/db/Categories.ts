@@ -1,6 +1,6 @@
 import Debug from 'debug'
 import { from as fromPromise, Observable } from 'rxjs'
-import { concatMap, publishLast, share, shareReplay } from 'rxjs/operators'
+import { concatMap, shareReplay } from 'rxjs/operators'
 import { CategoriesAPI, Firestore } from './API'
 
 const debug = Debug('Database:Categories')
@@ -63,14 +63,14 @@ const getCategoriesObservable = (() => {
   }
 })()
 
-const getAll = (dbPromise: Promise<Firestore>) => (): Observable<Category[]> =>
+const all = (dbPromise: Promise<Firestore>) => (): Observable<Category[]> =>
   fromPromise(dbPromise).pipe(concatMap((db: Firestore) => getCategoriesObservable(db)))
 
 export function Categories(dbPromise: Promise<Firestore>): CategoriesAPI {
   const api: CategoriesAPI = {
     add: add(dbPromise),
+    all: all(dbPromise),
     get: get(dbPromise),
-    getAll: getAll(dbPromise),
     remove: remove(dbPromise),
   }
 

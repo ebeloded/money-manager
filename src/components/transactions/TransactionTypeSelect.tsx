@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { TransactionTypes } from '~/constants'
+import { Log } from '~/utils/log'
 import { Option, Select } from '../elements/Select'
 
 interface Props {
@@ -13,6 +14,7 @@ export class TransactionTypeSelect extends React.PureComponent<Props> {
   }
 
   render() {
+    Log('TransactionTypeSelect')('render %o', this.props)
     const { defaultValue = TransactionTypes.EXPENSE } = this.props
 
     return (

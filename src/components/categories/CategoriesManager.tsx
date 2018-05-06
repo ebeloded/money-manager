@@ -49,7 +49,7 @@ export class CategoriesManager extends React.Component<Props, State> {
 
 const withDB = connectDB(
   (db) => ({
-    categories: db.categories.getAll(),
+    categories: db.categories.all(),
   }),
   (db) => ({
     onDeleteCategory: (cid: CategoryID) => db.categories.remove(cid),

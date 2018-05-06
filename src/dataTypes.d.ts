@@ -28,7 +28,7 @@ interface Category extends NewCategory {
 interface NewTransaction {
   value: number
   transactionDate: Timestamp
-  categoryID?: CategoryID
+  categoryID: CategoryID
   transactionType: TransactionType
   comment: string
   // isPlanned: boolean,
@@ -38,7 +38,7 @@ interface NewTransaction {
 }
 interface Transaction extends NewTransaction {
   id: TransactionID
-  category?: Category
+  category: Category
   created: Timestamp
   updated?: Timestamp
 }
