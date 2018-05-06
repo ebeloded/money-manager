@@ -6,7 +6,7 @@ import { CategoriesList } from './CategoriesList'
 import { CategoryForm } from './CategoryForm'
 import { CategoryTypeSelect } from './CategoryTypeSelect'
 
-import { CategoryTypeEnum } from '~/constants'
+import { CategoryTypes } from '~/constants'
 import { connectDB } from '~/db/DatabaseContext'
 
 const debug = require('debug')('App:CategoriesManager')
@@ -25,7 +25,7 @@ interface State {
 
 export class CategoriesManager extends React.Component<Props, State> {
   state = {
-    categoryType: CategoryTypeEnum.EXPENSE,
+    categoryType: CategoryTypes.EXPENSE,
   }
 
   onCategoryTypeChange = (categoryType: CategoryType) => {
@@ -40,7 +40,6 @@ export class CategoriesManager extends React.Component<Props, State> {
     return (
       <CategoriesManagerWrap>
         <CategoryTypeSelect defaultValue={this.state.categoryType} onChange={this.onCategoryTypeChange} />
-
         <CategoriesList categories={this.getCategories()} onDeleteCategory={this.props.onDeleteCategory} />
         <CategoryForm type={this.state.categoryType} onSubmit={this.props.onSubmitCategory} />
       </CategoriesManagerWrap>

@@ -3,7 +3,7 @@ import firebase from 'firebase/app'
 import { defer, from, from as fromPromise, Observable } from 'rxjs'
 import { concatMap } from 'rxjs/operators'
 
-import { Firestore, TransactionsAPI } from './dbTypes'
+import { Firestore, TransactionsAPI } from './API'
 
 const debug = Debug('Database.Transactions')
 

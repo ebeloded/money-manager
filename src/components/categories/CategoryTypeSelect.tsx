@@ -1,24 +1,31 @@
+import Debug from 'debug'
 import * as React from 'react'
-import { CategoryTypeEnum } from '~/constants'
+import { CategoryTypes } from '~/constants'
 import { Option, Select } from '../elements/Select'
 
-interface CategoryTypeSelectProps {
+const debug = Debug('App:CategoryTypeSelect')
+
+interface Props {
   onChange: (categoryType: CategoryType) => void
   defaultValue?: CategoryType
 }
 
-const handleChange = (handler: (categoryType: CategoryType) => void) => (event: React.FormEvent<HTMLSelectElement>) =>
-  handler(event.currentTarget.value as CategoryType)
+export class CategoryTypeSelect extends React.PureComponent<Props> {
+  handleChange = (event: React.FormEvent<HTMLSelectElement>) => {
+    this.props.onChange(event.currentTarget.value as CategoryType)
+  }
 
-export const CategoryTypeSelect = ({ defaultValue, onChange }: CategoryTypeSelectProps) => {
-  defaultValue = defaultValue || CategoryTypeEnum.EXPENSE
-  return (
-    <Select defaultValue={defaultValue} onChange={handleChange(onChange)}>
-      {Object.keys(CategoryTypeEnum).map((key) => (
-        <Option key={key} value={CategoryTypeEnum[key]}>
-          {CategoryTypeEnum[key]}
-        </Option>
-      ))}
-    </Select>
-  )
+  render() {
+    const { defaultValue = CategoryTypes.EXPENSE } = this.props
+
+    return (
+      <select defaultValue={defaultValue} onChange={this.handleChange}>
+        {Object.keys(CategoryTypes).map((key) => (
+          <option key={key} value={CategoryTypes[key]}>
+            {CategoryTypes[key]}
+          </option>
+        ))}
+      </select>
+    )
+  }
 }

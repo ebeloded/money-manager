@@ -1,7 +1,7 @@
 import Debug from 'debug'
 import { from as fromPromise, Observable } from 'rxjs'
 import { concatMap, publishLast, share, shareReplay } from 'rxjs/operators'
-import { CategoriesAPI, Firestore } from './dbTypes'
+import { CategoriesAPI, Firestore } from './API'
 
 const debug = Debug('Database:Categories')
 

@@ -2,8 +2,8 @@ import Debug from 'debug'
 import firebase from 'firebase/app'
 import 'firebase/firestore'
 
+import { CategoriesAPI, DatabaseAPI } from './API'
 import { Categories } from './Categories'
-import { CategoriesAPI, DatabaseAPI } from './dbTypes'
 import { Transactions } from './Transactions'
 
 const debug = Debug('Database:Init')

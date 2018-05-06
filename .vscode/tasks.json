@@ -23,7 +23,7 @@
         "echo": false,
         "reveal": "silent",
         "focus": false,
-        "panel": "dedicated"
+        "panel": "shared"
       }
     },
     {
@@ -47,7 +47,9 @@
       "type": "npm",
       "script": "tslint:fix:watch",
       "isBackground": true,
-      "problemMatcher": ["$tslint5"],
+      "problemMatcher": [
+        // "$tslint5"
+      ],
       "group": "build",
       "presentation": {
         "echo": false,
