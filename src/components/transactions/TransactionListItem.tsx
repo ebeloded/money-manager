@@ -5,9 +5,13 @@ interface Props {
   transaction: Transaction
   onClickDelete: (txid) => Promise<boolean>
 }
-export class TransactionListItem extends React.PureComponent<Props> {
+export class TransactionListItem extends React.Component<Props> {
   handleClick = () => {
     this.props.onClickDelete(this.props.transaction.id)
+  }
+
+  shouldComponentUpdate({ transaction }: Props) {
+    return this.props.transaction.updated !== transaction.updated
   }
 
   render() {

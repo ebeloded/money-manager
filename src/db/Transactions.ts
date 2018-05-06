@@ -5,7 +5,7 @@ import { concatMap } from 'rxjs/operators'
 
 import { Firestore, TransactionsAPI } from './dbTypes'
 
-const debug = Debug('Database.Transactions')
+const debug = Debug('App:Database.Transactions')
 
 export class Transactions implements TransactionsAPI {
   constructor(private dbPromise: Promise<Firestore>) {}
@@ -42,10 +42,13 @@ export class Transactions implements TransactionsAPI {
           new Observable<Transaction[]>((subscriber) => {
             return db.collection('transactions').onSnapshot((querySnapshot) => {
               const transactions: Transaction[] = []
+              querySnapshot.docChanges.forEach((change) => {
+                debug('change %O', change)
+              })
               const result = querySnapshot.docs.map((d) => {
                 return { id: d.id, ...d.data() }
               }) as Transaction[]
-
+              debug('received transactions', result)
               subscriber.next(result)
             })
           }),
