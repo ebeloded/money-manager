@@ -7,24 +7,31 @@ interface Props {
   onChange: (transactionType: TransactionType) => void
   defaultValue: TransactionType
 }
+interface State {
+  value: string
+}
 
-export class TransactionTypeSelect extends React.PureComponent<Props> {
-  handleChange = (event: React.FormEvent<HTMLSelectElement>) => {
-    this.props.onChange(event.currentTarget.value as TransactionType)
+export class TransactionTypeSelect extends React.Component<Props, State> {
+  handleChange = ({ currentTarget }: React.FormEvent<HTMLSelectElement>) => {
+    const { value } = currentTarget
+    this.setState({ value })
+    this.props.onChange(value as TransactionType)
   }
 
   render() {
-    Log('TransactionTypeSelect')('render %o', this.props)
+    Log('`TransactionTypeSelect`')('render %o', this.props)
     const { defaultValue = TransactionTypes.EXPENSE } = this.props
 
     return (
-      <select defaultValue={defaultValue} onChange={this.handleChange}>
-        {Object.keys(TransactionTypes).map((key) => (
-          <option key={key} value={TransactionTypes[key]}>
-            {TransactionTypes[key]}
-          </option>
-        ))}
-      </select>
+      <div>
+        <select value={defaultValue} onChange={this.handleChange}>
+          {Object.keys(TransactionTypes).map((key) => (
+            <option key={key} value={TransactionTypes[key]}>
+              {TransactionTypes[key]}
+            </option>
+          ))}
+        </select>
+      </div>
     )
   }
 }

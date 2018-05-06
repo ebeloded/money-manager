@@ -1,6 +1,7 @@
 import Debug from 'debug'
 import * as React from 'react'
 import { filter, map } from 'rxjs/operators'
+import { NO_CATEGORY } from '~/constants'
 import { connectDB } from '~/db/DatabaseContext'
 
 const debug = Debug('App:CategorySelect')
@@ -30,7 +31,7 @@ export class CategorySelect extends React.PureComponent<Props, State> {
   }
 
   render() {
-    const categories = this.props.categories.filter((c) => c.type === this.props.categoryType)
+    const categories = [...this.props.categories.filter((c) => c.type === this.props.categoryType), NO_CATEGORY]
     debug('Render: %O', categories)
     return (
       <select defaultValue={this.props.defaultValue && this.props.defaultValue.id} onChange={this.handleChange}>

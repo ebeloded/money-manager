@@ -40,17 +40,17 @@ export class Transactions implements TransactionsAPI {
       concatMap(
         (db) =>
           new Observable<Transaction[]>((subscriber) => {
-            return db.collection('transactions').onSnapshot((querySnapshot) => {
-              const transactions: Transaction[] = []
-              querySnapshot.docChanges.forEach((change) => {
-                debug('change %O', change)
+            return db
+              .collection('transactions')
+              .orderBy('created', 'desc')
+              .onSnapshot((querySnapshot) => {
+                const transactions: Transaction[] = []
+                const result = querySnapshot.docs.map((d) => {
+                  return { id: d.id, ...d.data() }
+                }) as Transaction[]
+                debug('received transactions %O', result)
+                subscriber.next(result)
               })
-              const result = querySnapshot.docs.map((d) => {
-                return { id: d.id, ...d.data() }
-              }) as Transaction[]
-              debug('received transactions %O', result)
-              subscriber.next(result)
-            })
           }),
       ),
     )

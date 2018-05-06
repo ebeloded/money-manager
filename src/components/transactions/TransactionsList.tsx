@@ -2,6 +2,7 @@ import { connectDB } from 'db/DatabaseContext'
 import React from 'react'
 import { combineLatest } from 'rxjs'
 import { withLatestFrom } from 'rxjs/operators'
+import { NO_CATEGORY } from '~/constants'
 import { Log } from '~/utils/log'
 import { TransactionListItem } from './TransactionListItem'
 
@@ -34,7 +35,7 @@ export class TransactionsList extends React.PureComponent<Props> {
 const withDB = connectDB(
   (db) => ({
     transactions: combineLatest(db.transactions.all(), db.categories.all(), (transactions, categories) => {
-      const categoriesMap = categories.reduce((obj, cat) => ({ [cat.id]: cat, ...obj }), {})
+      const categoriesMap = [...categories, NO_CATEGORY].reduce((obj, cat) => ({ [cat.id]: cat, ...obj }), {})
       log('categories map %O', categoriesMap)
       return transactions.map((t) => ({ category: categoriesMap[t.categoryID], ...t }))
     }),
