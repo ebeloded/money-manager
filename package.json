@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "react-scripts-ts start",
-    "tslint:fix": "tslint -p . --fix --force",
+    "tslint:fix": "tslint -p ./my-tslint.json --fix --force",
     "tslint:watch": "chokidar './src/**/*.ts' './src/**/*.tsx'  -c 'tslint {path} --fix --force'",
     "tslint:fix:watch": "yarn run tslint:fix && yarn run tslint:watch",
     "tsc:watch": "tsc --project ./tsconfig.json --noEmit --watch",
