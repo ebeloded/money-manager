@@ -38,7 +38,7 @@ class ObservablesResolver extends React.PureComponent<Props> {
     if (mapDataToProps !== null) {
       this.dataSubscriptions = Object.keys(mapDataToProps).map((key) =>
         mapDataToProps[key].subscribe((data) => {
-          debug('Data Updated %s %j', key, data)
+          debug('Data Updated %s %O', key, data)
           this.setState({ [key]: data })
         }),
       )

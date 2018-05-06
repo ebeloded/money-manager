@@ -37,7 +37,6 @@ export class CategoriesManager extends React.Component<Props, State> {
   }
 
   render() {
-    console.log('render manager', this.props)
     return (
       <CategoriesManagerWrap>
         <CategoryTypeSelect defaultValue={this.state.categoryType} onChange={this.onCategoryTypeChange} />

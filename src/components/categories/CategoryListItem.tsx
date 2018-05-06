@@ -14,8 +14,6 @@ export class CategoryListItem extends React.Component<Props> {
   }
 
   render() {
-    console.log('render category item')
-
     return <li onClick={this.handleClick}>{this.props.category.name}</li>
   }
 }

@@ -5,7 +5,7 @@ import { concatMap } from 'rxjs/operators'
 
 import { Firestore, TransactionsAPI } from './dbTypes'
 
-const debug = Debug('App:Database.Transactions')
+const debug = Debug('Database.Transactions')
 
 export class Transactions implements TransactionsAPI {
   constructor(private dbPromise: Promise<Firestore>) {}

@@ -15,7 +15,6 @@ export class TransactionListItem extends React.Component<Props> {
   }
 
   render() {
-    console.log('render transaction component')
     const { value, created } = this.props.transaction
     return (
       <tr onClick={this.handleClick}>

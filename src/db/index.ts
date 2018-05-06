@@ -1,9 +1,12 @@
+import Debug from 'debug'
 import firebase from 'firebase/app'
 import 'firebase/firestore'
 
 import { Categories } from './Categories'
 import { CategoriesAPI, DatabaseAPI } from './dbTypes'
 import { Transactions } from './Transactions'
+
+const debug = Debug('Database:Init')
 
 async function initFirestore(app: firebase.app.App, enablePersistence: boolean) {
   const settings: firebase.firestore.Settings = {
@@ -15,27 +18,24 @@ async function initFirestore(app: firebase.app.App, enablePersistence: boolean) 
   if (enablePersistence) {
     try {
       await firebase.firestore(app).enablePersistence()
-      console.log('persistence enabled')
+      debug('Persistence enabled')
     } catch (error) {
-      console.warn(error)
+      debug('Persistence not enabled')
     }
   }
 
   const firestore = firebase.firestore(app)
-  console.log('returning firestore')
   return firestore
 }
 
 const isReady = (promise: Promise<any>) => {
-  let isReady = false
-  promise.then(() => (isReady = true))
-  return () => isReady
+  let ready = false
+  promise.then(() => (ready = true))
+  return () => ready
 }
 
 export class Database implements DatabaseAPI {
   isReady: () => boolean
-
-  dbName = 'My Database'
 
   initPromise: Promise<boolean>
 

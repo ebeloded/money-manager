@@ -3,7 +3,7 @@ import { from as fromPromise, Observable } from 'rxjs'
 import { concatMap, publishLast, share, shareReplay } from 'rxjs/operators'
 import { CategoriesAPI, Firestore } from './dbTypes'
 
-const debug = Debug('App:Database:Categories')
+const debug = Debug('Database:Categories')
 
 const add = (dbPromise: Promise<Firestore>) => async (c: NewCategory) => {
   const db = await dbPromise
@@ -69,8 +69,8 @@ const getAll = (dbPromise: Promise<Firestore>) => (): Observable<Category[]> =>
 export function Categories(dbPromise: Promise<Firestore>): CategoriesAPI {
   const api: CategoriesAPI = {
     add: add(dbPromise),
-    getAll: getAll(dbPromise),
     get: get(dbPromise),
+    getAll: getAll(dbPromise),
     remove: remove(dbPromise),
   }
 
