@@ -1,6 +1,6 @@
 import Debug from 'debug'
 import { from as fromPromise, Observable } from 'rxjs'
-import { concatMap, shareReplay } from 'rxjs/operators'
+import { concatMap, map, shareReplay } from 'rxjs/operators'
 import { CategoriesAPI, Firestore } from './API'
 
 const debug = Debug('Database:Categories')
@@ -43,7 +43,7 @@ const get = (dbPromise: Promise<Firestore>) => async (txid: CategoryID): Promise
 const getCategoriesObservable = (() => {
   let categoriesObservable
 
-  return (db) => {
+  return (db: Firestore) => {
     categoriesObservable =
       categoriesObservable ||
       new Observable<Category[]>((subscriber) => {

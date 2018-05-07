@@ -1,7 +1,7 @@
 import Debug from 'debug'
 import React, { ReactNode } from 'react'
 import { Observable, Subscription } from 'rxjs'
-import { Database } from '.'
+import { Database } from './Database'
 
 interface DatabaseProviderProps {
   db: Database
@@ -85,3 +85,14 @@ export const connectDB: connectDBType = (mapDataToProps, mapActionsToProps) => (
       )
     }
   }
+
+interface ConnectedContainerProps {
+  mapDataToProps?: mapDataToPropsFactory
+  mapActionsToProps?: mapActionsToPropsFactory
+  children: (derivedProps: {}) => ReactNode
+}
+export class ConnectedContainer extends React.Component<ConnectedContainerProps> {
+  render() {
+    return this.props.children({})
+  }
+}

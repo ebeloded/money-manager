@@ -1,7 +1,11 @@
 import Debug from 'debug'
 import firebase from 'firebase/app'
 import 'firebase/firestore'
+import { from, Observable } from 'rxjs'
 
+import { concatMap, map, pluck, shareReplay } from 'rxjs/operators'
+
+import { MoneyAccounts } from '~/db/db.moneyAccounts'
 import { CategoriesAPI, DatabaseAPI } from './API'
 import { Categories } from './Categories'
 import { Transactions } from './Transactions'
@@ -39,12 +43,15 @@ export class Database implements DatabaseAPI {
 
   initPromise: Promise<boolean>
 
+  moneyAccounts: MoneyAccounts
   transactions: Transactions
   categories: CategoriesAPI
 
   constructor(app: firebase.app.App, { enablePersistence = true }: DatabaseSettings) {
     const dbPromise = initFirestore(app, enablePersistence)
     this.isReady = isReady(dbPromise)
+
+    this.moneyAccounts = new MoneyAccounts(dbPromise)
     this.transactions = new Transactions(dbPromise)
     this.categories = Categories(dbPromise)
   }

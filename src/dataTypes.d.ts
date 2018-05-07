@@ -1,11 +1,32 @@
+type MoneyAccountID = string
 type TransactionID = string
 type CategoryID = string
-type CategoryType = 'INCOME' | 'EXPENSE'
-type TransactionType = CategoryType | 'TRANSFER'
+type INCOME = 'INCOME'
+type EXPENSE = 'EXPENSE'
+type TRANSFER = 'TRANSFER'
+type CategoryType = INCOME | EXPENSE
+type TransactionType = CategoryType | TRANSFER
 type Timestamp = number
 
 interface DatabaseSettings {
   enablePersistence: boolean
+}
+
+interface Creatable {
+  created: Timestamp
+}
+interface Updatable {
+  updated?: Timestamp
+}
+
+interface NewMoneyAccount {
+  name: string
+  startingBalance: number
+}
+
+interface MoneyAccount extends NewMoneyAccount, Creatable, Updatable {
+  id: MoneyAccountID
+  balance: number
 }
 
 interface Currency {
@@ -19,10 +40,8 @@ interface NewCategory {
   type: CategoryType
 }
 
-interface Category extends NewCategory {
+interface Category extends NewCategory, Creatable, Updatable {
   id: CategoryID
-  created: Timestamp
-  updated?: Timestamp
 }
 
 interface NewTransaction {
@@ -36,9 +55,7 @@ interface NewTransaction {
   // toAccount
   // author
 }
-interface Transaction extends NewTransaction {
+interface Transaction extends NewTransaction, Creatable, Updatable {
   id: TransactionID
   category: Category
-  created: Timestamp
-  updated?: Timestamp
 }

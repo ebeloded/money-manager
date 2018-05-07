@@ -1,5 +1,5 @@
 import { App } from './components/App'
-import { Database } from './db'
+import { Database } from './db/Database'
 import { DatabaseProvider } from './db/DatabaseContext'
 import { initFirebase } from './firebase'
 
@@ -11,7 +11,7 @@ const firebaseApp = initFirebase()
 
 const db = new Database(firebaseApp, { enablePersistence: true })
 
-// // import registerServiceWorker from './registerServiceWorker';
+// import registerServiceWorker from './registerServiceWorker';
 
 ReactDOM.render(
   <DatabaseProvider db={db}>
@@ -22,4 +22,4 @@ ReactDOM.render(
   document.getElementById('root') as HTMLElement,
 )
 
-// // registerServiceWorker();
+// registerServiceWorker();

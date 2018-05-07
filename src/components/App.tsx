@@ -6,12 +6,14 @@ import { Route, Switch } from 'react-router-dom'
 import { CategoriesPage } from './categories/CategoriesPage'
 import { Dashboard } from './Dashboard'
 import { Header } from './Header'
+import { MoneyAccountsPage } from './money-accounts/MoneyAccountsPage'
 
 const debug = Debug('App:')
 
 const Main = () => (
   <Switch>
     <Route path="/categories" component={CategoriesPage} />
+    <Route path="/money-accounts" component={MoneyAccountsPage} />
     <Route exact={true} path="/" component={Dashboard} />
   </Switch>
 )

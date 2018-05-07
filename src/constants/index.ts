@@ -1,5 +1,5 @@
-const EXPENSE: CategoryType = 'EXPENSE'
-const INCOME: CategoryType = 'INCOME'
+const EXPENSE: EXPENSE = 'EXPENSE'
+const INCOME: INCOME = 'INCOME'
 
 export const CategoryTypes: { [key in CategoryType]: CategoryType } = {
   EXPENSE,

@@ -11,8 +11,7 @@
       "sourceMaps": true,
       "url": "http://localhost:3000",
       "webRoot": "${workspaceFolder}/src",
-      "smartStep": true,
-      "preLaunchTask": "start"
+      "smartStep": true
     }
   ]
 }

@@ -17,8 +17,12 @@ const onlyNumbersAllowed = (onChangeValue: (value: number) => void) => (event: R
   }
 }
 
-export const NumberInput = ({ onChangeValue, value, ...props }) => (
-  <Input {...props} value={value ? value.toString() : ''} onChange={onlyNumbersAllowed(onChangeValue)} />
+export const NumberInput = ({ onChangeValue, allowZero = true, value, ...props }) => (
+  <Input
+    {...props}
+    value={value ? value.toString() : allowZero ? '0' : ''}
+    onChange={onlyNumbersAllowed(onChangeValue)}
+  />
 )
 
 const getDate = (onChangeDate: (value: Date) => void) => (event: React.FormEvent<HTMLInputElement>) => {

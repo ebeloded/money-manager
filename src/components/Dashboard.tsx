@@ -1,16 +1,23 @@
 import * as React from 'react'
+import styled from 'react-emotion'
 
 import { CategoriesManagerContainer } from './categories/CategoriesManager'
-import { TransactionFormContainer } from './transactions/TransactionForm'
-import { TransactionsListContainer } from './transactions/TransactionsList'
+import { MoneyAccountsManager } from './money-accounts/MoneyAccountsManager'
+import { TransactionsManager } from './transactions/TransactionsManager'
+
+const DashboardLayout = styled('div')({
+  display: 'grid',
+  gridTemplateColumns: '1fr 2fr 1fr',
+})
 
 export class Dashboard extends React.Component {
   render() {
     return (
-      <div>
-        <TransactionFormContainer />
-        <TransactionsListContainer />
-      </div>
+      <DashboardLayout>
+        <MoneyAccountsManager />
+        <TransactionsManager />
+        <CategoriesManagerContainer />
+      </DashboardLayout>
     )
   }
 }
