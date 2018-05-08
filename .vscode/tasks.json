@@ -57,6 +57,20 @@
         "focus": false,
         "panel": "shared"
       }
+    },
+    {
+      "identifier": "github",
+      "label": "Open GitHub Desktop",
+      "type": "process",
+      "command": "github",
+      "isBackground": false,
+      "problemMatcher": [],
+      "presentation": {
+        "echo": false,
+        "reveal": "never",
+        "focus": false,
+        "panel": "dedicated"
+      }
     }
   ]
 }

@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { MoneyAccount, MoneyAccountID } from '~/types'
 
 interface P {
   account: MoneyAccount

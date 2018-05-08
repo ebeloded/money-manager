@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { connectDB, ConnectedContainer } from '~/db/react-db/DatabaseContext'
+import { MoneyAccount, MoneyAccountID } from '~/types'
 import { MoneyAccountsListItem } from './MoneyAccountsListItem'
 
 interface Props {

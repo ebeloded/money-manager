@@ -6,8 +6,8 @@ import { CategoriesList } from './CategoriesList'
 import { CategoryForm } from './CategoryForm'
 import { CategoryTypeSelect } from './CategoryTypeSelect'
 
-import { CategoryTypes } from '~/constants'
 import { connectDB } from '~/db/react-db/DatabaseContext'
+import { Category, CategoryID, CategoryType, NewCategory } from '~/types'
 
 const debug = require('debug')('App:CategoriesManager')
 
@@ -25,7 +25,7 @@ interface State {
 
 export class CategoriesManager extends React.Component<Props, State> {
   state = {
-    categoryType: CategoryTypes.EXPENSE,
+    categoryType: CategoryType.EXPENSE,
   }
 
   onCategoryTypeChange = (categoryType: CategoryType) => {

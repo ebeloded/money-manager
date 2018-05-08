@@ -1,9 +1,20 @@
 import * as React from 'react'
 import { connectDB } from '~/db/react-db/DatabaseContext'
+import { ExtendedTransaction, TransactionType } from '~/types'
 
 interface Props {
-  transaction: Transaction
+  transaction: ExtendedTransaction
   onClickDelete: (txid) => Promise<boolean>
+}
+const ActionSection = ({ transaction }: { transaction: ExtendedTransaction }) => {
+  switch (transaction.transactionType) {
+    case TransactionType.EXPENSE:
+      return <div>EXPENSE </div>
+    case TransactionType.INCOME:
+      return <div>INCOME</div>
+    case TransactionType.TRANSFER:
+      return <div>TRANSFER</div>
+  }
 }
 export class TransactionListItem extends React.Component<Props> {
   handleClick = () => {
@@ -15,12 +26,17 @@ export class TransactionListItem extends React.Component<Props> {
   }
 
   render() {
-    const { value, created, category } = this.props.transaction
+    // const { value, created, category } = this.props.transaction
+    const { transaction } = this.props
+
     return (
       <tr onClick={this.handleClick}>
-        <td>{value}</td>
-        <td>{category.name}</td>
-        <td>{new Date(created).toDateString()}</td>
+        <td>{new Date(transaction.created).toDateString()}</td>
+        <td>
+          <ActionSection transaction={transaction} />
+          <div>{transaction.comment}</div>
+        </td>
+        <td>{transaction.value}</td>
       </tr>
     )
   }

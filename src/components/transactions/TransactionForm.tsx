@@ -2,11 +2,22 @@ import * as React from 'react'
 import { connect } from 'react-redux'
 import { Observable, of } from 'rxjs'
 
-import { filter, first, some } from 'lodash'
+import { filter, find, first, some } from 'lodash'
 import { map } from 'rxjs/operators'
-import { CategoryTypes, NO_CATEGORY_EXPENSE, NO_CATEGORY_INCOME, TransactionTypes } from '~/constants'
+import { NO_CATEGORY_EXPENSE, NO_CATEGORY_INCOME } from '~/db/constants'
 import { Database } from '~/db/Database'
 import { connectDB } from '~/db/react-db/DatabaseContext'
+import {
+  Category,
+  CategoryID,
+  CategoryType,
+  MoneyAccount,
+  MoneyAccountID,
+  NewTransaction,
+  Timestamp,
+  TransactionID,
+  TransactionType,
+} from '~/types'
 import { Log } from '~/utils/log'
 import { CategorySelect } from '../categories/CategorySelect'
 import { DateInput, NumberInput } from '../elements/Input'
@@ -16,75 +27,37 @@ import { TransactionTypeSelect } from './TransactionTypeSelect'
 const log = Log('App:TransactionForm')
 
 interface Props {
-  transaction?: Transaction
+  // transaction?: Transaction
   moneyAccounts: MoneyAccount[]
   categories: Category[]
   onSubmitTransaction: (t: NewTransaction) => Promise<TransactionID>
 }
 
-interface InitialState {
-  value: number
-  date: Date
-  isPlanned: boolean
-  comment: string
-  transactionType: TransactionType
-  separatedCategories?: {
-    INCOME: Category[]
-    EXPENSE: Category[]
-  }
-  categoryID?: CategoryID
-  fromAccountID?: MoneyAccountID
-  toAccountID?: MoneyAccountID
-}
-
-interface ExpenseTransactionState extends InitialState {
-  transactionType: EXPENSE
-  fromAccountID: MoneyAccountID
-  categoryID: CategoryID
-}
-
-interface IncomeTransactionState extends InitialState {
-  transactionType: INCOME
-  toAccountID: MoneyAccountID
-  categoryID: CategoryID
-}
-
-interface TransferTransactionState extends InitialState {
-  transactionType: TRANSFER
-  fromAccountID: MoneyAccountID
-  toAccountID: MoneyAccountID
-}
-
-type State = InitialState | ExpenseTransactionState | IncomeTransactionState | TransferTransactionState
+type State = NewTransaction
 
 export class TransactionForm extends React.Component<Props, State> {
-  initialState: State = {
+  initialState = {
     comment: '',
-    date: new Date(),
     isPlanned: false,
-    transactionType: TransactionTypes.EXPENSE,
+    transactionDate: Date.now(),
     value: 0,
   }
 
-  state: State = this.initialState
+  state: State = { ...this.initialState, type: TransactionType.EXPENSE }
 
   static getDerivedStateFromProps(nextProps: Props, prevState: State): Partial<State> | null {
     const { categories, moneyAccounts } = nextProps
-    const { transactionType, categoryID, fromAccountID, toAccountID } = prevState
-    const separatedCategories = categories && {
-      EXPENSE: filter(categories, { type: CategoryTypes.EXPENSE }),
-      INCOME: filter(categories, { type: CategoryTypes.INCOME }),
-    }
+    const { categoryID, fromAccountID, toAccountID } = prevState
+    const type = prevState.type as string // Necessary for correct type checking
+    const firstCategoryOfType = find(categories, { type: type as CategoryType })
+
     const result: Partial<State> | null =
-      categories && moneyAccounts && separatedCategories[transactionType][0] && moneyAccounts[0]
+      categories && moneyAccounts && firstCategoryOfType && some(moneyAccounts)
         ? {
-            categoryID:
-              (some(separatedCategories[transactionType], { id: categoryID }) && categoryID) ||
-              (first(separatedCategories[transactionType]) as Category).id,
+            categoryID: categoryID || firstCategoryOfType.id,
             fromAccountID:
               (some(moneyAccounts, { id: fromAccountID }) && fromAccountID) ||
               (first(moneyAccounts) as MoneyAccount).id,
-            separatedCategories,
             toAccountID:
               (some(moneyAccounts, { id: toAccountID }) && toAccountID) || (first(moneyAccounts) as MoneyAccount).id,
           }
@@ -97,13 +70,13 @@ export class TransactionForm extends React.Component<Props, State> {
     this.setState({ value })
   }
 
-  onChangeDate = (date: Date) => {
-    this.setState({ date })
+  onChangeDate = (transactionDate: Timestamp) => {
+    this.setState({ transactionDate })
   }
 
-  onChangeTransactionType = (transactionType: TransactionType) => {
+  onChangeTransactionType = (type: TransactionType) => {
     this.setState({
-      transactionType,
+      type,
     })
   }
 
@@ -119,31 +92,30 @@ export class TransactionForm extends React.Component<Props, State> {
     this.setState({ categoryID })
   }
 
+  isValid = () => {
+    // TODO: Implement form validation
+    return true
+  }
+
   onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    if (this.state.value && this.state.categoryID) {
-      this.props.onSubmitTransaction({
-        categoryID: this.state.categoryID,
-        comment: '',
-        transactionDate: +this.state.date,
-        transactionType: this.state.transactionType,
-        value: this.state.value,
-      })
+
+    if (this.isValid()) {
+      this.props.onSubmitTransaction(this.state)
     }
   }
 
   render() {
-    const { categoryID, fromAccountID, toAccountID, separatedCategories, transactionType, value, date } = this.state
-    const { moneyAccounts } = this.props
-    const categories = separatedCategories && separatedCategories[transactionType]
+    const { categoryID, fromAccountID, toAccountID, type, value, transactionDate } = this.state
+    const { moneyAccounts, categories } = this.props
     return categoryID && fromAccountID && toAccountID && moneyAccounts && categories ? (
       <form onSubmit={this.onSubmit}>
         <fieldset>
           <legend>Add new Transaction</legend>
-          <TransactionTypeSelect value={transactionType} onChange={this.onChangeTransactionType} />
+          <TransactionTypeSelect value={type} onChange={this.onChangeTransactionType} />
           <NumberInput value={value} onChangeValue={this.onChangeValue} required={true} />
 
-          {transactionType !== TransactionTypes.INCOME &&
+          {type !== TransactionType.INCOME &&
             fromAccountID && (
               <MoneyAccountsSelect
                 label="From:"
@@ -152,7 +124,7 @@ export class TransactionForm extends React.Component<Props, State> {
                 onChange={this.onChangeMoneyAccountFrom}
               />
             )}
-          {transactionType !== TransactionTypes.EXPENSE &&
+          {type !== TransactionType.EXPENSE &&
             toAccountID && (
               <MoneyAccountsSelect
                 label="To:"
@@ -161,16 +133,16 @@ export class TransactionForm extends React.Component<Props, State> {
                 onChange={this.onChangeMoneyAccountTo}
               />
             )}
-          {transactionType !== TransactionTypes.TRANSFER &&
+          {type !== TransactionType.TRANSFER &&
             categoryID && (
               <CategorySelect
                 categories={categories}
-                categoryType={transactionType as CategoryType}
+                categoryType={(type as string) as CategoryType}
                 value={categoryID}
                 onChange={this.onChangeCategory}
               />
             )}
-          <DateInput value={date} onChangeDate={this.onChangeDate} required={true} />
+          <DateInput value={transactionDate} onChangeDate={this.onChangeDate} required={true} />
           <button type="submit">Submit</button>
         </fieldset>
       </form>

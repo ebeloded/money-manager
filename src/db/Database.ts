@@ -39,6 +39,10 @@ const isReady = (promise: Promise<any>) => {
   return () => ready
 }
 
+interface DatabaseSettings {
+  enablePersistence: boolean
+}
+
 export class Database implements DatabaseAPI {
   isReady: () => boolean
 

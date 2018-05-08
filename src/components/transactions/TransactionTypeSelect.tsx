@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { TransactionTypes } from '~/constants'
+import { TransactionType } from '~/types'
 import { Log } from '~/utils/log'
 import { Option, Select } from '../elements/Select'
 
@@ -20,9 +20,9 @@ export class TransactionTypeSelect extends React.Component<Props> {
     return (
       <div>
         <select value={this.props.value} onChange={this.handleChange}>
-          {Object.keys(TransactionTypes).map((key) => (
-            <option key={key} value={TransactionTypes[key]}>
-              {TransactionTypes[key]}
+          {Object.keys(TransactionType).map((key) => (
+            <option key={key} value={TransactionType[key]}>
+              {TransactionType[key]}
             </option>
           ))}
         </select>

@@ -1,5 +1,6 @@
 import { from as fromPromise, Observable } from 'rxjs'
 import { concatMap, map, shareReplay } from 'rxjs/operators'
+import { Category, CategoryID, NewCategory } from '~/types'
 import { Log } from '~/utils/log'
 import { CategoriesAPI, Firestore } from './API'
 

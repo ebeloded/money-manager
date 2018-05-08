@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { Category, CategoryID } from '~/types'
 import { CategoryListItem } from './CategoryListItem'
 
 interface CategoriesListProps {

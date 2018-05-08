@@ -1,8 +1,8 @@
 import { filter } from 'lodash'
 import * as React from 'react'
 import { map } from 'rxjs/operators'
-import { CategoryTypes, NO_CATEGORY } from '~/constants'
 import { connectDB } from '~/db/react-db/DatabaseContext'
+import { Category, CategoryID, CategoryType } from '~/types'
 import { Log } from '~/utils/log'
 
 const debug = Log('App:CategorySelect')

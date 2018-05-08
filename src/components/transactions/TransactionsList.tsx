@@ -1,15 +1,17 @@
+import { reduce } from 'lodash'
 import * as React from 'react'
 import { combineLatest } from 'rxjs'
 import { withLatestFrom } from 'rxjs/operators'
-import { NO_CATEGORY } from '~/constants'
+import { NO_CATEGORY } from '~/db/constants'
 import { connectDB } from '~/db/react-db/DatabaseContext'
+import { ExtendedTransaction, Transaction, TransactionID } from '~/types'
 import { Log } from '~/utils/log'
 import { TransactionListItem } from './TransactionListItem'
 
 const log = Log('TransactionsList')
 
 interface Props {
-  transactions: Transaction[]
+  transactions: ExtendedTransaction[]
   deleteTransaction: (txid: TransactionID) => Promise<boolean>
 }
 export class TransactionsList extends React.PureComponent<Props> {
@@ -40,7 +42,7 @@ const withDB = connectDB(
       log('combine latest', categoriesMap)
 
       return transactions.map((t) => ({
-        category: categoriesMap[t.categoryID] || NO_CATEGORY,
+        category: (t.categoryID && categoriesMap[t.categoryID]) || NO_CATEGORY,
         ...t,
       }))
     }),

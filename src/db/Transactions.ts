@@ -2,6 +2,7 @@ import * as firebase from 'firebase/app'
 import { from as fromPromise, Observable } from 'rxjs'
 import { concatMap } from 'rxjs/operators'
 
+import { NewTransaction, Transaction, TransactionID } from '~/types'
 import { Log } from '~/utils/log'
 import { Firestore, TransactionsAPI } from './API'
 

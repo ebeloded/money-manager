@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { Category, CategoryID, CategoryType, NewCategory } from '~/types'
 
 interface Props {
   name?: string

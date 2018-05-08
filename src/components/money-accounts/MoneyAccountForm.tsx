@@ -1,9 +1,12 @@
 import * as React from 'react'
 import { Database } from '~/db/Database'
 import { connectDB, ConnectedContainer } from '~/db/react-db/DatabaseContext'
+import { MoneyAccountID, NewMoneyAccount } from '~/types'
 import { Log } from '~/utils/log'
 import { Input, NumberInput } from '../elements/Input'
+
 const log = Log('MoneyAccountForm')
+
 interface Props {
   submitMoneyAccount: (newMoneyAccount: NewMoneyAccount) => MoneyAccountID
 }
