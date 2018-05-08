@@ -44,20 +44,30 @@ interface DatabaseSettings {
 export type Firestore = firebase.firestore.Firestore
 
 export class Database {
-  isReady: () => boolean
+  static instance: Database
 
-  initPromise: Promise<boolean>
+  isReady: () => boolean
 
   moneyAccounts: MoneyAccounts
   transactions: Transactions
   categories: Categories
 
+  firestore$: Observable<Firestore>
+
   constructor(app: firebase.app.App, { enablePersistence = true }: DatabaseSettings) {
-    const dbPromise = initFirestore(app, enablePersistence)
-    // const initDB = from(dbPromise)
-    this.isReady = isReady(dbPromise)
-    this.moneyAccounts = new MoneyAccounts(dbPromise)
-    this.categories = new Categories(dbPromise)
-    this.transactions = new Transactions(dbPromise)
+    if (!Database.instance) {
+      log('constructing db')
+      Database.instance = this
+
+      const dbPromise = initFirestore(app, enablePersistence)
+      this.firestore$ = from(dbPromise)
+
+      this.isReady = isReady(dbPromise)
+      this.moneyAccounts = new MoneyAccounts(dbPromise)
+      this.categories = new Categories(dbPromise)
+      this.transactions = new Transactions(dbPromise)
+    } else {
+      throw new Error('Database already initialized')
+    }
   }
 }

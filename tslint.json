@@ -11,8 +11,7 @@
     "member-access": [true, "no-public"],
     "max-classes-per-file": false,
     "no-submodule-imports": [false],
-    "no-implicit-dependencies": false,
-    "member-ordering": [true, "public-before-private", "static-before-instance"]
+    "no-implicit-dependencies": false
   },
   "linterOptions": {
     "exclude": ["node_modules/**/*.ts"]

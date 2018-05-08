@@ -46,7 +46,7 @@ export interface Category extends NewCategory, Creatable, Updatable {
   id: CategoryID
 }
 
-interface TransactionBasics {
+export interface TransactionBasics {
   value: number
   transactionDate: Timestamp
   comment: string
@@ -76,7 +76,7 @@ interface NewTransferTransaction extends TransactionBasics {
   toAccountID: MoneyAccountID
 }
 
-export type NewTransaction = NewExpenseTransaction | NewIncomeTransaction | NewTransferTransaction | TransactionBasics
+export type NewTransaction = NewExpenseTransaction | NewIncomeTransaction | NewTransferTransaction
 
 interface SharedTransactionInterface extends Creatable, Updatable {
   id: TransactionID
