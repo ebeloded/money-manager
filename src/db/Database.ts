@@ -8,7 +8,7 @@ import { mapValues } from 'lodash'
 import { altMoneyAccounts, MoneyAccounts } from '~/db/db.moneyAccounts'
 import { Log } from '~/utils/log'
 import { CategoriesAPI, DatabaseAPI } from './API'
-import { Categories } from './Categories'
+import { Categories } from './db.categories'
 import { Transactions } from './Transactions'
 
 const log = Log('Database:Init')
@@ -66,6 +66,6 @@ export class Database implements DatabaseAPI {
     // })
 
     this.transactions = new Transactions(dbPromise)
-    this.categories = Categories(dbPromise)
+    this.categories = new Categories(dbPromise)
   }
 }

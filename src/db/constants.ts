@@ -8,9 +8,9 @@ export const NO_CATEGORY = {
 
 export const NO_CATEGORY_EXPENSE: Category = {
   ...NO_CATEGORY,
-  type: CategoryType.EXPENSE,
+  categoryType: CategoryType.EXPENSE,
 }
 export const NO_CATEGORY_INCOME: Category = {
   ...NO_CATEGORY,
-  type: CategoryType.INCOME,
+  categoryType: CategoryType.INCOME,
 }
