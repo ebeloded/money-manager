@@ -39,7 +39,7 @@ export interface Currency {
 
 export interface NewCategory {
   name: string
-  type: CategoryType
+  categoryType: CategoryType
 }
 
 export interface Category extends NewCategory, Creatable, Updatable {
@@ -51,8 +51,8 @@ interface TransactionBasics {
   transactionDate: Timestamp
   comment: string
   isPlanned: boolean
-  transactionType: TransactionType
 
+  transactionType?: TransactionType
   categoryID?: CategoryID
   fromAccountID?: MoneyAccountID
   toAccountID?: MoneyAccountID
@@ -76,31 +76,48 @@ interface NewTransferTransaction extends TransactionBasics {
   toAccountID: MoneyAccountID
 }
 
-export type NewTransaction = NewExpenseTransaction | NewIncomeTransaction | NewTransferTransaction
+export type NewTransaction = NewExpenseTransaction | NewIncomeTransaction | NewTransferTransaction | TransactionBasics
 
-interface CreatedTransaction extends TransactionBasics, Creatable, Updatable {
+interface SharedTransactionInterface extends Creatable, Updatable {
   id: TransactionID
   fromAccount?: MoneyAccount
   category?: Category
   toAccount?: MoneyAccount
 }
 
-interface ExpenseTransaction extends CreatedTransaction {
+interface CreatedExpenseTransaction extends TransactionBasics, SharedTransactionInterface {
   transactionType: TransactionType.EXPENSE
-  fromAccount: MoneyAccount
-  category: Category
+  categoryID: CategoryID
+  fromAccountID: MoneyAccountID
 }
 
-interface IncomeTransaction extends CreatedTransaction {
+interface CreatedIncomeTransaction extends TransactionBasics, SharedTransactionInterface {
   transactionType: TransactionType.INCOME
+  categoryID: CategoryID
+  toAccountID: MoneyAccountID
+}
+
+interface CreatedTransferTransaction extends TransactionBasics, SharedTransactionInterface {
+  transactionType: TransactionType.TRANSFER
+  fromAccountID: MoneyAccountID
+  toAccountID: MoneyAccountID
+}
+
+export type CreatedTransaction = CreatedExpenseTransaction | CreatedIncomeTransaction | CreatedTransferTransaction
+
+interface ExpenseTransaction extends CreatedExpenseTransaction {
+  fromAccount: MoneyAccount
+  category: Category
+}
+
+interface IncomeTransaction extends CreatedIncomeTransaction {
   toAccount: MoneyAccount
   category: Category
 }
 
-interface TransferTransaction extends CreatedTransaction {
-  transactionType: TransactionType.TRANSFER
+interface TransferTransaction extends CreatedTransferTransaction {
   fromAccount: MoneyAccount
   toAccount: MoneyAccount
 }
 
-export type ExtendedTransaction = ExpenseTransaction | IncomeTransaction | TransferTransaction
+export type Transaction = ExpenseTransaction | IncomeTransaction | TransferTransaction
