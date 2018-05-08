@@ -52,6 +52,10 @@ interface TransactionBasics {
   comment: string
   isPlanned: boolean
   transactionType: TransactionType
+
+  categoryID?: CategoryID
+  fromAccountID?: MoneyAccountID
+  toAccountID?: MoneyAccountID
 }
 
 interface NewExpenseTransaction extends TransactionBasics {
@@ -76,21 +80,24 @@ export type NewTransaction = NewExpenseTransaction | NewIncomeTransaction | NewT
 
 interface CreatedTransaction extends TransactionBasics, Creatable, Updatable {
   id: TransactionID
+  fromAccount?: MoneyAccount
+  category?: Category
+  toAccount?: MoneyAccount
 }
 
-export interface ExpenseTransaction extends CreatedTransaction {
+interface ExpenseTransaction extends CreatedTransaction {
   transactionType: TransactionType.EXPENSE
   fromAccount: MoneyAccount
   category: Category
 }
 
-export interface IncomeTransaction extends CreatedTransaction {
+interface IncomeTransaction extends CreatedTransaction {
   transactionType: TransactionType.INCOME
   toAccount: MoneyAccount
   category: Category
 }
 
-export interface TransferTransaction extends CreatedTransaction {
+interface TransferTransaction extends CreatedTransaction {
   transactionType: TransactionType.TRANSFER
   fromAccount: MoneyAccount
   toAccount: MoneyAccount
