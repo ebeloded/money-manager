@@ -1,9 +1,9 @@
 import { from, Observable, of, Subscriber } from 'rxjs'
 import { concatMap, map, shareReplay, subscribeOn } from 'rxjs/operators'
-import { Firestore } from '~/db/API'
 import { MoneyAccount, MoneyAccountID, NewMoneyAccount } from '~/types'
 import { Log } from '~/utils/log'
-import { createSnapshotObservable, getID, querySnapshotToDocumentArray } from './dbutils'
+import { Firestore } from '.'
+import { createSnapshotObservable, getID, querySnapshotToDocumentArray } from './utils'
 
 const moneyAccounts = 'moneyAccounts'
 const log = Log('Database.MoneyCategories')

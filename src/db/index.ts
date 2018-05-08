@@ -2,14 +2,12 @@ import * as firebase from 'firebase/app'
 import 'firebase/firestore'
 import { from, Observable, of } from 'rxjs'
 
-import { concatMap, map, pluck, shareReplay } from 'rxjs/operators'
-
 import { mapValues } from 'lodash'
-import { altMoneyAccounts, MoneyAccounts } from '~/db/db.moneyAccounts'
+import { concatMap, map, pluck, shareReplay } from 'rxjs/operators'
 import { Log } from '~/utils/log'
-import { CategoriesAPI, DatabaseAPI } from './API'
 import { Categories } from './db.categories'
-import { Transactions } from './Transactions'
+import { MoneyAccounts } from './db.moneyAccounts'
+import { Transactions } from './db.transactions'
 
 const log = Log('Database:Init')
 
@@ -43,29 +41,23 @@ interface DatabaseSettings {
   enablePersistence: boolean
 }
 
-export class Database implements DatabaseAPI {
+export type Firestore = firebase.firestore.Firestore
+
+export class Database {
   isReady: () => boolean
 
   initPromise: Promise<boolean>
 
   moneyAccounts: MoneyAccounts
   transactions: Transactions
-  categories: CategoriesAPI
+  categories: Categories
 
   constructor(app: firebase.app.App, { enablePersistence = true }: DatabaseSettings) {
     const dbPromise = initFirestore(app, enablePersistence)
-    const initDB = from(dbPromise)
+    // const initDB = from(dbPromise)
     this.isReady = isReady(dbPromise)
     this.moneyAccounts = new MoneyAccounts(dbPromise)
-
-    // alt({ name: 'asdf', startingBalance: 1 }).subscribe((v) => log('s', v))
-
-    // 1.
-    // this.moneyAccounts.alternativeAdd({ name: 'nasdf', startingBalance: 0 }).subscribe((v) => {
-    //   log('after subscription', v)
-    // })
-
-    this.transactions = new Transactions(dbPromise)
     this.categories = new Categories(dbPromise)
+    this.transactions = new Transactions(dbPromise)
   }
 }

@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { Observable, Subscription } from 'rxjs'
 import { Log } from '~/utils/log'
-import { Database } from '../Database'
+import { Database } from '../.'
 
 interface DatabaseProviderProps {
   db: Database

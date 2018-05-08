@@ -22,7 +22,7 @@
     "noEmitOnError": false,
     "baseUrl": "src",
     "paths": {
-      "~/db/*": ["db/*"],
+      "~/db*": ["db*"],
       "~/types": ["types.ts"],
       "~/utils/*": ["utils/*"]
       // "@config/*": ["config/*"],

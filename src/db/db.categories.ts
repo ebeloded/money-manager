@@ -1,9 +1,9 @@
 import { from, Observable } from 'rxjs'
 import { concatMap, map, shareReplay } from 'rxjs/operators'
-import { createSnapshotObservable, getID, querySnapshotToDocumentArray } from '~/db/dbutils'
+import { createSnapshotObservable, getID, querySnapshotToDocumentArray } from '~/db/utils'
 import { Category, CategoryID, CategoryType, NewCategory } from '~/types'
 import { Log } from '~/utils/log'
-import { CategoriesAPI, Firestore } from './API'
+import { Firestore } from '.'
 
 const log = Log('Database:Categories')
 
@@ -35,7 +35,10 @@ export class Categories {
 
     const db = await this.dbPromise
 
-    const categoryRef = await db.collection('categories').add(newCategory)
+    const categoryRef = await db
+      .collection('categories')
+      .doc(category.id)
+      .set(category)
 
     return category
   }
