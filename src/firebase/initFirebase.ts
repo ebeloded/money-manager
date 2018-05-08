@@ -1,3 +1,7 @@
+import * as firebase from 'firebase/app'
+
+let app: firebase.app.App | undefined
+
 const config = {
   apiKey: 'AIzaSyDGMhDY0GbP_l5zqNYjkVnUY3wR2A1Sq9M',
   authDomain: 'money-manager-60e74.firebaseapp.com',
@@ -7,4 +11,9 @@ const config = {
   storageBucket: 'money-manager-60e74.appspot.com',
 }
 
-export default config
+export function initFirebase() {
+  if (!app) {
+    app = firebase.initializeApp(config)
+  }
+  return app
+}

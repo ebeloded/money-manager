@@ -1,11 +1,12 @@
 import { Database } from '~/db/Database'
 import { DatabaseProvider } from '~/db/react-db/DatabaseContext'
 import { App } from './components/App'
-import { initFirebase } from './firebase'
+import { initFirebase } from './firebase/initFirebase'
 
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
 import { BrowserRouter } from 'react-router-dom'
+import { Log } from '~/utils/log'
 
 const firebaseApp = initFirebase()
 
