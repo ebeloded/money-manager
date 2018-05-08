@@ -23,7 +23,7 @@
     "baseUrl": "src",
     "paths": {
       "~/db/*": ["db/*"],
-      "~/types": ["types.d.ts"],
+      "~/types": ["types.ts"],
       "~/utils/*": ["utils/*"]
       // "@config/*": ["config/*"],
     }
