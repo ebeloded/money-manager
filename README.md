@@ -1,23 +1,7 @@
 # Money Manager
 
-Money Manager is an app that simplifies the management of user's finance by helping to track expenses, budget and planning.
+Money Manager is an app that simplifies the management of personal finance by helping to track and control expenses, budget and planning.
 
-The app app allows multiple users to contribute to a single account, while also allowing every user to be connected to multiple accounts.
+In current implementation the app allows the user to add money accounts(wallets), manage expense/income categories and add transactions (expense/income/transfer).
 
-The user will be able to add expenses, plan transactions, view transaction history, etc.
-
-User / Account / Money Account : Currencies / 
-
-The app is designed as a progressive web app.
-
-
-The data will persist in local database and will be constantly synced with remote database.
-
-The tech stack is as follows:
-
-Language: TypeScript
-
-- React
-- Redux
-- styled-components
-- Firebase (Hosting, Auth, Notifications, Database)
+The data persists locally in IndexedDB and is be continuously synced with remote database (Firestore Database).
