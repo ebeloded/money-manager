@@ -1,23 +1,38 @@
 import * as React from 'react'
 import { connectDB } from '~/db/react-db/DatabaseContext'
-import { ExtendedTransaction, TransactionType } from '~/types'
+import { Transaction, TransactionType } from '~/types'
+import { Log } from '~/utils/log'
 
+const log = Log('TransactionListItem')
 interface Props {
-  transaction: ExtendedTransaction
+  transaction: Transaction
   onClickDelete: (txid) => Promise<boolean>
 }
-const ActionSection = ({ transaction }: { transaction: ExtendedTransaction }) => {
+const ActionSection = ({ transaction }: { transaction: Transaction }) => {
   switch (transaction.transactionType) {
     case TransactionType.EXPENSE:
-      return <div>EXPENSE </div>
+      return (
+        <div>
+          EXPENSE: {transaction.fromAccount.name} => {transaction.category.name}
+        </div>
+      )
     case TransactionType.INCOME:
-      return <div>INCOME</div>
+      return (
+        <div>
+          INCOME: {transaction.category.name} => {transaction.toAccount.name}
+        </div>
+      )
     case TransactionType.TRANSFER:
-      return <div>TRANSFER</div>
+      return (
+        <div>
+          TRANSFER: {transaction.fromAccount.name} => {transaction.toAccount.name}
+        </div>
+      )
   }
 }
 export class TransactionListItem extends React.Component<Props> {
   handleClick = () => {
+    log('handleClick')
     this.props.onClickDelete(this.props.transaction.id)
   }
 
@@ -26,7 +41,6 @@ export class TransactionListItem extends React.Component<Props> {
   }
 
   render() {
-    // const { value, created, category } = this.props.transaction
     const { transaction } = this.props
 
     return (

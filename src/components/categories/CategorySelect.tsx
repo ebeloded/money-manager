@@ -24,7 +24,7 @@ export class CategorySelect extends React.PureComponent<Props, State> {
 
   render() {
     const { categories, categoryType } = this.props
-    const categoriesOfType = categories.filter((c) => c.type === categoryType)
+    const categoriesOfType = categories.filter((c) => c.categoryType === categoryType)
     return (
       <select value={this.props.value} onChange={this.handleChange}>
         {categoriesOfType.map((category) => (

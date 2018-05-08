@@ -1,17 +1,17 @@
-import { reduce } from 'lodash'
+import { keyBy, reduce } from 'lodash'
 import * as React from 'react'
 import { combineLatest } from 'rxjs'
 import { withLatestFrom } from 'rxjs/operators'
 import { NO_CATEGORY } from '~/db/constants'
 import { connectDB } from '~/db/react-db/DatabaseContext'
-import { ExtendedTransaction, Transaction, TransactionID } from '~/types'
+import { Category, MoneyAccount, Transaction, TransactionID, TransactionType } from '~/types'
 import { Log } from '~/utils/log'
 import { TransactionListItem } from './TransactionListItem'
 
 const log = Log('TransactionsList')
 
 interface Props {
-  transactions: ExtendedTransaction[]
+  transactions: Transaction[]
   deleteTransaction: (txid: TransactionID) => Promise<boolean>
 }
 export class TransactionsList extends React.PureComponent<Props> {
@@ -36,16 +36,40 @@ export class TransactionsList extends React.PureComponent<Props> {
 
 const withDB = connectDB(
   (db) => ({
-    transactions: combineLatest(db.transactions.all(), db.categories.all(), (transactions, categories) => {
-      const categoriesMap = [...categories, NO_CATEGORY].reduce((m, cat) => ({ [cat.id]: cat, ...m }), {})
+    transactions: combineLatest(
+      db.transactions.all,
+      db.categories.all,
+      db.moneyAccounts.all,
+      (transactions, categories, moneyAccounts) => {
+        const categoriesMap = keyBy(categories, 'id')
+        const accountsMap = keyBy(moneyAccounts, 'id')
+        log('combine latest', categoriesMap)
 
-      log('combine latest', categoriesMap)
+        return transactions.map((t): Transaction => {
+          switch (t.transactionType) {
+            case TransactionType.EXPENSE:
+              return {
+                ...t,
+                category: categoriesMap[t.categoryID],
+                fromAccount: accountsMap[t.fromAccountID],
+              }
+            case TransactionType.INCOME:
+              return {
+                ...t,
+                category: categoriesMap[t.categoryID],
+                toAccount: accountsMap[t.toAccountID],
+              }
 
-      return transactions.map((t) => ({
-        category: (t.categoryID && categoriesMap[t.categoryID]) || NO_CATEGORY,
-        ...t,
-      }))
-    }),
+            case TransactionType.TRANSFER:
+              return {
+                ...t,
+                fromAccount: accountsMap[t.fromAccountID],
+                toAccount: accountsMap[t.toAccountID],
+              }
+          }
+        })
+      },
+    ),
   }),
   (db) => ({
     deleteTransaction: (txid: TransactionID) => db.transactions.remove(txid),

@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Database } from '~/db/Database'
+import { Database } from '~/db/.'
 import { connectDB, ConnectedContainer } from '~/db/react-db/DatabaseContext'
 import { MoneyAccountID, NewMoneyAccount } from '~/types'
 import { Log } from '~/utils/log'

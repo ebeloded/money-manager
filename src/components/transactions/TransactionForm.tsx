@@ -5,7 +5,8 @@ import { Observable, of } from 'rxjs'
 import { filter, find, first, some } from 'lodash'
 import { map } from 'rxjs/operators'
 import { NO_CATEGORY_EXPENSE, NO_CATEGORY_INCOME } from '~/db/constants'
-import { Database } from '~/db/Database'
+
+import { Database } from '~/db/.'
 import { connectDB } from '~/db/react-db/DatabaseContext'
 import {
   Category,
@@ -15,6 +16,7 @@ import {
   MoneyAccountID,
   NewTransaction,
   Timestamp,
+  TransactionBasics,
   TransactionID,
   TransactionType,
 } from '~/types'
@@ -33,23 +35,14 @@ interface Props {
   onSubmitTransaction: (t: NewTransaction) => Promise<TransactionID>
 }
 
-type State = NewTransaction
+type State = NewTransaction | TransactionBasics
 
 export class TransactionForm extends React.Component<Props, State> {
-  initialState = {
-    comment: '',
-    isPlanned: false,
-    transactionDate: Date.now(),
-    value: 0,
-  }
-
-  state: State = { ...this.initialState, type: TransactionType.EXPENSE }
-
   static getDerivedStateFromProps(nextProps: Props, prevState: State): Partial<State> | null {
     const { categories, moneyAccounts } = nextProps
     const { categoryID, fromAccountID, toAccountID } = prevState
-    const type = prevState.type as string // Necessary for correct type checking
-    const firstCategoryOfType = find(categories, { type: type as CategoryType })
+    const transactionType = prevState.transactionType || TransactionType.EXPENSE
+    const firstCategoryOfType = getFirstCategoryOfType(categories, transactionType) // Necessary for correct type checking
 
     const result: Partial<State> | null =
       categories && moneyAccounts && firstCategoryOfType && some(moneyAccounts)
@@ -60,11 +53,21 @@ export class TransactionForm extends React.Component<Props, State> {
               (first(moneyAccounts) as MoneyAccount).id,
             toAccountID:
               (some(moneyAccounts, { id: toAccountID }) && toAccountID) || (first(moneyAccounts) as MoneyAccount).id,
+            transactionType,
           }
         : { categoryID: undefined, fromAccountID: undefined, toAccountID: undefined }
     log('result', result)
     return result
   }
+
+  initialState: State = {
+    comment: '',
+    isPlanned: false,
+    transactionDate: Date.now(),
+    value: 0,
+  }
+
+  state: State = this.initialState
 
   onChangeValue = (value: number) => {
     this.setState({ value })
@@ -74,9 +77,13 @@ export class TransactionForm extends React.Component<Props, State> {
     this.setState({ transactionDate })
   }
 
-  onChangeTransactionType = (type: TransactionType) => {
-    this.setState({
-      type,
+  onChangeTransactionType = (transactionType: TransactionType) => {
+    this.setState((state, props) => {
+      const category = getFirstCategoryOfType(this.props.categories, transactionType)
+      return {
+        categoryID: category && category.id,
+        transactionType,
+      }
     })
   }
 
@@ -100,22 +107,24 @@ export class TransactionForm extends React.Component<Props, State> {
   onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
 
-    if (this.isValid()) {
-      this.props.onSubmitTransaction(this.state)
+    if (this.state.transactionType) {
+      this.props.onSubmitTransaction(this.state as NewTransaction).then(() => {
+        this.setState(this.initialState)
+      })
     }
   }
 
   render() {
-    const { categoryID, fromAccountID, toAccountID, type, value, transactionDate } = this.state
+    const { categoryID, fromAccountID, toAccountID, transactionType, value, transactionDate } = this.state
     const { moneyAccounts, categories } = this.props
-    return categoryID && fromAccountID && toAccountID && moneyAccounts && categories ? (
+    return categoryID && fromAccountID && toAccountID && moneyAccounts && categories && transactionType ? (
       <form onSubmit={this.onSubmit}>
         <fieldset>
           <legend>Add new Transaction</legend>
-          <TransactionTypeSelect value={type} onChange={this.onChangeTransactionType} />
+          <TransactionTypeSelect value={transactionType} onChange={this.onChangeTransactionType} />
           <NumberInput value={value} onChangeValue={this.onChangeValue} required={true} />
 
-          {type !== TransactionType.INCOME &&
+          {transactionType !== TransactionType.INCOME &&
             fromAccountID && (
               <MoneyAccountsSelect
                 label="From:"
@@ -124,7 +133,7 @@ export class TransactionForm extends React.Component<Props, State> {
                 onChange={this.onChangeMoneyAccountFrom}
               />
             )}
-          {type !== TransactionType.EXPENSE &&
+          {transactionType !== TransactionType.EXPENSE &&
             toAccountID && (
               <MoneyAccountsSelect
                 label="To:"
@@ -133,11 +142,11 @@ export class TransactionForm extends React.Component<Props, State> {
                 onChange={this.onChangeMoneyAccountTo}
               />
             )}
-          {type !== TransactionType.TRANSFER &&
+          {transactionType !== TransactionType.TRANSFER &&
             categoryID && (
               <CategorySelect
                 categories={categories}
-                categoryType={(type as string) as CategoryType}
+                categoryType={(transactionType as string) as CategoryType}
                 value={categoryID}
                 onChange={this.onChangeCategory}
               />
@@ -150,9 +159,9 @@ export class TransactionForm extends React.Component<Props, State> {
   }
 }
 
-const mapDataToProps = (db: Database) => {
+const mapDataToProps = (db) => {
   return {
-    categories: db.categories.all().pipe(map((cats) => [...cats, NO_CATEGORY_EXPENSE, NO_CATEGORY_INCOME])),
+    categories: db.categories.all,
     moneyAccounts: db.moneyAccounts.all,
   }
 }
@@ -167,3 +176,7 @@ const mapActionsToProps = (db: Database) => ({
 const withDB = connectDB(mapDataToProps, mapActionsToProps)
 
 export const TransactionFormContainer = withDB(TransactionForm)
+
+function getFirstCategoryOfType(categories: Category[], transactionType: TransactionType) {
+  return find(categories, { categoryType: (transactionType as string) as CategoryType })
+}

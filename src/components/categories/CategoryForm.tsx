@@ -37,9 +37,9 @@ export class CategoryForm extends React.Component<Props, State> {
 
   onFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    const category = {
+    const category: NewCategory = {
+      categoryType: this.props.type,
       name: this.state.name,
-      type: this.props.type,
     }
 
     this.setState({ disabled: true }, () => {

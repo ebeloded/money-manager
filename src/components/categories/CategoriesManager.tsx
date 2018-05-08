@@ -33,7 +33,7 @@ export class CategoriesManager extends React.Component<Props, State> {
   }
 
   getCategories = () => {
-    return this.props.categories ? this.props.categories.filter((c) => c.type === this.state.categoryType) : []
+    return this.props.categories ? this.props.categories.filter((c) => c.categoryType === this.state.categoryType) : []
   }
 
   render() {
@@ -49,7 +49,7 @@ export class CategoriesManager extends React.Component<Props, State> {
 
 const withDB = connectDB(
   (db) => ({
-    categories: db.categories.all(),
+    categories: db.categories.all,
   }),
   (db) => ({
     onDeleteCategory: (cid: CategoryID) => db.categories.remove(cid),
