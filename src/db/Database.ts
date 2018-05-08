@@ -1,16 +1,17 @@
-import Debug from 'debug'
-import firebase from 'firebase/app'
+import * as firebase from 'firebase/app'
 import 'firebase/firestore'
-import { from, Observable } from 'rxjs'
+import { from, Observable, of } from 'rxjs'
 
 import { concatMap, map, pluck, shareReplay } from 'rxjs/operators'
 
-import { MoneyAccounts } from '~/db/db.moneyAccounts'
+import { mapValues } from 'lodash'
+import { altMoneyAccounts, MoneyAccounts } from '~/db/db.moneyAccounts'
+import { Log } from '~/utils/log'
 import { CategoriesAPI, DatabaseAPI } from './API'
 import { Categories } from './Categories'
 import { Transactions } from './Transactions'
 
-const debug = Debug('Database:Init')
+const log = Log('Database:Init')
 
 async function initFirestore(app: firebase.app.App, enablePersistence: boolean) {
   const settings: firebase.firestore.Settings = {
@@ -22,9 +23,9 @@ async function initFirestore(app: firebase.app.App, enablePersistence: boolean) 
   if (enablePersistence) {
     try {
       await firebase.firestore(app).enablePersistence()
-      debug('Persistence enabled')
+      log('Persistence enabled')
     } catch (error) {
-      debug('Persistence not enabled')
+      log('Persistence not enabled')
     }
   }
 
@@ -49,9 +50,17 @@ export class Database implements DatabaseAPI {
 
   constructor(app: firebase.app.App, { enablePersistence = true }: DatabaseSettings) {
     const dbPromise = initFirestore(app, enablePersistence)
+    const initDB = from(dbPromise)
     this.isReady = isReady(dbPromise)
-
     this.moneyAccounts = new MoneyAccounts(dbPromise)
+
+    // alt({ name: 'asdf', startingBalance: 1 }).subscribe((v) => log('s', v))
+
+    // 1.
+    // this.moneyAccounts.alternativeAdd({ name: 'nasdf', startingBalance: 0 }).subscribe((v) => {
+    //   log('after subscription', v)
+    // })
+
     this.transactions = new Transactions(dbPromise)
     this.categories = Categories(dbPromise)
   }

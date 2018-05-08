@@ -1,4 +1,4 @@
-import firebase from 'firebase/app'
+import * as firebase from 'firebase/app'
 import { Observable } from 'rxjs'
 import * as uuid from 'uuid/v1'
 

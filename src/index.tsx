@@ -1,6 +1,6 @@
+import { Database } from '~/db/Database'
+import { DatabaseProvider } from '~/db/react-db/DatabaseContext'
 import { App } from './components/App'
-import { Database } from './db/Database'
-import { DatabaseProvider } from './db/DatabaseContext'
 import { initFirebase } from './firebase'
 
 import * as React from 'react'

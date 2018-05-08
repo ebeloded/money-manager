@@ -1,9 +1,9 @@
-import Debug from 'debug'
 import { from as fromPromise, Observable } from 'rxjs'
 import { concatMap, map, shareReplay } from 'rxjs/operators'
+import { Log } from '~/utils/log'
 import { CategoriesAPI, Firestore } from './API'
 
-const debug = Debug('Database:Categories')
+const log = Log('Database:Categories')
 
 const add = (dbPromise: Promise<Firestore>) => async (c: NewCategory) => {
   const db = await dbPromise
@@ -18,6 +18,8 @@ const add = (dbPromise: Promise<Firestore>) => async (c: NewCategory) => {
 
 const remove = (dbPromise: Promise<Firestore>) => async (cid: CategoryID) => {
   const db = await dbPromise
+
+  // TODO: Make sure to update all transactions with this category
 
   await db
     .collection('categories')
@@ -47,7 +49,7 @@ const getCategoriesObservable = (() => {
     categoriesObservable =
       categoriesObservable ||
       new Observable<Category[]>((subscriber) => {
-        debug('loading categories')
+        log('loading categories')
         return db.collection('categories').onSnapshot((querySnapshot) => {
           const categories: Category[] = []
           const result = querySnapshot.docs.map((d) => ({

@@ -1,4 +1,4 @@
-import firebase from 'firebase/app'
+import * as firebase from 'firebase/app'
 import config from '../config/firebase.config'
 
 let app: firebase.app.App | undefined

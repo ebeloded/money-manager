@@ -1,5 +1,5 @@
-import moment from 'moment'
-import React from 'react'
+import * as moment from 'moment'
+import * as React from 'react'
 import styled from 'react-emotion'
 
 const StyledInput = styled('input')({

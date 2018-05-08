@@ -1,8 +1,8 @@
-import React from 'react'
+import * as React from 'react'
 import { combineLatest } from 'rxjs'
 import { withLatestFrom } from 'rxjs/operators'
 import { NO_CATEGORY } from '~/constants'
-import { connectDB } from '~/db/DatabaseContext'
+import { connectDB } from '~/db/react-db/DatabaseContext'
 import { Log } from '~/utils/log'
 import { TransactionListItem } from './TransactionListItem'
 
@@ -37,8 +37,10 @@ const withDB = connectDB(
     transactions: combineLatest(db.transactions.all(), db.categories.all(), (transactions, categories) => {
       const categoriesMap = [...categories, NO_CATEGORY].reduce((m, cat) => ({ [cat.id]: cat, ...m }), {})
 
+      log('combine latest', categoriesMap)
+
       return transactions.map((t) => ({
-        category: categoriesMap[t.categoryID],
+        category: categoriesMap[t.categoryID] || NO_CATEGORY,
         ...t,
       }))
     }),

@@ -1,9 +1,9 @@
-import Debug from 'debug'
 import * as React from 'react'
 import { CategoryTypes } from '~/constants'
+import { Log } from '~/utils/log'
 import { Option, Select } from '../elements/Select'
 
-const debug = Debug('App:CategoryTypeSelect')
+const debug = Log('App:CategoryTypeSelect')
 
 interface Props {
   onChange: (categoryType: CategoryType) => void

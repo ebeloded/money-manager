@@ -1,11 +1,11 @@
-import Debug from 'debug'
-import React, { ReactNode } from 'react'
+import * as React from 'react'
 import { Observable, Subscription } from 'rxjs'
-import { Database } from './Database'
+import { Log } from '~/utils/log'
+import { Database } from '../Database'
 
 interface DatabaseProviderProps {
   db: Database
-  children: ReactNode
+  children: React.ReactNode
 }
 
 const { Provider, Consumer } = React.createContext<Database>()
@@ -28,7 +28,7 @@ interface Props {
   children: (derivedProps: any) => React.ReactNode
 }
 
-const debug = Debug('Database:ConnectedToDatabaseComponent:')
+const debug = Log('Database:ConnectedToDatabaseComponent:')
 
 class ObservablesResolver extends React.PureComponent<Props> {
   private dataSubscriptions: Subscription[] = []
@@ -89,7 +89,7 @@ export const connectDB: connectDBType = (mapDataToProps, mapActionsToProps) => (
 interface ConnectedContainerProps {
   mapDataToProps?: mapDataToPropsFactory
   mapActionsToProps?: mapActionsToPropsFactory
-  children: (derivedProps: {}) => ReactNode
+  children: (derivedProps: {}) => React.ReactNode
 }
 export class ConnectedContainer extends React.Component<ConnectedContainerProps> {
   render() {

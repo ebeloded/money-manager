@@ -1,11 +1,11 @@
-import Debug from 'debug'
-import firebase from 'firebase/app'
+import * as firebase from 'firebase/app'
 import { from as fromPromise, Observable } from 'rxjs'
 import { concatMap } from 'rxjs/operators'
 
+import { Log } from '~/utils/log'
 import { Firestore, TransactionsAPI } from './API'
 
-const debug = Debug('Database:Transactions')
+const debug = Log('Database:Transactions')
 
 export class Transactions implements TransactionsAPI {
   constructor(private dbPromise: Promise<Firestore>) {}

@@ -7,7 +7,7 @@ import { CategoryForm } from './CategoryForm'
 import { CategoryTypeSelect } from './CategoryTypeSelect'
 
 import { CategoryTypes } from '~/constants'
-import { connectDB } from '~/db/DatabaseContext'
+import { connectDB } from '~/db/react-db/DatabaseContext'
 
 const debug = require('debug')('App:CategoriesManager')
 

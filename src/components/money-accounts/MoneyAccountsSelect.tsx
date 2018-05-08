@@ -1,6 +1,6 @@
 import * as React from 'react'
-import { connectDB } from '~/db/DatabaseContext'
 import { findByID } from '~/db/dbutils'
+import { connectDB } from '~/db/react-db/DatabaseContext'
 import { Log } from '~/utils/log'
 
 const log = Log('MoneyAccountsSelect')

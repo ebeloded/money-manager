@@ -1,11 +1,11 @@
-import Debug from 'debug'
 import { filter } from 'lodash'
 import * as React from 'react'
 import { map } from 'rxjs/operators'
 import { CategoryTypes, NO_CATEGORY } from '~/constants'
-import { connectDB } from '~/db/DatabaseContext'
+import { connectDB } from '~/db/react-db/DatabaseContext'
+import { Log } from '~/utils/log'
 
-const debug = Debug('App:CategorySelect')
+const debug = Log('App:CategorySelect')
 
 interface Props {
   categories: Category[]

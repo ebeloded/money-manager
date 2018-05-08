@@ -1,5 +1,5 @@
-import React from 'react'
-import { connectDB } from '~/db/DatabaseContext'
+import * as React from 'react'
+import { connectDB } from '~/db/react-db/DatabaseContext'
 
 interface Props {
   transaction: Transaction

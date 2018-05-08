@@ -19,7 +19,6 @@
     "experimentalDecorators": true,
     "suppressImplicitAnyIndexErrors": true,
     "noUnusedLocals": false,
-    "allowSyntheticDefaultImports": true,
     "noEmitOnError": false,
     "baseUrl": "src",
     "paths": {
