@@ -12,7 +12,7 @@
     "max-classes-per-file": false,
     "no-submodule-imports": [false],
     "no-implicit-dependencies": false,
-    "member-ordering": [true, "public-before-private", "static-before-instance", "variables-before-functions"]
+    "member-ordering": [true, "public-before-private", "static-before-instance"]
   },
   "linterOptions": {
     "exclude": ["node_modules/**/*.ts"]
