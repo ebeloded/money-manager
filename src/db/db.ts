@@ -7,12 +7,39 @@ import * as uuid from 'uuid/v4'
 import { FirebaseApp } from '@firebase/app-types'
 import { mapValues } from 'lodash'
 import { catchError, concatMap, map, mapTo, pluck, shareReplay } from 'rxjs/operators'
+import * as DB from '~/types'
 import { Log } from '~/utils/log'
 import { Categories } from './db.categories'
 import { MoneyAccounts } from './db.moneyAccounts'
 import { Transactions } from './db.transactions'
 
 const log = Log('Database:Init')
+
+declare module '@firebase/firestore-types' {
+  interface SpecialisedDocumentReference<T extends DocumentData | UpdateData> extends DocumentReference {
+    set(data: T, options?: SetOptions): Promise<void>
+    update(data: Partial<T>): Promise<void>
+    update(field: keyof T, value: any, ...moreFieldsAndValues: any[]): Promise<void>
+  }
+
+  interface SpecializedQuery<T> extends Query {
+    where(fieldPath: keyof T, opStr: WhereFilterOp, value: any): SpecializedQuery<T>
+    orderBy(fieldPath: keyof T, directionStr?: OrderByDirection): SpecializedQuery<T>
+  }
+
+  interface SpecializedCollectionReference<T> extends CollectionReference {
+    add(data: T): Promise<DocumentReference>
+    doc(documentPath?: string): SpecialisedDocumentReference<T>
+    where(fieldPath: keyof T, opStr: WhereFilterOp, value: any): SpecializedQuery<T>
+    orderBy(fieldPath: keyof T, directionStr?: OrderByDirection): SpecializedQuery<T>
+  }
+
+  export interface FirebaseFirestore {
+    collection(collectionPath: 'categories'): SpecializedCollectionReference<DB.Category>
+    collection(collectionPath: 'transactions'): SpecializedCollectionReference<DB.Transaction>
+    collection(collectionPath: 'moneyAccounts'): SpecializedCollectionReference<DB.MoneyAccount>
+  }
+}
 
 const firestoreFacade = (firestore: FirebaseFirestore) => ({
   transactions: firestore.collection('transactions'),
