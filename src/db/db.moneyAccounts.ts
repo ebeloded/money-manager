@@ -2,7 +2,7 @@ import { from, Observable, of, Subscriber } from 'rxjs'
 import { concatMap, map, shareReplay, subscribeOn } from 'rxjs/operators'
 import { MoneyAccount, MoneyAccountID, NewMoneyAccount } from '~/types'
 import { Log } from '~/utils/log'
-import { Firestore } from '.'
+import { Firestore } from './db'
 import { createSnapshotObservable, getID, querySnapshotToDocumentArray } from './utils'
 
 const moneyAccounts = 'moneyAccounts'

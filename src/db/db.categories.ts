@@ -4,7 +4,7 @@ import { concatMap, first, map, shareReplay, take, tap } from 'rxjs/operators'
 import { createSnapshotObservable, getID, querySnapshotToDocumentArray } from '~/db/utils'
 import { Category, CategoryID, CategoryType, NewCategory } from '~/types'
 import { Log } from '~/utils/log'
-import { Firestore } from '.'
+import { Firestore } from './db'
 
 const log = Log('db.categories')
 

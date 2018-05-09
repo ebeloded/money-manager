@@ -5,7 +5,7 @@ import { concatMap, find, first, map, reduce, tap } from 'rxjs/operators'
 import { createSnapshotObservable, getID, querySnapshotToDocumentArray } from '~/db/utils'
 import { CreatedTransaction, NewTransaction, TransactionID, TransactionType } from '~/types'
 import { Log } from '~/utils/log'
-import { Database, Firestore } from '.'
+import { Database, Firestore } from './db'
 
 const log = Log('db.transactions')
 

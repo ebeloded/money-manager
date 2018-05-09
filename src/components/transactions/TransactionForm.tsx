@@ -6,7 +6,7 @@ import { filter, find, first, some } from 'lodash'
 import { map } from 'rxjs/operators'
 import { NO_CATEGORY_EXPENSE, NO_CATEGORY_INCOME } from '~/db/constants'
 
-import { Database } from '~/db/.'
+import { Database } from '~/db/db'
 import { connectDB } from '~/db/react-db/DatabaseContext'
 import {
   Category,
