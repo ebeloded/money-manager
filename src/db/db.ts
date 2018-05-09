@@ -1,12 +1,12 @@
 import { FirebaseFirestore, Query, QuerySnapshot, Settings } from '@firebase/firestore-types'
 import firebase from 'firebase/app'
 import 'firebase/firestore'
-import { forkJoin, from, Observable, of } from 'rxjs'
+import { empty, forkJoin, from, Observable, of } from 'rxjs'
 import * as uuid from 'uuid/v4'
 
 import { FirebaseApp } from '@firebase/app-types'
 import { mapValues } from 'lodash'
-import { concatMap, map, pluck, shareReplay } from 'rxjs/operators'
+import { catchError, concatMap, map, mapTo, pluck, shareReplay } from 'rxjs/operators'
 import { Log } from '~/utils/log'
 import { Categories } from './db.categories'
 import { MoneyAccounts } from './db.moneyAccounts'
@@ -45,11 +45,11 @@ export class Database {
 
   constructor(firebaseApp?, enablePersistence = true) {
     if (firebaseApp) {
-      const firestorePromise = initFirestore(firebaseApp, enablePersistence)
+      const firestoreInit = initFirestore(firebaseApp, enablePersistence)
 
       const init = {
         db: this,
-        firestore: from(firestorePromise).pipe(map((firestore) => new FirestoreFacade(firestore))),
+        firestore: firestoreInit.pipe(map((firestore) => new FirestoreFacade(firestore))),
       }
 
       this.moneyAccounts = new MoneyAccounts(init)
@@ -59,25 +59,22 @@ export class Database {
   }
 }
 
-async function initFirestore(firebaseApp: FirebaseApp, enablePersistence) {
+function initFirestore(firebaseApp: FirebaseApp, enablePersistence) {
   // HACK, related issue: https://github.com/firebase/firebase-js-sdk/issues/791
   // tslint:disable-next-line:no-string-literal
-  const firestore = firebase['firestore'] as (app?: FirebaseApp) => FirebaseFirestore
+  const firebaseFirestore = firebase['firestore'] as (app?: FirebaseApp) => FirebaseFirestore
 
-  const settings: Settings = {
+  firebaseFirestore(firebaseApp).settings({
     timestampsInSnapshots: true,
-  }
+  })
 
-  firestore(firebaseApp).settings(settings)
+  const firestore = firebaseFirestore(firebaseApp)
 
-  if (enablePersistence) {
-    try {
-      await firestore(firebaseApp).enablePersistence()
-      log('Persistence enabled')
-    } catch (error) {
-      log('Persistence not enabled')
-    }
-  }
-
-  return firestore()
+  return from(firestore.enablePersistence()).pipe(
+    catchError((err) => {
+      log('No Persistence', err)
+      return empty()
+    }),
+    mapTo(firestore),
+  )
 }
