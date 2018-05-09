@@ -3,15 +3,15 @@ import { concatMap, map, pluck, shareReplay, subscribeOn, tap } from 'rxjs/opera
 import { MoneyAccount, MoneyAccountID, NewMoneyAccount } from '~/types'
 import { Log } from '~/utils/log'
 import { Database, FirestoreFacade } from './db'
-import { createSnapshotObservable, getID, querySnapshotToDocumentArray } from './utils'
 
 const log = Log('Database.MoneyCategories')
 
 export class MoneyAccounts {
   all = this.init.firestore.pipe(
     concatMap((firestore) =>
-      createSnapshotObservable(firestore.moneyAccounts)
-        .pipe(map((querySnapshot) => querySnapshotToDocumentArray<MoneyAccount>(querySnapshot)))
+      firestore
+        .createSnapshotObservable(firestore.moneyAccounts)
+        .pipe(map((querySnapshot) => firestore.querySnapshotToDocumentArray<MoneyAccount>(querySnapshot)))
         .pipe(shareReplay()),
     ),
   )
@@ -22,7 +22,7 @@ export class MoneyAccounts {
     const moneyAccount: MoneyAccount = {
       balance: newMoneyAccount.startingBalance,
       created: Date.now(),
-      id: getID(),
+      id: Database.generateID(),
       ...newMoneyAccount,
     }
 

@@ -1,6 +1,7 @@
 import * as firebase from 'firebase/app'
 import 'firebase/firestore'
 import { forkJoin, from, Observable, of } from 'rxjs'
+import * as uuid from 'uuid/v4'
 
 import { mapValues } from 'lodash'
 import { concatMap, map, pluck, shareReplay } from 'rxjs/operators'
@@ -14,12 +15,19 @@ const log = Log('Database:Init')
 const firestoreFacade = (firestore: firebase.firestore.Firestore) => ({
   transactions: firestore.collection('transactions'),
 })
+type QuerySnapshot = firebase.firestore.QuerySnapshot
+type Query = firebase.firestore.Query
+
 export class FirestoreFacade {
   categories = this.firestore.collection('categories')
   transactions = this.firestore.collection('transactions')
   moneyAccounts = this.firestore.collection('moneyAccounts')
   constructor(private firestore: firebase.firestore.Firestore) {}
+
   batch = () => this.firestore.batch()
+  createSnapshotObservable = (query: Query) => new Observable<QuerySnapshot>(query.onSnapshot.bind(query))
+  querySnapshotToDocumentArray = <T>(querySnapshot: QuerySnapshot): T[] =>
+    querySnapshot.docs.map((queryDocumentSnapshot) => queryDocumentSnapshot.data() as T)
 }
 
 interface DatabaseSettings {
@@ -27,7 +35,9 @@ interface DatabaseSettings {
 }
 
 export class Database {
-  isReady: () => boolean
+  static generateID() {
+    return uuid()
+  }
 
   moneyAccounts: MoneyAccounts
   transactions: Transactions

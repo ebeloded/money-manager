@@ -1,7 +1,6 @@
 import * as firebase from 'firebase/app'
 import { from, Observable } from 'rxjs'
 import { concatMap, first, map, shareReplay, take, tap } from 'rxjs/operators'
-import { createSnapshotObservable, getID, querySnapshotToDocumentArray } from '~/db/utils'
 import { Category, CategoryID, CategoryType, NewCategory } from '~/types'
 import { Log } from '~/utils/log'
 import { Database, FirestoreFacade } from './db'
@@ -26,9 +25,10 @@ const NO_CATEGORY_INCOME: Category = {
 export class Categories {
   all = this.init.firestore.pipe(
     concatMap((firestore) =>
-      createSnapshotObservable(firestore.categories)
+      firestore
+        .createSnapshotObservable(firestore.categories)
         .pipe(
-          map((querySnapshot) => querySnapshotToDocumentArray<Category>(querySnapshot)),
+          map((querySnapshot) => firestore.querySnapshotToDocumentArray<Category>(querySnapshot)),
           map((cats) => [...cats, NO_CATEGORY_EXPENSE, NO_CATEGORY_INCOME]),
         )
         .pipe(shareReplay()),
@@ -38,7 +38,7 @@ export class Categories {
   constructor(private init: { db: Database; firestore: Observable<FirestoreFacade> }) {}
 
   add = async (newCategory: NewCategory) => {
-    const id = getID()
+    const id = Database.generateID()
     const category: Category = {
       created: Date.now(),
       id,
@@ -69,7 +69,7 @@ export class Categories {
         concatMap((firestore) => {
           const batch = firestore.batch()
 
-          return createSnapshotObservable(firestore.transactions.where('categoryID', '==', categoryID)).pipe(
+          return firestore.createSnapshotObservable(firestore.transactions.where('categoryID', '==', categoryID)).pipe(
             first(), // make sure we don't stay subscribed to transactions
             map((querySnapshot) => querySnapshot.docs.map((doc) => doc.ref)),
             tap((arrayOfRefs) => log('arrayOfRefs', arrayOfRefs)),

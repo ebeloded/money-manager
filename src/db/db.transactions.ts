@@ -1,8 +1,6 @@
 import * as firebase from 'firebase/app'
 import { combineLatest, forkJoin, from, Observable, of } from 'rxjs'
 import { concatMap, find, first, map, reduce, tap } from 'rxjs/operators'
-
-import { createSnapshotObservable, getID, querySnapshotToDocumentArray } from '~/db/utils'
 import { CreatedTransaction, NewTransaction, TransactionID, TransactionType } from '~/types'
 import { Log } from '~/utils/log'
 import { Database, FirestoreFacade } from './db'
@@ -12,9 +10,9 @@ const log = Log('db.transactions')
 export class Transactions {
   all = this.init.firestore.pipe(
     concatMap((firestore) =>
-      createSnapshotObservable(firestore.transactions.orderBy('created', 'desc')).pipe(
+      firestore.createSnapshotObservable(firestore.transactions.orderBy('created', 'desc')).pipe(
         map((querySnapshot) => {
-          return querySnapshotToDocumentArray<CreatedTransaction>(querySnapshot)
+          return firestore.querySnapshotToDocumentArray<CreatedTransaction>(querySnapshot)
         }),
       ),
     ),
@@ -24,7 +22,7 @@ export class Transactions {
   async add(newTransaction: NewTransaction): Promise<CreatedTransaction> {
     log('add %o', newTransaction)
 
-    const id = getID()
+    const id = Database.generateID()
     const transaction: CreatedTransaction = {
       ...newTransaction,
       created: Date.now(),
