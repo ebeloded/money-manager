@@ -1,6 +1,6 @@
 import * as firebase from 'firebase/app'
 import 'firebase/firestore'
-import { from, Observable, of } from 'rxjs'
+import { forkJoin, from, Observable, of } from 'rxjs'
 
 import { mapValues } from 'lodash'
 import { concatMap, map, pluck, shareReplay } from 'rxjs/operators'
@@ -10,6 +10,42 @@ import { MoneyAccounts } from './db.moneyAccounts'
 import { Transactions } from './db.transactions'
 
 const log = Log('Database:Init')
+
+const firestoreFacade = (firestore: firebase.firestore.Firestore) => ({
+  transactions: firestore.collection('transactions'),
+})
+export class FirestoreFacade {
+  categories = this.firestore.collection('categories')
+  transactions = this.firestore.collection('transactions')
+  moneyAccounts = this.firestore.collection('moneyAccounts')
+  constructor(private firestore: firebase.firestore.Firestore) {}
+  batch = () => this.firestore.batch()
+}
+
+interface DatabaseSettings {
+  enablePersistence: boolean
+}
+
+export class Database {
+  isReady: () => boolean
+
+  moneyAccounts: MoneyAccounts
+  transactions: Transactions
+  categories: Categories
+
+  constructor(app: firebase.app.App, { enablePersistence = true }: DatabaseSettings) {
+    const firestorePromise = initFirestore(app, enablePersistence)
+
+    const init = {
+      db: this,
+      firestore: from(firestorePromise).pipe(map((firestore) => new FirestoreFacade(firestore))),
+    }
+
+    this.moneyAccounts = new MoneyAccounts(init)
+    this.categories = new Categories(init)
+    this.transactions = new Transactions(init)
+  }
+}
 
 async function initFirestore(app: firebase.app.App, enablePersistence: boolean) {
   const settings: firebase.firestore.Settings = {
@@ -29,45 +65,4 @@ async function initFirestore(app: firebase.app.App, enablePersistence: boolean) 
 
   const firestore = firebase.firestore(app)
   return firestore
-}
-
-const isReady = (promise: Promise<any>) => {
-  let ready = false
-  promise.then(() => (ready = true))
-  return () => ready
-}
-
-interface DatabaseSettings {
-  enablePersistence: boolean
-}
-
-export type Firestore = firebase.firestore.Firestore
-
-export class Database {
-  static instance: Database
-
-  isReady: () => boolean
-
-  moneyAccounts: MoneyAccounts
-  transactions: Transactions
-  categories: Categories
-
-  firestore$: Observable<Firestore>
-
-  constructor(app: firebase.app.App, { enablePersistence = true }: DatabaseSettings) {
-    if (!Database.instance) {
-      log('constructing db')
-      Database.instance = this
-
-      const dbPromise = initFirestore(app, enablePersistence)
-      this.firestore$ = from(dbPromise)
-
-      this.isReady = isReady(dbPromise)
-      this.moneyAccounts = new MoneyAccounts(dbPromise)
-      this.categories = new Categories(dbPromise)
-      this.transactions = new Transactions(dbPromise)
-    } else {
-      throw new Error('Database already initialized')
-    }
-  }
 }

@@ -4,11 +4,9 @@ import { concatMap, first, map, shareReplay, take, tap } from 'rxjs/operators'
 import { createSnapshotObservable, getID, querySnapshotToDocumentArray } from '~/db/utils'
 import { Category, CategoryID, CategoryType, NewCategory } from '~/types'
 import { Log } from '~/utils/log'
-import { Firestore } from './db'
+import { Database, FirestoreFacade } from './db'
 
 const log = Log('db.categories')
-
-const categories = 'categories'
 
 export const NO_CATEGORY = {
   created: 0,
@@ -26,9 +24,9 @@ const NO_CATEGORY_INCOME: Category = {
 }
 
 export class Categories {
-  all = from(this.dbPromise).pipe(
-    concatMap((db) =>
-      createSnapshotObservable(db.collection(categories))
+  all = this.init.firestore.pipe(
+    concatMap((firestore) =>
+      createSnapshotObservable(firestore.categories)
         .pipe(
           map((querySnapshot) => querySnapshotToDocumentArray<Category>(querySnapshot)),
           map((cats) => [...cats, NO_CATEGORY_EXPENSE, NO_CATEGORY_INCOME]),
@@ -37,23 +35,28 @@ export class Categories {
     ),
   )
 
-  constructor(private dbPromise: Promise<Firestore>) {}
+  constructor(private init: { db: Database; firestore: Observable<FirestoreFacade> }) {}
 
   add = async (newCategory: NewCategory) => {
+    const id = getID()
     const category: Category = {
       created: Date.now(),
-      id: getID(),
+      id,
       ...newCategory,
     }
 
     log('add', category)
 
-    const db = await this.dbPromise
-
-    const categoryRef = await db
-      .collection('categories')
-      .doc(category.id)
-      .set(category)
+    this.init.firestore
+      .pipe(
+        concatMap((firestore) => {
+          return firestore.categories.doc(id).set(category)
+        }),
+      )
+      .subscribe({
+        complete: () => log('complete add category'),
+        next: (v) => log('next add category', v),
+      })
 
     return category
   }
@@ -61,32 +64,36 @@ export class Categories {
   remove = async (categoryID: CategoryID) => {
     log('remove', categoryID)
 
-    const db = await this.dbPromise
-
-    const categoryRef = db.collection(categories).doc(categoryID)
-
-    const batch = db.batch()
-
-    createSnapshotObservable(db.collection('transactions').where('categoryID', '==', categoryID))
+    this.init.firestore
       .pipe(
-        first(),
-        map((querySnapshot) => querySnapshot.docs.map((doc) => doc.ref)),
-        tap((arrayOfRefs) => log('arrayOfRefs', arrayOfRefs)),
-        concatMap((refs) => {
-          log('update refs', refs)
-          refs.forEach((ref) =>
-            batch.update(ref, {
-              categoryID: NO_CATEGORY.id,
-              updated: Date.now(),
+        concatMap((firestore) => {
+          const batch = firestore.batch()
+
+          return createSnapshotObservable(firestore.transactions.where('categoryID', '==', categoryID)).pipe(
+            first(), // make sure we don't stay subscribed to transactions
+            map((querySnapshot) => querySnapshot.docs.map((doc) => doc.ref)),
+            tap((arrayOfRefs) => log('arrayOfRefs', arrayOfRefs)),
+            concatMap((refs) => {
+              log('update refs', refs)
+              refs.forEach((ref) =>
+                batch.update(ref, {
+                  categoryID: NO_CATEGORY.id,
+                  updated: Date.now(),
+                }),
+              )
+              batch.delete(firestore.categories.doc(categoryID))
+              log('commit updates')
+              return from(batch.commit())
             }),
+            tap((commitResult) => log('commitResult', commitResult)),
           )
-          batch.delete(categoryRef)
-          log('commit updates')
-          return from(batch.commit())
         }),
-        tap((commitResult) => log('commitResult', commitResult)),
       )
-      .subscribe((v) => log('subscribe result', v), (err) => log('error', err), () => log('complete'))
+      .subscribe({
+        complete: () => log('complete add money account'),
+        error: (err) => log('error', err),
+        next: (v) => log('next add money account', v),
+      })
     return true
   }
 }
