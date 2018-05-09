@@ -1,6 +1,6 @@
 import { combineLatest, forkJoin, from, Observable, of } from 'rxjs'
 import { concatMap, find, first, map, reduce, tap } from 'rxjs/operators'
-import { CreatedTransaction, NewTransaction, TransactionID, TransactionType } from '~/types'
+import { NewTransaction, Transaction, TransactionID, TransactionType } from '~/types'
 import { Log } from '~/utils/log'
 import { Database, FirestoreFacade } from './db'
 
@@ -11,18 +11,18 @@ export class Transactions {
     concatMap((firestore) =>
       firestore.createSnapshotObservable(firestore.transactions.orderBy('created', 'desc')).pipe(
         map((querySnapshot) => {
-          return firestore.querySnapshotToDocumentArray<CreatedTransaction>(querySnapshot)
+          return firestore.querySnapshotToDocumentArray<Transaction>(querySnapshot)
         }),
       ),
     ),
   )
   constructor(private init: { db: Database; firestore: Observable<FirestoreFacade> }) {}
 
-  async add(newTransaction: NewTransaction): Promise<CreatedTransaction> {
+  async add(newTransaction: NewTransaction): Promise<Transaction> {
     log('add %o', newTransaction)
 
     const id = Database.generateID()
-    const transaction: CreatedTransaction = {
+    const transaction: Transaction = {
       ...newTransaction,
       created: Date.now(),
       id,
@@ -71,7 +71,7 @@ export class Transactions {
   }
 }
 
-function getToAndFrom(db: Database, transaction: CreatedTransaction) {
+function getToAndFrom(db: Database, transaction: Transaction) {
   return db.moneyAccounts.all.pipe(
     first(),
     map((accounts) => {

@@ -1,14 +1,14 @@
 import * as React from 'react'
 import { connectDB } from '~/db/react-db/DatabaseContext'
-import { Transaction, TransactionType } from '~/types'
+import { ExtendedTransaction, TransactionType } from '~/types'
 import { Log } from '~/utils/log'
 
 const log = Log('TransactionListItem')
 interface Props {
-  transaction: Transaction
+  transaction: ExtendedTransaction
   onClickDelete: (txid) => Promise<boolean>
 }
-const ActionSection = ({ transaction }: { transaction: Transaction }) => {
+const ActionSection = ({ transaction }: { transaction: ExtendedTransaction }) => {
   switch (transaction.transactionType) {
     case TransactionType.EXPENSE:
       return (

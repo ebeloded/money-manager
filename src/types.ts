@@ -103,7 +103,7 @@ interface CreatedTransferTransaction extends TransactionBasics, SharedTransactio
   toAccountID: MoneyAccountID
 }
 
-export type CreatedTransaction = CreatedExpenseTransaction | CreatedIncomeTransaction | CreatedTransferTransaction
+export type Transaction = CreatedExpenseTransaction | CreatedIncomeTransaction | CreatedTransferTransaction
 
 interface ExpenseTransaction extends CreatedExpenseTransaction {
   fromAccount: MoneyAccount
@@ -120,4 +120,4 @@ interface TransferTransaction extends CreatedTransferTransaction {
   toAccount: MoneyAccount
 }
 
-export type Transaction = ExpenseTransaction | IncomeTransaction | TransferTransaction
+export type ExtendedTransaction = ExpenseTransaction | IncomeTransaction | TransferTransaction

@@ -4,14 +4,14 @@ import { combineLatest } from 'rxjs'
 import { withLatestFrom } from 'rxjs/operators'
 import { NO_CATEGORY } from '~/db/constants'
 import { connectDB } from '~/db/react-db/DatabaseContext'
-import { Category, MoneyAccount, Transaction, TransactionID, TransactionType } from '~/types'
+import { Category, ExtendedTransaction, MoneyAccount, TransactionID, TransactionType } from '~/types'
 import { Log } from '~/utils/log'
 import { TransactionListItem } from './TransactionListItem'
 
 const log = Log('TransactionsList')
 
 interface Props {
-  transactions: Transaction[]
+  transactions: ExtendedTransaction[]
   deleteTransaction: (txid: TransactionID) => Promise<boolean>
 }
 export class TransactionsList extends React.PureComponent<Props> {
@@ -45,7 +45,7 @@ const withDB = connectDB(
         const accountsMap = keyBy(moneyAccounts, 'id')
         log('combine latest', categoriesMap)
 
-        return transactions.map((t): Transaction => {
+        return transactions.map((t): ExtendedTransaction => {
           switch (t.transactionType) {
             case TransactionType.EXPENSE:
               return {
