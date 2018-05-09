@@ -10,7 +10,7 @@ import { Log } from '~/utils/log'
 
 const firebaseApp = initFirebase()
 
-const db = new Database(firebaseApp, { enablePersistence: true })
+const db = new Database(firebaseApp)
 
 // import registerServiceWorker from './registerServiceWorker';
 

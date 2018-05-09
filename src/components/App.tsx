@@ -1,3 +1,4 @@
+import { ThemeProvider } from 'emotion-theming'
 import * as React from 'react'
 import styled from 'react-emotion'
 import { Route, Switch } from 'react-router-dom'
@@ -10,26 +11,27 @@ import { MoneyAccountsPage } from './money-accounts/MoneyAccountsPage'
 
 const debug = Log('App:')
 
-const Main = () => (
-  <Switch>
-    <Route path="/categories" component={CategoriesPage} />
-    <Route path="/money-accounts" component={MoneyAccountsPage} />
-    <Route exact={true} path="/" component={Dashboard} />
-  </Switch>
-)
+const AppLayout = styled('div')({})
 
-const AppLayout = styled('div')({
-  // backgroundColor: '#333',
-})
+const defaultTheme: React.CSSProperties = {
+  backgroundColor: '#333',
+  color: '#ccc',
+}
 
 export class App extends React.Component {
   render() {
     debug('render App')
     return (
-      <AppLayout>
-        <Header />
-        <Main />
-      </AppLayout>
+      <ThemeProvider theme={defaultTheme}>
+        <AppLayout>
+          <Header />
+          <Switch>
+            <Route path="/categories" component={CategoriesPage} />
+            <Route path="/money-accounts" component={MoneyAccountsPage} />
+            <Route exact={true} path="/" component={Dashboard} />
+          </Switch>
+        </AppLayout>
+      </ThemeProvider>
     )
   }
 }

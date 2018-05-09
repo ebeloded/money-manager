@@ -1,6 +1,7 @@
-import * as firebase from 'firebase/app'
+import { FirebaseApp } from '@firebase/app-types'
+import firebase from 'firebase/app'
 
-let app: firebase.app.App | undefined
+let app: FirebaseApp
 
 const config = {
   apiKey: 'AIzaSyDGMhDY0GbP_l5zqNYjkVnUY3wR2A1Sq9M',
