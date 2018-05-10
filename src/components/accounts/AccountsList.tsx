@@ -2,7 +2,7 @@ import * as React from 'react'
 import styled from 'react-emotion'
 import { connectDB, ConnectedContainer } from '~/db/react-db/DatabaseContext'
 import { Account, AccountID } from '~/types'
-import { MoneyAccountsListItem } from './AccountsListItem'
+import { AccountsListItem } from './AccountsListItem'
 
 const AccountsGroupContainer = styled('div')`
   padding: 15px;
@@ -15,36 +15,34 @@ const TotalBalance = styled('div')`
   border-bottom: 1px dashed #999;
 `
 
-const AccountsListContainer = styled('div')``
+const AccountsListWrap = styled('div')``
 
 interface Props {
-  moneyAccounts?: Account[]
-  deleteMoneyAccount: (id: AccountID) => Promise<boolean>
+  accounts?: Account[]
+  deleteAccount: (id: AccountID) => Promise<boolean>
 }
-export const MoneyAccountsList: React.SFC<Props> = ({ moneyAccounts, deleteMoneyAccount }: Props) => {
-  if (!moneyAccounts) {
+export const AccountsList: React.SFC<Props> = ({ accounts, deleteAccount }: Props) => {
+  if (!accounts) {
     return null
   }
-  const totalBalance = moneyAccounts.reduce((sum, { balance }) => sum + balance, 0)
+  const totalBalance = accounts.reduce((sum, { balance }) => sum + balance, 0)
   return (
     <AccountsGroupContainer>
       <TotalBalance>Total Balance: {totalBalance}</TotalBalance>
-      <AccountsListContainer>
-        {moneyAccounts.map((ma) => {
-          return <MoneyAccountsListItem key={ma.id} account={ma} deleteMoneyAccount={deleteMoneyAccount} />
-        })}
-      </AccountsListContainer>
+      <AccountsListWrap>
+        {accounts.map((ma) => <AccountsListItem key={ma.id} account={ma} deleteAccount={deleteAccount} />)}
+      </AccountsListWrap>
     </AccountsGroupContainer>
   )
 }
 
 const withDB = connectDB(
   (db) => ({
-    moneyAccounts: db.moneyAccounts.all,
+    accounts: db.accounts.all,
   }),
   (db) => ({
-    deleteMoneyAccount: (id: AccountID) => db.moneyAccounts.remove(id),
+    deleteAccount: (id: AccountID) => db.accounts.remove(id),
   }),
 )
 
-export const MoneyAccountsListContainer = withDB(MoneyAccountsList)
+export const AccountsListController = withDB(AccountsList)

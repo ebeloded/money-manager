@@ -1,7 +1,7 @@
 import * as React from 'react'
 import styled from 'react-emotion'
 
-import { MoneyAccountsManager } from './accounts/AccountsManager'
+import { AccountsManager } from './accounts/AccountsManager'
 import { CategoriesManagerContainer } from './categories/CategoriesManager'
 import { TransactionsManager } from './transactions/TransactionsManager'
 
@@ -16,7 +16,7 @@ export class Dashboard extends React.Component {
   render() {
     return (
       <DashboardLayout>
-        <MoneyAccountsManager />
+        <AccountsManager />
         {/* <TransactionsManager />
         <CategoriesManagerContainer /> */}
       </DashboardLayout>

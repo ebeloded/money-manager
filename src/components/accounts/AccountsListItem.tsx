@@ -3,7 +3,7 @@ import styled, { css } from 'react-emotion'
 import { Account, AccountID } from '~/types'
 import { Log } from '~/utils/log'
 
-const log = Log('MoneyAccountsListItem')
+const log = Log('AccountsListItem')
 
 const AccountInfoGroup = styled('div')`
   display: flex;
@@ -17,17 +17,17 @@ const Balance = styled('div')``
 
 interface P {
   account: Account
-  deleteMoneyAccount: (id: AccountID) => Promise<boolean>
+  deleteAccount: (id: AccountID) => Promise<boolean>
 }
 
-export class MoneyAccountsListItem extends React.Component<P> {
+export class AccountsListItem extends React.Component<P> {
   shouldComponentUpdate(nextProps: P) {
     return nextProps.account.updated !== this.props.account.updated
   }
 
   handleClick = () => {
     log('handle click')
-    // this.props.deleteMoneyAccount(this.props.account.id)
+    // this.props.deleteAccount(this.props.account.id)
   }
 
   render() {

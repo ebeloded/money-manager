@@ -30,7 +30,7 @@ const log = Log('App:TransactionForm')
 
 interface Props {
   // transaction?: Transaction
-  moneyAccounts: Account[]
+  accounts: Account[]
   categories: Category[]
   onSubmitTransaction: (t: NewTransaction) => Promise<TransactionID>
 }
@@ -39,19 +39,17 @@ type State = NewTransaction | TransactionBasics
 
 export class TransactionForm extends React.Component<Props, State> {
   static getDerivedStateFromProps(nextProps: Props, prevState: State): Partial<State> | null {
-    const { categories, moneyAccounts } = nextProps
+    const { categories, accounts } = nextProps
     const { categoryID, fromAccountID, toAccountID } = prevState
     const transactionType = prevState.transactionType || TransactionType.EXPENSE
     const firstCategoryOfType = getFirstCategoryOfType(categories, transactionType) // Necessary for correct type checking
 
     const result: Partial<State> | null =
-      categories && moneyAccounts && firstCategoryOfType && some(moneyAccounts)
+      categories && accounts && firstCategoryOfType && some(accounts)
         ? {
             categoryID: categoryID || firstCategoryOfType.id,
-            fromAccountID:
-              (some(moneyAccounts, { id: fromAccountID }) && fromAccountID) || (first(moneyAccounts) as Account).id,
-            toAccountID:
-              (some(moneyAccounts, { id: toAccountID }) && toAccountID) || (first(moneyAccounts) as Account).id,
+            fromAccountID: (some(accounts, { id: fromAccountID }) && fromAccountID) || (first(accounts) as Account).id,
+            toAccountID: (some(accounts, { id: toAccountID }) && toAccountID) || (first(accounts) as Account).id,
             transactionType,
           }
         : { categoryID: undefined, fromAccountID: undefined, toAccountID: undefined }
@@ -115,8 +113,8 @@ export class TransactionForm extends React.Component<Props, State> {
 
   render() {
     const { categoryID, fromAccountID, toAccountID, transactionType, value, transactionDate } = this.state
-    const { moneyAccounts, categories } = this.props
-    return categoryID && fromAccountID && toAccountID && moneyAccounts && categories && transactionType ? (
+    const { accounts, categories } = this.props
+    return categoryID && fromAccountID && toAccountID && accounts && categories && transactionType ? (
       <form onSubmit={this.onSubmit}>
         <fieldset>
           <legend>Add new Transaction</legend>
@@ -128,18 +126,13 @@ export class TransactionForm extends React.Component<Props, State> {
               <AccountsSelect
                 label="From:"
                 value={fromAccountID}
-                moneyAccounts={moneyAccounts}
+                accounts={accounts}
                 onChange={this.onChangeAccountFrom}
               />
             )}
           {transactionType !== TransactionType.EXPENSE &&
             toAccountID && (
-              <AccountsSelect
-                label="To:"
-                value={toAccountID}
-                moneyAccounts={moneyAccounts}
-                onChange={this.onChangeAccountTo}
-              />
+              <AccountsSelect label="To:" value={toAccountID} accounts={accounts} onChange={this.onChangeAccountTo} />
             )}
           {transactionType !== TransactionType.TRANSFER &&
             categoryID && (
@@ -160,8 +153,8 @@ export class TransactionForm extends React.Component<Props, State> {
 
 const mapDataToProps = (db) => {
   return {
+    accounts: db.accounts.all,
     categories: db.categories.all,
-    moneyAccounts: db.moneyAccounts.all,
   }
 }
 

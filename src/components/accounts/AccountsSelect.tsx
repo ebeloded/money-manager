@@ -3,13 +3,13 @@ import { connectDB } from '~/db/react-db/DatabaseContext'
 import { Account, AccountID } from '~/types'
 import { Log } from '~/utils/log'
 
-const log = Log('MoneyAccountsSelect')
+const log = Log('AccountsSelect')
 
 interface Props {
-  moneyAccounts: Account[]
+  accounts: Account[]
   value: AccountID
   label: string
-  onChange: (moneyAccount: AccountID) => void
+  onChange: (account: AccountID) => void
 }
 
 export class AccountsSelect extends React.Component<Props> {
@@ -19,13 +19,13 @@ export class AccountsSelect extends React.Component<Props> {
   }
 
   render() {
-    const { moneyAccounts, label, value } = this.props
-    return moneyAccounts && value ? (
+    const { accounts, label, value } = this.props
+    return accounts && value ? (
       <React.Fragment>
         <label>
           {label}
           <select value={value} onChange={this.handleChange}>
-            {moneyAccounts.map(({ id, name }) => (
+            {accounts.map(({ id, name }) => (
               <option key={id} value={id}>
                 {name}
               </option>

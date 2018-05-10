@@ -2,7 +2,7 @@ import * as React from 'react'
 import { Route, Switch } from 'react-router-dom'
 
 import { Log } from '~/utils/log'
-import { MoneyAccountsPage } from './accounts/AccountsPage'
+import { AccountsPage } from './accounts/AccountsPage'
 import { CategoriesPage } from './categories/CategoriesPage'
 import { Dashboard } from './Dashboard'
 import { Header } from './Header'
@@ -17,7 +17,7 @@ export class App extends React.Component {
         {/* <Header /> */}
         <Switch>
           {/* <Route path="/categories" component={CategoriesPage} />
-          <Route path="/money-accounts" component={MoneyAccountsPage} /> */}
+          <Route path="/money-accounts" component={AccountsPage} /> */}
           <Route exact={true} path="/" component={Dashboard} />
         </Switch>
       </div>

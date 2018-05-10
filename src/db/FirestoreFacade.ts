@@ -95,7 +95,7 @@ interface $$WriteBatch extends WriteBatch {
 const log = Log('FirestoreFacade')
 
 export class FirestoreFacade {
-  accounts = this.firestore.collection('moneyAccounts') as $$CollectionReference<DB.Account>
+  accounts = this.firestore.collection('accounts') as $$CollectionReference<DB.Account>
   categories = this.firestore.collection('categories') as $$CollectionReference<DB.Category>
   transactions = this.firestore.collection('transactions') as $$CollectionReference<DB.Transaction>
 

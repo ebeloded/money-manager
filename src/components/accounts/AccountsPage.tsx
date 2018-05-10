@@ -1,11 +1,11 @@
 import * as React from 'react'
-import { MoneyAccountsManager } from './AccountsManager'
+import { AccountsManager } from './AccountsManager'
 
-export class MoneyAccountsPage extends React.Component {
+export class AccountsPage extends React.Component {
   render() {
     return (
       <div>
-        <MoneyAccountsManager />
+        <AccountsManager />
       </div>
     )
   }

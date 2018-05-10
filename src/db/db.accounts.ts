@@ -7,7 +7,7 @@ import { Log } from '~/utils/log'
 
 const log = Log('Database.MoneyCategories')
 
-export class MoneyAccounts {
+export class Accounts {
   all = this.init.firestore.pipe(
     concatMap((firestore) =>
       firestore
@@ -19,18 +19,18 @@ export class MoneyAccounts {
 
   constructor(private init: ConstructorProps) {}
 
-  add = async (newMoneyAccount: CreateAccount) => {
-    const moneyAccount: Account = {
-      balance: newMoneyAccount.startingBalance,
+  add = async (newAccount: CreateAccount) => {
+    const account: Account = {
+      balance: newAccount.startingBalance,
       created: Date.now(),
       id: Database.generateID(),
-      ...newMoneyAccount,
+      ...newAccount,
     }
 
     this.init.firestore
       .pipe(
         concatMap((firestore) => {
-          return firestore.accounts.doc(moneyAccount.id).set(moneyAccount)
+          return firestore.accounts.doc(account.id).set(account)
         }),
       )
       .subscribe({
@@ -38,14 +38,14 @@ export class MoneyAccounts {
         next: (v) => log('next add money account', v),
       })
 
-    return moneyAccount
+    return account
   }
 
-  remove = async (moneyAccountID: AccountID) => {
+  remove = async (accountID: AccountID) => {
     this.init.firestore
       .pipe(
         concatMap((firestore) => {
-          return firestore.accounts.doc(moneyAccountID).delete()
+          return firestore.accounts.doc(accountID).delete()
         }),
       )
       .subscribe({

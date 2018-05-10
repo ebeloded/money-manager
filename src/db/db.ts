@@ -8,7 +8,7 @@ import { FirestoreFacade } from '~/db/FirestoreFacade'
 
 import { FirebaseApp } from '@firebase/app-types'
 import { FirebaseFirestore, QuerySnapshot } from '@firebase/firestore-types'
-import { MoneyAccounts } from '~/db/db.accounts'
+import { Accounts } from '~/db/db.accounts'
 import { Log } from '~/utils/log'
 import { Categories } from './db.categories'
 import { Transactions } from './db.transactions'
@@ -29,7 +29,7 @@ export class Database {
     return uuid()
   }
 
-  moneyAccounts: MoneyAccounts
+  accounts: Accounts
   transactions: Transactions
   categories: Categories
 
@@ -43,7 +43,7 @@ export class Database {
         ),
       }
 
-      this.moneyAccounts = new MoneyAccounts(init)
+      this.accounts = new Accounts(init)
       this.categories = new Categories(init)
       this.transactions = new Transactions(init)
 

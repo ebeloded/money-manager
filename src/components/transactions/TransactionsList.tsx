@@ -39,10 +39,10 @@ const withDB = connectDB(
     transactions: combineLatest(
       db.transactions.all,
       db.categories.all,
-      db.moneyAccounts.all,
-      (transactions, categories, moneyAccounts) => {
+      db.accounts.all,
+      (transactions, categories, accounts) => {
         const categoriesMap = keyBy(categories, 'id')
-        const accountsMap = keyBy(moneyAccounts, 'id')
+        const accountsMap = keyBy(accounts, 'id')
         log('combine latest', categoriesMap)
 
         return transactions.map((t): ExtendedTransaction => {

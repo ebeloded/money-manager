@@ -5,24 +5,24 @@ import { AccountID, CreateAccount } from '~/types'
 import { Log } from '~/utils/log'
 import { Input, NumberInput } from '../elements/Input'
 
-const log = Log('MoneyAccountForm')
+const log = Log('AccountForm')
 
 interface Props {
-  submitMoneyAccount: (newMoneyAccount: CreateAccount) => AccountID
+  submitAccount: (newAccount: CreateAccount) => AccountID
 }
 
 interface State {
-  moneyAccount: CreateAccount
+  account: CreateAccount
   isDisabled: boolean
 }
 
-export class MoneyAccountForm extends React.Component<Props, State> {
+export class AccountForm extends React.Component<Props, State> {
   initialState: State = {
-    isDisabled: false,
-    moneyAccount: {
+    account: {
       name: '',
       startingBalance: 0,
     },
+    isDisabled: false,
   }
 
   state: State = this.initialState
@@ -30,21 +30,21 @@ export class MoneyAccountForm extends React.Component<Props, State> {
   onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     this.setState({ isDisabled: true })
-    await this.props.submitMoneyAccount(this.state.moneyAccount)
+    await this.props.submitAccount(this.state.account)
     this.setState(this.initialState)
   }
 
   onChangeName = ({ currentTarget }: React.FormEvent<HTMLInputElement>) => {
     const { value } = currentTarget
-    this.setState(({ moneyAccount }) => ({ moneyAccount: { ...moneyAccount, name: value } }))
+    this.setState(({ account }) => ({ account: { ...account, name: value } }))
   }
 
   onChangeStartingBalance = (startingBalance) => {
-    this.setState(({ moneyAccount }) => ({ moneyAccount: { ...moneyAccount, startingBalance } }))
+    this.setState(({ account }) => ({ account: { ...account, startingBalance } }))
   }
 
   render() {
-    const { moneyAccount } = this.state
+    const { account } = this.state
     return (
       <form onSubmit={this.onSubmit}>
         <fieldset disabled={this.state.isDisabled}>
@@ -52,12 +52,12 @@ export class MoneyAccountForm extends React.Component<Props, State> {
           <Input
             type="text"
             required={true}
-            value={moneyAccount.name}
+            value={account.name}
             onChange={this.onChangeName}
             placeholder="Account Name"
           />
           <NumberInput
-            value={moneyAccount.startingBalance}
+            value={account.startingBalance}
             onChangeValue={this.onChangeStartingBalance}
             placeholder="Starting Balance"
             required={true}
@@ -71,13 +71,13 @@ export class MoneyAccountForm extends React.Component<Props, State> {
 
 const mapActionsToProps = (db: Database) => {
   return {
-    submitMoneyAccount: (newMoneyAccount: CreateAccount) => {
-      log('submitMoneyAccount', newMoneyAccount)
-      return db.moneyAccounts.add(newMoneyAccount)
+    submitAccount: (newAccount: CreateAccount) => {
+      log('submitAccount', newAccount)
+      return db.accounts.add(newAccount)
     },
   }
 }
 
 const withDB = connectDB(null, mapActionsToProps)
 
-export const MoneyAccountFormContainer = withDB(MoneyAccountForm)
+export const AccountFormContainer = withDB(AccountForm)

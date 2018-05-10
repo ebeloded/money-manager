@@ -73,7 +73,7 @@ export class Transactions {
 }
 
 function getToAndFrom(db: Database, transaction: Transaction) {
-  return db.moneyAccounts.all.pipe(
+  return db.accounts.all.pipe(
     first(),
     map((accounts) => {
       switch (transaction.transactionType) {
