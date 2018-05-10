@@ -1,8 +1,9 @@
 import { combineLatest, forkJoin, from, Observable, of } from 'rxjs'
 import { concatMap, find, first, map, reduce, tap } from 'rxjs/operators'
+import { FirestoreFacade } from '~/db/FirestoreFacade'
 import { NewTransaction, Transaction, TransactionID, TransactionType } from '~/types'
 import { Log } from '~/utils/log'
-import { Database, FirestoreFacade } from './db'
+import { Database } from './db'
 
 const log = Log('db.transactions')
 

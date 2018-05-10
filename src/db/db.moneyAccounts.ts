@@ -1,8 +1,9 @@
 import { from, Observable, of, Subscriber } from 'rxjs'
 import { concatMap, map, pluck, shareReplay, subscribeOn, tap } from 'rxjs/operators'
+import { FirestoreFacade } from '~/db/FirestoreFacade'
 import { MoneyAccount, MoneyAccountID, NewMoneyAccount } from '~/types'
 import { Log } from '~/utils/log'
-import { Database, FirestoreFacade } from './db'
+import { Database } from './db'
 
 const log = Log('Database.MoneyCategories')
 
