@@ -774,8 +774,8 @@ babel-plugin-jest-hoist@^22.4.3:
   resolved "https://registry.yarnpkg.com/babel-plugin-jest-hoist/-/babel-plugin-jest-hoist-22.4.3.tgz#7d8bcccadc2667f96a0dcc6afe1891875ee6c14a"
 
 babel-plugin-macros@^2.0.0:
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/babel-plugin-macros/-/babel-plugin-macros-2.2.0.tgz#31fc16748d6480697a517f692dc4421cb7bff0cc"
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/babel-plugin-macros/-/babel-plugin-macros-2.2.1.tgz#7cc0f84735aa86f776b51860793a98928f43a7fa"
   dependencies:
     cosmiconfig "^4.0.0"
 
@@ -2163,8 +2163,8 @@ cssom@0.3.x, "cssom@>= 0.3.2 < 0.4.0":
     cssom "0.3.x"
 
 csstype@^2.2.0:
-  version "2.4.2"
-  resolved "https://registry.yarnpkg.com/csstype/-/csstype-2.4.2.tgz#158e36c69566bf968da63d0ba14eda1c20e8643a"
+  version "2.5.0"
+  resolved "https://registry.yarnpkg.com/csstype/-/csstype-2.5.0.tgz#53e1c242f422d5d976b81f42707bd9b8934492ee"
 
 currently-unhandled@^0.4.1:
   version "0.4.1"
@@ -7501,7 +7501,7 @@ tslint-react@^3.2.0:
   dependencies:
     tsutils "^2.13.1"
 
-tslint@^5.7.0, tslint@^5.9.1:
+tslint@^5.10.0, tslint@^5.7.0, tslint@^5.9.1:
   version "5.10.0"
   resolved "https://registry.yarnpkg.com/tslint/-/tslint-5.10.0.tgz#11e26bccb88afa02dd0d9956cae3d4540b5f54c3"
   dependencies:
