@@ -3,7 +3,7 @@ import { concatMap, map, pluck, shareReplay, subscribeOn, tap } from 'rxjs/opera
 import { FirestoreFacade } from '~/db/FirestoreFacade'
 import { MoneyAccount, MoneyAccountID, NewMoneyAccount } from '~/types'
 import { Log } from '~/utils/log'
-import { Database } from './db'
+import { ConstructorProps, Database } from './db'
 
 const log = Log('Database.MoneyCategories')
 
@@ -17,7 +17,7 @@ export class MoneyAccounts {
     ),
   )
 
-  constructor(private init: { db: Database; firestore: Observable<FirestoreFacade> }) {}
+  constructor(private init: ConstructorProps) {}
 
   add = async (newMoneyAccount: NewMoneyAccount) => {
     const moneyAccount: MoneyAccount = {

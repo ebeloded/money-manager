@@ -98,6 +98,7 @@ export class FirestoreFacade {
   categories = this.firestore.collection('categories') as $$CollectionReference<DB.Category>
   transactions = this.firestore.collection('transactions') as $$CollectionReference<DB.Transaction>
   moneyAccounts = this.firestore.collection('moneyAccounts') as $$CollectionReference<DB.MoneyAccount>
+
   constructor(private firestore: FirebaseFirestore) {}
 
   batch = () => this.firestore.batch() as $$WriteBatch

@@ -3,7 +3,7 @@ import { concatMap, find, first, map, reduce, tap } from 'rxjs/operators'
 import { FirestoreFacade } from '~/db/FirestoreFacade'
 import { NewTransaction, Transaction, TransactionID, TransactionType } from '~/types'
 import { Log } from '~/utils/log'
-import { Database } from './db'
+import { ConstructorProps, Database } from './db'
 
 const log = Log('db.transactions')
 
@@ -17,7 +17,7 @@ export class Transactions {
       ),
     ),
   )
-  constructor(private init: { db: Database; firestore: Observable<FirestoreFacade> }) {}
+  constructor(private init: ConstructorProps) {}
 
   async add(newTransaction: NewTransaction): Promise<Transaction> {
     log('add %o', newTransaction)

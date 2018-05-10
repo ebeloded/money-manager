@@ -1,13 +1,13 @@
 import firebase from 'firebase/app'
 import 'firebase/firestore'
-import { mapValues } from 'lodash'
+import { flatten, mapValues } from 'lodash'
 import { empty, forkJoin, from, Observable, of } from 'rxjs'
-import { catchError, concatMap, map, mapTo, pluck, shareReplay } from 'rxjs/operators'
+import { catchError, concatMap, map, mapTo, mergeAll, pluck, shareReplay } from 'rxjs/operators'
 import * as uuid from 'uuid/v4'
 import { FirestoreFacade } from '~/db/FirestoreFacade'
 
 import { FirebaseApp } from '@firebase/app-types'
-import { FirebaseFirestore } from '@firebase/firestore-types'
+import { FirebaseFirestore, QuerySnapshot } from '@firebase/firestore-types'
 import { Log } from '~/utils/log'
 import { Categories } from './db.categories'
 import { MoneyAccounts } from './db.moneyAccounts'
@@ -17,6 +17,11 @@ const log = Log('Database:Init')
 
 interface DatabaseSettings {
   enablePersistence: boolean
+}
+
+export interface ConstructorProps {
+  db: Database
+  firestore: Observable<FirestoreFacade>
 }
 
 export class Database {
@@ -29,8 +34,9 @@ export class Database {
   categories: Categories
 
   constructor(firebaseApp?, enablePersistence = true) {
+    log('construct DB')
     if (firebaseApp) {
-      const init = {
+      const init: ConstructorProps = {
         db: this,
         firestore: from(initFirestore(firebaseApp, enablePersistence)).pipe(
           map((firestore) => new FirestoreFacade(firestore)),
@@ -40,8 +46,30 @@ export class Database {
       this.moneyAccounts = new MoneyAccounts(init)
       this.categories = new Categories(init)
       this.transactions = new Transactions(init)
+
+      // ! For Dev purposes only
+      // tslint:disable-next-line:no-string-literal
+      window['purgeDataStore'] = purgeDataStore(init)
     }
   }
+}
+
+const purgeDataStore = (init: ConstructorProps) => () => {
+  init.firestore.subscribe(async (firestore) => {
+    const batch = firestore.batch()
+    const resolveAllCollections = await Promise.all([
+      firestore.transactions.get(),
+      firestore.categories.get(),
+      firestore.moneyAccounts.get(),
+    ])
+
+    flatten(resolveAllCollections.map((qs) => qs.docs)).forEach((doc) => {
+      log('removing', doc.data())
+      batch.delete(doc.ref)
+    })
+
+    batch.commit()
+  })
 }
 
 async function initFirestore(firebaseApp: FirebaseApp, enablePersistence: boolean) {
