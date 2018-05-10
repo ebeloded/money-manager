@@ -43,10 +43,7 @@
       "type": "npm",
       "script": "tslint:fix:watch",
       "isBackground": true,
-      "problemMatcher": {
-        "base": "$tslint5",
-        "fileLocation": "relative"
-      },
+      "problemMatcher": ["$tslint5"],
       "group": "build",
       "presentation": {
         "reveal": "never",
