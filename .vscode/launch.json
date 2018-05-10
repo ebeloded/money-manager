@@ -6,12 +6,27 @@
   "configurations": [
     {
       "type": "chrome",
+      "request": "attach",
+      "name": "Attach to Chrome",
+      "port": 9222,
+      "webRoot": "{workspaceFolder}/src",
+      "url": "http://localhost:3000",
+      "skipFiles": ["node_modules"]
+    },
+    {
+      "type": "chrome",
       "request": "launch",
       "name": "Launch Chrome",
       "sourceMaps": true,
       "url": "http://localhost:3000",
+      "userDataDir": false,
       "webRoot": "${workspaceFolder}/src",
+      "sourceMapPathOverrides": {
+        "webpack:///src/*": "${webRoot}/*"
+      },
       "smartStep": true
+
+      // "skipFiles": ["node_modules/**", "browser.js"]
     }
   ]
 }
