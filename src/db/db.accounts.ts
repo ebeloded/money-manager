@@ -1,9 +1,9 @@
 import { from, Observable, of, Subscriber } from 'rxjs'
 import { concatMap, map, pluck, shareReplay, subscribeOn, tap } from 'rxjs/operators'
+import { ConstructorProps, Database } from '~/db/db'
 import { FirestoreFacade } from '~/db/FirestoreFacade'
-import { MoneyAccount, MoneyAccountID, NewMoneyAccount } from '~/types'
+import { Account, AccountID, CreateAccount } from '~/types'
 import { Log } from '~/utils/log'
-import { ConstructorProps, Database } from './db'
 
 const log = Log('Database.MoneyCategories')
 
@@ -11,16 +11,16 @@ export class MoneyAccounts {
   all = this.init.firestore.pipe(
     concatMap((firestore) =>
       firestore
-        .createSnapshotObservable(firestore.moneyAccounts)
-        .pipe(map((querySnapshot) => firestore.querySnapshotToDocumentArray<MoneyAccount>(querySnapshot)))
+        .createSnapshotObservable(firestore.accounts)
+        .pipe(map((querySnapshot) => firestore.querySnapshotToDocumentArray<Account>(querySnapshot)))
         .pipe(shareReplay()),
     ),
   )
 
   constructor(private init: ConstructorProps) {}
 
-  add = async (newMoneyAccount: NewMoneyAccount) => {
-    const moneyAccount: MoneyAccount = {
+  add = async (newMoneyAccount: CreateAccount) => {
+    const moneyAccount: Account = {
       balance: newMoneyAccount.startingBalance,
       created: Date.now(),
       id: Database.generateID(),
@@ -30,7 +30,7 @@ export class MoneyAccounts {
     this.init.firestore
       .pipe(
         concatMap((firestore) => {
-          return firestore.moneyAccounts.doc(moneyAccount.id).set(moneyAccount)
+          return firestore.accounts.doc(moneyAccount.id).set(moneyAccount)
         }),
       )
       .subscribe({
@@ -41,11 +41,11 @@ export class MoneyAccounts {
     return moneyAccount
   }
 
-  remove = async (moneyAccountID: MoneyAccountID) => {
+  remove = async (moneyAccountID: AccountID) => {
     this.init.firestore
       .pipe(
         concatMap((firestore) => {
-          return firestore.moneyAccounts.doc(moneyAccountID).delete()
+          return firestore.accounts.doc(moneyAccountID).delete()
         }),
       )
       .subscribe({

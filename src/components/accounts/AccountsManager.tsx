@@ -1,12 +1,11 @@
 import * as React from 'react'
-import { MoneyAccountFormContainer } from './MoneyAccountForm'
-import { MoneyAccountsListContainer } from './MoneyAccountsList'
+import { MoneyAccountFormContainer } from './AccountForm'
+import { MoneyAccountsListContainer } from './AccountsList'
 
 export class MoneyAccountsManager extends React.Component {
   render() {
     return (
       <div>
-        <h1>Accounts:</h1>
         <MoneyAccountsListContainer />
         <MoneyAccountFormContainer />
       </div>

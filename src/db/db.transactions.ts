@@ -39,14 +39,14 @@ export class Transactions {
           if (toAccount) {
             log('increate the balance of toAccount %o by %d', toAccount, transaction.value)
             // increase the balance of toAccount
-            batch.update(firestore.moneyAccounts.doc(toAccount.id), {
+            batch.update(firestore.accounts.doc(toAccount.id), {
               balance: toAccount.balance + transaction.value,
               updated: Date.now(),
             })
           }
           if (fromAccount) {
             // reduce the balance of fromAccount
-            batch.update(firestore.moneyAccounts.doc(fromAccount.id), {
+            batch.update(firestore.accounts.doc(fromAccount.id), {
               balance: fromAccount.balance - transaction.value,
               updated: Date.now(),
             })

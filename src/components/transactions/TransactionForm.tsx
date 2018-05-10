@@ -9,11 +9,11 @@ import { NO_CATEGORY_EXPENSE, NO_CATEGORY_INCOME } from '~/db/constants'
 import { Database } from '~/db/db'
 import { connectDB } from '~/db/react-db/DatabaseContext'
 import {
+  Account,
+  AccountID,
   Category,
   CategoryID,
   CategoryType,
-  MoneyAccount,
-  MoneyAccountID,
   NewTransaction,
   Timestamp,
   TransactionBasics,
@@ -21,16 +21,16 @@ import {
   TransactionType,
 } from '~/types'
 import { Log } from '~/utils/log'
+import { AccountsSelect } from '../accounts/AccountsSelect'
 import { CategorySelect } from '../categories/CategorySelect'
 import { DateInput, NumberInput } from '../elements/Input'
-import { MoneyAccountsSelect } from '../money-accounts/MoneyAccountsSelect'
 import { TransactionTypeSelect } from './TransactionTypeSelect'
 
 const log = Log('App:TransactionForm')
 
 interface Props {
   // transaction?: Transaction
-  moneyAccounts: MoneyAccount[]
+  moneyAccounts: Account[]
   categories: Category[]
   onSubmitTransaction: (t: NewTransaction) => Promise<TransactionID>
 }
@@ -49,10 +49,9 @@ export class TransactionForm extends React.Component<Props, State> {
         ? {
             categoryID: categoryID || firstCategoryOfType.id,
             fromAccountID:
-              (some(moneyAccounts, { id: fromAccountID }) && fromAccountID) ||
-              (first(moneyAccounts) as MoneyAccount).id,
+              (some(moneyAccounts, { id: fromAccountID }) && fromAccountID) || (first(moneyAccounts) as Account).id,
             toAccountID:
-              (some(moneyAccounts, { id: toAccountID }) && toAccountID) || (first(moneyAccounts) as MoneyAccount).id,
+              (some(moneyAccounts, { id: toAccountID }) && toAccountID) || (first(moneyAccounts) as Account).id,
             transactionType,
           }
         : { categoryID: undefined, fromAccountID: undefined, toAccountID: undefined }
@@ -87,11 +86,11 @@ export class TransactionForm extends React.Component<Props, State> {
     })
   }
 
-  onChangeMoneyAccountFrom = (fromAccountID: MoneyAccountID) => {
+  onChangeAccountFrom = (fromAccountID: AccountID) => {
     this.setState({ fromAccountID })
   }
 
-  onChangeMoneyAccountTo = (toAccountID: MoneyAccountID) => {
+  onChangeAccountTo = (toAccountID: AccountID) => {
     this.setState({ toAccountID })
   }
 
@@ -126,20 +125,20 @@ export class TransactionForm extends React.Component<Props, State> {
 
           {transactionType !== TransactionType.INCOME &&
             fromAccountID && (
-              <MoneyAccountsSelect
+              <AccountsSelect
                 label="From:"
                 value={fromAccountID}
                 moneyAccounts={moneyAccounts}
-                onChange={this.onChangeMoneyAccountFrom}
+                onChange={this.onChangeAccountFrom}
               />
             )}
           {transactionType !== TransactionType.EXPENSE &&
             toAccountID && (
-              <MoneyAccountsSelect
+              <AccountsSelect
                 label="To:"
                 value={toAccountID}
                 moneyAccounts={moneyAccounts}
-                onChange={this.onChangeMoneyAccountTo}
+                onChange={this.onChangeAccountTo}
               />
             )}
           {transactionType !== TransactionType.TRANSFER &&

@@ -9,7 +9,7 @@ export enum TransactionType {
   TRANSFER = 'TRANSFER',
 }
 
-export type MoneyAccountID = string
+export type AccountID = string
 export type TransactionID = string
 export type CategoryID = string
 export type Timestamp = number
@@ -21,13 +21,13 @@ interface Updatable {
   updated?: Timestamp
 }
 
-export interface NewMoneyAccount {
+export interface CreateAccount {
   name: string
   startingBalance: number
 }
 
-export interface MoneyAccount extends NewMoneyAccount, Creatable, Updatable {
-  id: MoneyAccountID
+export interface Account extends CreateAccount, Creatable, Updatable {
+  id: AccountID
   balance: number
 }
 
@@ -54,70 +54,70 @@ export interface TransactionBasics {
 
   transactionType?: TransactionType
   categoryID?: CategoryID
-  fromAccountID?: MoneyAccountID
-  toAccountID?: MoneyAccountID
+  fromAccountID?: AccountID
+  toAccountID?: AccountID
 }
 
 interface NewExpenseTransaction extends TransactionBasics {
   transactionType: TransactionType.EXPENSE
   categoryID: CategoryID
-  fromAccountID: MoneyAccountID
+  fromAccountID: AccountID
 }
 
 interface NewIncomeTransaction extends TransactionBasics {
   transactionType: TransactionType.INCOME
   categoryID: CategoryID
-  toAccountID: MoneyAccountID
+  toAccountID: AccountID
 }
 
 interface NewTransferTransaction extends TransactionBasics {
   transactionType: TransactionType.TRANSFER
-  fromAccountID: MoneyAccountID
-  toAccountID: MoneyAccountID
+  fromAccountID: AccountID
+  toAccountID: AccountID
 }
 
 export type NewTransaction = NewExpenseTransaction | NewIncomeTransaction | NewTransferTransaction
 
 interface SharedTransactionInterface extends Creatable, Updatable {
   id: TransactionID
-  fromAccount?: MoneyAccount
+  fromAccount?: Account
   category?: Category
-  toAccount?: MoneyAccount
+  toAccount?: Account
 }
 
 interface CreatedExpenseTransaction extends TransactionBasics, SharedTransactionInterface {
   transactionType: TransactionType.EXPENSE
   categoryID: CategoryID
-  fromAccountID: MoneyAccountID
+  fromAccountID: AccountID
 }
 
 interface CreatedIncomeTransaction extends TransactionBasics, SharedTransactionInterface {
   transactionType: TransactionType.INCOME
   categoryID: CategoryID
-  toAccountID: MoneyAccountID
+  toAccountID: AccountID
 }
 
 interface CreatedTransferTransaction extends TransactionBasics, SharedTransactionInterface {
   transactionType: TransactionType.TRANSFER
-  fromAccountID: MoneyAccountID
-  toAccountID: MoneyAccountID
+  fromAccountID: AccountID
+  toAccountID: AccountID
 }
 
 export type Transaction = CreatedExpenseTransaction | CreatedIncomeTransaction | CreatedTransferTransaction
 
 interface ExpenseTransaction extends CreatedExpenseTransaction {
-  fromAccount: MoneyAccount
+  fromAccount: Account
   category: Category
 }
 
 interface IncomeTransaction extends CreatedIncomeTransaction {
-  toAccount: MoneyAccount
+  toAccount: Account
   category: Category
 }
 
 interface TransferTransaction extends CreatedTransferTransaction {
-  fromAccount: MoneyAccount
-  toAccount: MoneyAccount
+  fromAccount: Account
+  toAccount: Account
 }
 
 export type ExtendedTransaction = ExpenseTransaction | IncomeTransaction | TransferTransaction

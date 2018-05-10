@@ -65,7 +65,7 @@ type mapActionsToPropsFactory = (db: Database, ownProps: any) => MapActionsToPro
 type connectDBType = (
   mapDataToProps: mapDataToPropsFactory | null,
   mapActionsToProps?: mapActionsToPropsFactory,
-) => (OriginalComopnent: React.ComponentType) => React.ComponentType<any>
+) => (Original: React.ComponentType) => React.ComponentType<any>
 
 export const connectDB: connectDBType = (mapDataToProps, mapActionsToProps) => (OriginalComponent) =>
   class ConnectedComponent extends React.PureComponent {

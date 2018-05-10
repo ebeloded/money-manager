@@ -8,9 +8,9 @@ import { FirestoreFacade } from '~/db/FirestoreFacade'
 
 import { FirebaseApp } from '@firebase/app-types'
 import { FirebaseFirestore, QuerySnapshot } from '@firebase/firestore-types'
+import { MoneyAccounts } from '~/db/db.accounts'
 import { Log } from '~/utils/log'
 import { Categories } from './db.categories'
-import { MoneyAccounts } from './db.moneyAccounts'
 import { Transactions } from './db.transactions'
 
 const log = Log('Database:Init')
@@ -60,7 +60,7 @@ const purgeDataStore = (init: ConstructorProps) => () => {
     const resolveAllCollections = await Promise.all([
       firestore.transactions.get(),
       firestore.categories.get(),
-      firestore.moneyAccounts.get(),
+      firestore.accounts.get(),
     ])
 
     flatten(resolveAllCollections.map((qs) => qs.docs)).forEach((doc) => {

@@ -1,18 +1,18 @@
 import * as React from 'react'
 import { Database } from '~/db/db'
 import { connectDB, ConnectedContainer } from '~/db/react-db/DatabaseContext'
-import { MoneyAccountID, NewMoneyAccount } from '~/types'
+import { AccountID, CreateAccount } from '~/types'
 import { Log } from '~/utils/log'
 import { Input, NumberInput } from '../elements/Input'
 
 const log = Log('MoneyAccountForm')
 
 interface Props {
-  submitMoneyAccount: (newMoneyAccount: NewMoneyAccount) => MoneyAccountID
+  submitMoneyAccount: (newMoneyAccount: CreateAccount) => AccountID
 }
 
 interface State {
-  moneyAccount: NewMoneyAccount
+  moneyAccount: CreateAccount
   isDisabled: boolean
 }
 
@@ -71,7 +71,7 @@ export class MoneyAccountForm extends React.Component<Props, State> {
 
 const mapActionsToProps = (db: Database) => {
   return {
-    submitMoneyAccount: (newMoneyAccount: NewMoneyAccount) => {
+    submitMoneyAccount: (newMoneyAccount: CreateAccount) => {
       log('submitMoneyAccount', newMoneyAccount)
       return db.moneyAccounts.add(newMoneyAccount)
     },

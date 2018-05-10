@@ -1,18 +1,18 @@
 import * as React from 'react'
 import { connectDB } from '~/db/react-db/DatabaseContext'
-import { MoneyAccount, MoneyAccountID } from '~/types'
+import { Account, AccountID } from '~/types'
 import { Log } from '~/utils/log'
 
 const log = Log('MoneyAccountsSelect')
 
 interface Props {
-  moneyAccounts: MoneyAccount[]
-  value: MoneyAccountID
+  moneyAccounts: Account[]
+  value: AccountID
   label: string
-  onChange: (moneyAccount: MoneyAccountID) => void
+  onChange: (moneyAccount: AccountID) => void
 }
 
-export class MoneyAccountsSelect extends React.Component<Props> {
+export class AccountsSelect extends React.Component<Props> {
   handleChange = ({ currentTarget }: React.FormEvent<HTMLSelectElement>) => {
     const { value } = currentTarget
     this.props.onChange(value)
