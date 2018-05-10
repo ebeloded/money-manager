@@ -4,7 +4,7 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "Start All",
+      "label": "Build",
       "problemMatcher": [],
       "group": {
         "kind": "build",
@@ -14,46 +14,43 @@
     },
     {
       "identifier": "start",
-      "label": "START",
+      "label": "Start Dev Server",
       "type": "npm",
       "script": "start",
       "isBackground": true,
       "problemMatcher": [],
       "presentation": {
-        "echo": false,
         "reveal": "silent",
-        "focus": false,
-        "panel": "shared"
+        "panel": "dedicated"
       }
     },
     {
       "identifier": "tsc",
-      "label": "TSC",
+      "label": "Compile Typescript",
       "type": "npm",
       "script": "tsc:watch",
       "isBackground": true,
       "group": "build",
       "problemMatcher": "$tsc-watch",
       "presentation": {
-        "echo": false,
         "reveal": "never",
-        "focus": false,
-        "panel": "shared"
+        "panel": "dedicated"
       }
     },
     {
       "identifier": "tslint",
-      "label": "TSLINT",
+      "label": "Run TSLint",
       "type": "npm",
       "script": "tslint:fix:watch",
       "isBackground": true,
-      "problemMatcher": ["$tslint5"],
+      "problemMatcher": {
+        "base": "$tslint5",
+        "fileLocation": "relative"
+      },
       "group": "build",
       "presentation": {
-        "echo": false,
         "reveal": "never",
-        "focus": false,
-        "panel": "shared"
+        "panel": "dedicated"
       }
     },
     {
