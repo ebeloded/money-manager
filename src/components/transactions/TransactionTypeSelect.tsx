@@ -1,7 +1,7 @@
+import { Option, Select } from '@elements/Form'
 import * as React from 'react'
 import { TransactionType } from '~/types'
 import { Log } from '~/utils/log'
-import { Option, Select } from '../elements/Select'
 
 interface Props {
   onChange: (transactionType: TransactionType) => void
@@ -18,15 +18,13 @@ export class TransactionTypeSelect extends React.Component<Props> {
     Log('TransactionTypeSelect')('render %o', this.props)
 
     return (
-      <div>
-        <select value={this.props.value} onChange={this.handleChange}>
-          {Object.keys(TransactionType).map((key) => (
-            <option key={key} value={TransactionType[key]}>
-              {TransactionType[key]}
-            </option>
-          ))}
-        </select>
-      </div>
+      <Select value={this.props.value} onChange={this.handleChange}>
+        {Object.keys(TransactionType).map((key) => (
+          <Option key={key} value={TransactionType[key]}>
+            {TransactionType[key]}
+          </Option>
+        ))}
+      </Select>
     )
   }
 }

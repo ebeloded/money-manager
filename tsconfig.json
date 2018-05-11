@@ -24,8 +24,8 @@
     "paths": {
       "~/db/*": ["db/*"],
       "~/types": ["types.ts"],
-      "~/utils/*": ["utils/*"]
-      // "@config/*": ["config/*"],
+      "~/utils/*": ["utils/*"],
+      "@elements/*": ["components/@elements/*"]
     }
   },
   "exclude": [

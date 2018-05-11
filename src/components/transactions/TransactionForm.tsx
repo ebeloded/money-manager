@@ -6,6 +6,7 @@ import { filter, find, first, some } from 'lodash'
 import { map } from 'rxjs/operators'
 import { NO_CATEGORY_EXPENSE, NO_CATEGORY_INCOME } from '~/db/constants'
 
+import { Input } from '@elements/Form'
 import { Database } from '~/db/db'
 import { connectDB } from '~/db/react-db/DatabaseContext'
 import {
@@ -23,7 +24,6 @@ import {
 import { Log } from '~/utils/log'
 import { AccountsSelect } from '../accounts/AccountsSelect'
 import { CategorySelect } from '../categories/CategorySelect'
-import { DateInput, NumberInput } from '../elements/Input'
 import { TransactionTypeSelect } from './TransactionTypeSelect'
 
 const log = Log('App:TransactionForm')
@@ -66,8 +66,8 @@ export class TransactionForm extends React.Component<Props, State> {
 
   state: State = this.initialState
 
-  onChangeValue = (value: number) => {
-    this.setState({ value })
+  onChangeValue = (value: string) => {
+    this.setState({ value: +value })
   }
 
   onChangeDate = (transactionDate: Timestamp) => {
@@ -119,7 +119,7 @@ export class TransactionForm extends React.Component<Props, State> {
         <fieldset>
           <legend>Add new Transaction</legend>
           <TransactionTypeSelect value={transactionType} onChange={this.onChangeTransactionType} />
-          <NumberInput value={value} onChangeValue={this.onChangeValue} required={true} />
+          <Input type="number" value={value} onChangeValue={this.onChangeValue} required={true} />
 
           {transactionType !== TransactionType.INCOME &&
             fromAccountID && (
@@ -143,7 +143,7 @@ export class TransactionForm extends React.Component<Props, State> {
                 onChange={this.onChangeCategory}
               />
             )}
-          <DateInput value={transactionDate} onChangeDate={this.onChangeDate} required={true} />
+          {/* <Input type="date" value={transactionDate} onChangeDate={this.onChangeDate} required={true} /> */}
           <button type="submit">Submit</button>
         </fieldset>
       </form>

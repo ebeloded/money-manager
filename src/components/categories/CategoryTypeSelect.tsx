@@ -1,7 +1,7 @@
+import { Option, Select } from '@elements/Form'
 import * as React from 'react'
 import { CategoryType } from '~/types'
 import { Log } from '~/utils/log'
-import { Option, Select } from '../elements/Select'
 
 const debug = Log('App:CategoryTypeSelect')
 
@@ -19,13 +19,13 @@ export class CategoryTypeSelect extends React.PureComponent<Props> {
     const { defaultValue = CategoryType.EXPENSE } = this.props
 
     return (
-      <select defaultValue={defaultValue} onChange={this.handleChange}>
+      <Select defaultValue={defaultValue} onChange={this.handleChange}>
         {Object.keys(CategoryType).map((key) => (
-          <option key={key} value={CategoryType[key]}>
+          <Option key={key} value={CategoryType[key]}>
             {CategoryType[key]}
-          </option>
+          </Option>
         ))}
-      </select>
+      </Select>
     )
   }
 }

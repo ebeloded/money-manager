@@ -3,6 +3,8 @@ import { App } from './components/App'
 import { initFirebase } from './firebase/initFirebase'
 
 import { css, injectGlobal } from 'emotion'
+import { ThemeProvider } from 'emotion-theming'
+
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
 import { BrowserRouter } from 'react-router-dom'
@@ -23,20 +25,4 @@ ReactDOM.render(
   document.getElementById('root') as HTMLElement,
 )
 
-const global = css`
-  body {
-    margin: 0;
-    font-size: 14px;
-  }
-
-  html {
-    background: #333;
-    color: #fff;
-    font-family: 'Fira Mono', 'Roboto Mono';
-  }
-`
-// tslint:disable-next-line:no-unused-expression
-injectGlobal`
-  ${global}
-`
 // registerServiceWorker();

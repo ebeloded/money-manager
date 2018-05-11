@@ -1,9 +1,9 @@
+import { Button, Fieldset, Form, FormGroup, Input, Label, Legend } from '@elements/Form'
 import * as React from 'react'
 import { Database } from '~/db/db'
 import { connectDB, ConnectedContainer } from '~/db/react-db/DatabaseContext'
 import { AccountID, CreateAccount } from '~/types'
 import { Log } from '~/utils/log'
-import { Input, NumberInput } from '../elements/Input'
 
 const log = Log('AccountForm')
 
@@ -34,9 +34,8 @@ export class AccountForm extends React.Component<Props, State> {
     this.setState(this.initialState)
   }
 
-  onChangeName = ({ currentTarget }: React.FormEvent<HTMLInputElement>) => {
-    const { value } = currentTarget
-    this.setState(({ account }) => ({ account: { ...account, name: value } }))
+  onChangeName = (name) => {
+    this.setState(({ account }) => ({ account: { ...account, name } }))
   }
 
   onChangeStartingBalance = (startingBalance) => {
@@ -46,25 +45,28 @@ export class AccountForm extends React.Component<Props, State> {
   render() {
     const { account } = this.state
     return (
-      <form onSubmit={this.onSubmit}>
-        <fieldset disabled={this.state.isDisabled}>
-          <legend>Add a new Money Account</legend>
+      <Form onSubmit={this.onSubmit}>
+        <Fieldset disabled={this.state.isDisabled}>
+          <Legend>Add a new Money Account</Legend>
+          <FormGroup>
+            <Label>Account Name:</Label>
+            <Input
+              type="text"
+              required={true}
+              value={account.name}
+              onChangeValue={this.onChangeName}
+              placeholder="Account Name"
+            />
+          </FormGroup>
           <Input
-            type="text"
-            required={true}
-            value={account.name}
-            onChange={this.onChangeName}
-            placeholder="Account Name"
-          />
-          <NumberInput
             value={account.startingBalance}
             onChangeValue={this.onChangeStartingBalance}
             placeholder="Starting Balance"
             required={true}
           />
-          <button type="submit">Add Account</button>
-        </fieldset>
-      </form>
+          <Button type="submit">Add Account</Button>
+        </Fieldset>
+      </Form>
     )
   }
 }
