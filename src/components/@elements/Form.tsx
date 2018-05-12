@@ -1,19 +1,21 @@
-import 'bootstrap/dist/css/bootstrap.min.css'
+// import 'bootstrap/dist/css/bootstrap.min.css'
 import { css } from 'emotion'
 import * as React from 'react'
 import styled from 'react-emotion'
 
 export const Form = styled('form')``
 
-export const Fieldset = styled('fieldset')`
-  border: solid 1px #eee;
-`
+export const Fieldset = styled('fieldset')``
 
 export const Legend = styled('legend')``
 
-export const FormGroup = styled('div')``
+const join = (...classes: Array<string | undefined>) => classes.filter((v) => v).join(' ')
 
-const formControl = ({ theme }) => css``
+export const FormGroup = ({ children, className, ...props }: React.InputHTMLAttributes<HTMLDivElement>) => (
+  <div {...props} className={join(className, 'form-group')}>
+    {children}
+  </div>
+)
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   onChangeValue: (value: string) => void
@@ -30,16 +32,16 @@ export class Input extends React.PureComponent<InputProps> {
   }
 
   render() {
-    const { onChangeValue, ...rest } = this.props
-    return <input className="" {...rest} onChange={this.handleChange} />
+    const { onChangeValue, className, ...rest } = this.props
+    return <input className={join('form-control', className)} onChange={this.handleChange} {...rest} />
   }
 }
 
-export const Label = styled('label')``
+export const Button = ({ className, ...props }: React.InputHTMLAttributes<HTMLButtonElement>) => (
+  <button {...props} className={join('btn', className)} />
+)
 
-export const Button = styled('button')`
-  ${formControl};
-`
+export const Label = styled('label')``
 
 export const Select = (props: React.SelectHTMLAttributes<HTMLSelectElement>) => <select {...props} />
 

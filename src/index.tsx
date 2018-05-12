@@ -11,6 +11,8 @@ import { BrowserRouter } from 'react-router-dom'
 import { Database } from '~/db/db'
 import { Log } from '~/utils/log'
 
+import './styles/style.css'
+
 const firebaseApp = initFirebase()
 
 const db = new Database(firebaseApp)

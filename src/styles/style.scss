@@ -1,12 +1,44 @@
+$body-bg: #333;
+$body-color: #eee;
+$font-family-base: 'Fira Mono';
+
+$font-size-base: 0.75rem;
+
+$enable-rounded: false;
+$enable-shadows: false;
+
+$input-bg: #333;
+
 // Required
+
 @import 'node_modules/bootstrap/scss/functions';
 @import 'node_modules/bootstrap/scss/variables';
 @import 'node_modules/bootstrap/scss/mixins';
 
-// Optional
+$input-focus-border-color: $yellow;
+$input-color: $gray-100;
+$input-focus-color: $input-color;
+$input-focus-box-shadow: none;
+
 @import 'node_modules/bootstrap/scss/reboot';
+@import 'node_modules/bootstrap/scss/forms';
+@import 'node_modules/bootstrap/scss/buttons';
 
-$body-bg: '#333';
-$body-color: '#eee';
+// @import "node_modules/bootstrap/scss/type";
+// @import "node_modules/bootstrap/scss/images";
+// @import "node_modules/bootstrap/scss/code";
+// @import "node_modules/bootstrap/scss/grid";
 
-$font-family-base: 'Fira Mono';
+legend {
+  font-size: $font-size-base;
+  text-align: center;
+  width: auto;
+  padding: 0 10px;
+  margin: 0;
+}
+fieldset {
+  min-width: min-content;
+  border: solid 1px #999;
+  padding: 10px;
+  margin: 0 10px;
+}

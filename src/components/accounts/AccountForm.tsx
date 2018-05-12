@@ -48,6 +48,7 @@ export class AccountForm extends React.Component<Props, State> {
       <Form onSubmit={this.onSubmit}>
         <Fieldset disabled={this.state.isDisabled}>
           <Legend>Add a new Money Account</Legend>
+
           <FormGroup>
             <Label>Account Name:</Label>
             <Input
@@ -58,12 +59,15 @@ export class AccountForm extends React.Component<Props, State> {
               placeholder="Account Name"
             />
           </FormGroup>
-          <Input
-            value={account.startingBalance}
-            onChangeValue={this.onChangeStartingBalance}
-            placeholder="Starting Balance"
-            required={true}
-          />
+          <FormGroup>
+            <Label>Starting Balance:</Label>
+            <Input
+              value={account.startingBalance}
+              onChangeValue={this.onChangeStartingBalance}
+              placeholder="Starting Balance"
+              required={true}
+            />
+          </FormGroup>
           <Button type="submit">Add Account</Button>
         </Fieldset>
       </Form>

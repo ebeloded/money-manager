@@ -11,10 +11,7 @@ import { Header } from './Header'
 
 const log = Log('App:')
 
-const defaultTheme = {
-  backgroundColor: '#333',
-  color: '#fff',
-}
+const defaultTheme = {}
 
 export class App extends React.Component {
   render() {
@@ -32,18 +29,7 @@ export class App extends React.Component {
   }
 }
 
-const global = css`
-  body {
-    margin: 0;
-    font-size: 14px;
-  }
-
-  html {
-    background-color: ${defaultTheme.backgroundColor};
-    color: ${defaultTheme.color};
-    font-family: 'Fira Mono', 'Roboto Mono';
-  }
-`
+const global = css``
 
 // tslint:disable-next-line:no-unused-expression
 injectGlobal`
