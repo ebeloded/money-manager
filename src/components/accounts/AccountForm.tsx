@@ -1,5 +1,6 @@
-import { Button, Fieldset, Form, FormGroup, Input, Label, Legend } from '@elements/Form'
+import { Fieldset, Form, FormGroup, Input, Label, Legend } from '@elements/Form'
 import * as React from 'react'
+import { Button } from 'rmwc/Button'
 import { Database } from '~/db/db'
 import { connectDB, ConnectedContainer } from '~/db/react-db/DatabaseContext'
 import { AccountID, CreateAccount } from '~/types'
@@ -68,7 +69,9 @@ export class AccountForm extends React.Component<Props, State> {
               required={true}
             />
           </FormGroup>
-          <Button type="submit">Add Account</Button>
+          <Button outlined={true} type="submit">
+            Add Account
+          </Button>
         </Fieldset>
       </Form>
     )

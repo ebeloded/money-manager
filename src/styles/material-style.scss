@@ -1,0 +1,16 @@
+$mdc-theme-primary: hsl(84, 100%, 59%);
+$mdc-theme-on-primary: #ffffff;
+$mdc-theme-background: #212121;
+$mdc-theme-surface: #212121;
+
+$mdc-typography-font-family: 'Fira Mono';
+
+@import '@material/theme/mdc-theme';
+@import '@material/button/mdc-button';
+@import '@material/typography/mdc-typography';
+
+body {
+  margin: 0;
+  background: $mdc-theme-background;
+  color: $mdc-theme-text-primary-on-background;
+}

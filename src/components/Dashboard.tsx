@@ -1,6 +1,7 @@
 import * as React from 'react'
 import styled from 'react-emotion'
 
+import { Button } from 'rmwc/Button'
 import { AccountsManager } from './accounts/AccountsManager'
 import { CategoriesManagerContainer } from './categories/CategoriesManager'
 import { TransactionsManager } from './transactions/TransactionsManager'
@@ -17,6 +18,7 @@ export class Dashboard extends React.Component {
     return (
       <DashboardLayout>
         <AccountsManager />
+        <Button outlined={true}>Click Me!</Button>
         {/* <TransactionsManager />
         <CategoriesManagerContainer /> */}
       </DashboardLayout>
