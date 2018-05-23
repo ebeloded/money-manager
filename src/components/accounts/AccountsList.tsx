@@ -1,21 +1,13 @@
+import { List } from '@elements/Layout'
 import * as React from 'react'
 import styled from 'react-emotion'
 import { connectDB, ConnectedContainer } from '~/db/react-db/DatabaseContext'
 import { Account, AccountID } from '~/types'
 import { AccountsListItem } from './AccountsListItem'
 
-const AccountsGroupContainer = styled('div')`
-  padding: 15px;
-`
+const AccountsGroupContainer = styled('div')``
 
-const TotalBalance = styled('div')`
-  font-size: 15px;
-  color: #999;
-  padding: 10px 0;
-  border-bottom: 1px dashed #999;
-`
-
-const AccountsListWrap = styled('div')``
+const TotalBalance = styled('div')``
 
 interface Props {
   accounts?: Account[]
@@ -29,9 +21,7 @@ export const AccountsList: React.SFC<Props> = ({ accounts, deleteAccount }: Prop
   return (
     <AccountsGroupContainer>
       <TotalBalance>Total Balance: {totalBalance}</TotalBalance>
-      <AccountsListWrap>
-        {accounts.map((ma) => <AccountsListItem key={ma.id} account={ma} deleteAccount={deleteAccount} />)}
-      </AccountsListWrap>
+      <List>{accounts.map((ma) => <AccountsListItem key={ma.id} account={ma} deleteAccount={deleteAccount} />)}</List>
     </AccountsGroupContainer>
   )
 }

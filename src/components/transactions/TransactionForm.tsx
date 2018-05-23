@@ -117,7 +117,6 @@ export class TransactionForm extends React.Component<Props, State> {
     return categoryID && fromAccountID && toAccountID && accounts && categories && transactionType ? (
       <form onSubmit={this.onSubmit}>
         <fieldset>
-          <legend>Add new Transaction</legend>
           <TransactionTypeSelect value={transactionType} onChange={this.onChangeTransactionType} />
           <Input type="number" value={value} onChangeValue={this.onChangeValue} required={true} />
 

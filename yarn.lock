@@ -168,9 +168,23 @@
   version "0.35.0"
   resolved "https://registry.yarnpkg.com/@material/auto-init/-/auto-init-0.35.0.tgz#e837ebf4720aeb017c92f6c29d27a0b45d47833e"
 
+"@material/base@^0.34.0":
+  version "0.34.0"
+  resolved "https://registry.yarnpkg.com/@material/base/-/base-0.34.0.tgz#73f915227f9f0548e24587f502d74c351250224a"
+
 "@material/base@^0.35.0":
   version "0.35.0"
   resolved "https://registry.yarnpkg.com/@material/base/-/base-0.35.0.tgz#8640c2da385e8cc393ff56153c5a319f5a7704cb"
+
+"@material/button@^0.34.1":
+  version "0.34.1"
+  resolved "https://registry.yarnpkg.com/@material/button/-/button-0.34.1.tgz#683fa3ace6a46cb0212c874a500ae9a6315ef9a8"
+  dependencies:
+    "@material/elevation" "^0.34.0"
+    "@material/ripple" "^0.34.1"
+    "@material/rtl" "^0.34.0"
+    "@material/theme" "^0.34.0"
+    "@material/typography" "^0.34.0"
 
 "@material/button@^0.35.0":
   version "0.35.0"
@@ -235,6 +249,13 @@
     "@material/rtl" "^0.35.0"
     "@material/theme" "^0.35.0"
     "@material/typography" "^0.35.0"
+
+"@material/elevation@^0.34.0":
+  version "0.34.0"
+  resolved "https://registry.yarnpkg.com/@material/elevation/-/elevation-0.34.0.tgz#8e1e3c9141daab5dcfb444571102df7625293a21"
+  dependencies:
+    "@material/animation" "^0.34.0"
+    "@material/theme" "^0.4.0"
 
 "@material/elevation@^0.35.0":
   version "0.35.0"
@@ -353,12 +374,42 @@
     "@material/selection-control" "^0.35.0"
     "@material/theme" "^0.35.0"
 
+"@material/react-button@^0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@material/react-button/-/react-button-0.1.0.tgz#d75e2b9b574f26e621b5b8f9e9a7d1b4ec9f463a"
+  dependencies:
+    "@material/button" "^0.34.1"
+    "@material/react-ripple" "^0.1.0"
+    classnames "^2.2.5"
+    prop-types "^15.6.1"
+    react "^16.3.2"
+
+"@material/react-ripple@^0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@material/react-ripple/-/react-ripple-0.1.0.tgz#691db32ad62e8065125d25668caa6dee7525aef8"
+  dependencies:
+    "@material/ripple" "^0.34.1"
+    classnames "^2.2.5"
+    prop-types "^15.6.1"
+    react "^16.3.2"
+
+"@material/ripple@^0.34.1":
+  version "0.34.1"
+  resolved "https://registry.yarnpkg.com/@material/ripple/-/ripple-0.34.1.tgz#805dc02922ba345304845297c85bf7570434a32c"
+  dependencies:
+    "@material/base" "^0.34.0"
+    "@material/theme" "^0.34.0"
+
 "@material/ripple@^0.35.0":
   version "0.35.0"
   resolved "https://registry.yarnpkg.com/@material/ripple/-/ripple-0.35.0.tgz#3670e04e02dd6efc1ff0546e5129b4e96ec55f70"
   dependencies:
     "@material/base" "^0.35.0"
     "@material/theme" "^0.35.0"
+
+"@material/rtl@^0.34.0":
+  version "0.34.0"
+  resolved "https://registry.yarnpkg.com/@material/rtl/-/rtl-0.34.0.tgz#6116d9c99f0c0ff40a8ae97ea5bc1a5fd29bcff5"
 
 "@material/rtl@^0.35.0":
   version "0.35.0"
@@ -439,6 +490,10 @@
     "@material/theme" "^0.35.0"
     "@material/typography" "^0.35.0"
 
+"@material/theme@^0.34.0":
+  version "0.34.0"
+  resolved "https://registry.yarnpkg.com/@material/theme/-/theme-0.34.0.tgz#0118b935c2ecbcf3b4a1c84cd949e6344fa8bcb5"
+
 "@material/theme@^0.35.0":
   version "0.35.0"
   resolved "https://registry.yarnpkg.com/@material/theme/-/theme-0.35.0.tgz#a2c76f60b82a53d399b769ef91ec52e83ad3c3bd"
@@ -473,6 +528,10 @@
 "@material/typography@^0.1.1":
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/@material/typography/-/typography-0.1.1.tgz#fb2e3437bd3284d39e9fb91485767ade6b2bd0c1"
+
+"@material/typography@^0.34.0":
+  version "0.34.0"
+  resolved "https://registry.yarnpkg.com/@material/typography/-/typography-0.34.0.tgz#cb365ecd2eb0d785410c743ec3426a107a687e3d"
 
 "@material/typography@^0.35.0":
   version "0.35.0"
@@ -7321,9 +7380,9 @@ ripemd160@^2.0.0, ripemd160@^2.0.1:
     hash-base "^3.0.0"
     inherits "^2.0.1"
 
-rmwc@^1.6.2:
-  version "1.6.2"
-  resolved "https://registry.yarnpkg.com/rmwc/-/rmwc-1.6.2.tgz#6ac0aacac909bba1fde2710299e32d86e0628d19"
+rmwc@^1.6.3:
+  version "1.6.3"
+  resolved "https://registry.yarnpkg.com/rmwc/-/rmwc-1.6.3.tgz#f7328dc796c74d12b51231de782fb98666471374"
   dependencies:
     classnames "^2.2.5"
     hyperform "^0.9.9"

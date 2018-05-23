@@ -7,7 +7,7 @@ export class AccountsManager extends React.Component {
     return (
       <div>
         <AccountsListController />
-        <AccountFormContainer />
+        {/* <AccountFormContainer /> */}
       </div>
     )
   }

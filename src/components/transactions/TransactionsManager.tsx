@@ -7,7 +7,7 @@ export const TransactionsManager = () => {
   return (
     <div>
       <TransactionFormContainer />
-      <TransactionsListContainer />
+      {/* <TransactionsListContainer /> */}
     </div>
   )
 }

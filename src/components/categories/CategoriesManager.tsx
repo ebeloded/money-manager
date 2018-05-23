@@ -41,7 +41,7 @@ export class CategoriesManager extends React.Component<Props, State> {
       <CategoriesManagerWrap>
         <CategoryTypeSelect defaultValue={this.state.categoryType} onChange={this.onCategoryTypeChange} />
         <CategoriesList categories={this.getCategories()} onDeleteCategory={this.props.onDeleteCategory} />
-        <CategoryForm type={this.state.categoryType} onSubmit={this.props.onSubmitCategory} />
+        {/* <CategoryForm type={this.state.categoryType} onSubmit={this.props.onSubmitCategory} /> */}
       </CategoriesManagerWrap>
     )
   }

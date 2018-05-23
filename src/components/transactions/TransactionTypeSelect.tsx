@@ -1,5 +1,7 @@
-import { Option, Select } from '@elements/Form'
 import * as React from 'react'
+
+import { Option, Select } from '@elements/Form'
+import { Tab, TabBar } from '@elements/Tabs'
 import { TransactionType } from '~/types'
 import { Log } from '~/utils/log'
 
@@ -8,23 +10,20 @@ interface Props {
   value: TransactionType
 }
 
+const TransactionTypesArray: TransactionType[] = Object.keys(TransactionType).map((key) => TransactionType[key])
+
+const log = Log('TransactionTypeSelect')
+
 export class TransactionTypeSelect extends React.Component<Props> {
-  handleChange = ({ currentTarget }: React.FormEvent<HTMLSelectElement>) => {
-    const { value } = currentTarget
-    this.props.onChange(value as TransactionType)
-  }
+  handleChange = ({ target }) => this.props.onChange(TransactionTypesArray[target.value])
 
   render() {
-    Log('TransactionTypeSelect')('render %o', this.props)
+    log('render %o', this.props)
 
     return (
-      <Select value={this.props.value} onChange={this.handleChange}>
-        {Object.keys(TransactionType).map((key) => (
-          <Option key={key} value={TransactionType[key]}>
-            {TransactionType[key]}
-          </Option>
-        ))}
-      </Select>
+      <TabBar onChange={this.handleChange}>
+        {TransactionTypesArray.map((name, index) => <Tab key={index}>{name}</Tab>)}
+      </TabBar>
     )
   }
 }

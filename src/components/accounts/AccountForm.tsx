@@ -1,6 +1,5 @@
-import { Fieldset, Form, FormGroup, Input, Label, Legend } from '@elements/Form'
+import { Button, Fieldset, Form, FormField, Input, Legend, TextField } from '@elements/Form'
 import * as React from 'react'
-import { Button } from 'rmwc/Button'
 import { Database } from '~/db/db'
 import { connectDB, ConnectedContainer } from '~/db/react-db/DatabaseContext'
 import { AccountID, CreateAccount } from '~/types'
@@ -49,26 +48,22 @@ export class AccountForm extends React.Component<Props, State> {
       <Form onSubmit={this.onSubmit}>
         <Fieldset disabled={this.state.isDisabled}>
           <Legend>Add a new Money Account</Legend>
-
-          <FormGroup>
-            <Label>Account Name:</Label>
-            <Input
-              type="text"
-              required={true}
-              value={account.name}
-              onChangeValue={this.onChangeName}
-              placeholder="Account Name"
-            />
-          </FormGroup>
-          <FormGroup>
-            <Label>Starting Balance:</Label>
-            <Input
-              value={account.startingBalance}
-              onChangeValue={this.onChangeStartingBalance}
-              placeholder="Starting Balance"
-              required={true}
-            />
-          </FormGroup>
+          <TextField
+            type="text"
+            required={true}
+            value={account.name}
+            onChangeValue={this.onChangeName}
+            label="Account Name"
+            outlined={true}
+          />
+          <TextField
+            type="number"
+            value={account.startingBalance}
+            onChangeValue={this.onChangeStartingBalance}
+            required={true}
+            label="Starting Balance"
+            outlined={true}
+          />
           <Button outlined={true} type="submit">
             Add Account
           </Button>

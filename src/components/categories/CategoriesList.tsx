@@ -1,3 +1,4 @@
+import { List, ListItem, ListItemText } from '@elements/Layout'
 import * as React from 'react'
 import { Category, CategoryID } from '~/types'
 import { CategoryListItem } from './CategoryListItem'
@@ -8,14 +9,18 @@ interface CategoriesListProps {
 }
 
 export class CategoriesList extends React.PureComponent<CategoriesListProps> {
+  handleClick = (categoryID) => () => this.props.onDeleteCategory(categoryID)
+
   render() {
     const { categories } = this.props
     return categories ? (
-      <ul>
+      <List>
         {categories.map((category) => (
-          <CategoryListItem key={category.id} category={category} onClickDelete={this.props.onDeleteCategory} />
+          <ListItem key={category.id} onClick={this.handleClick(category.id)}>
+            <ListItemText>{category.name}</ListItemText>
+          </ListItem>
         ))}
-      </ul>
+      </List>
     ) : null
   }
 }

@@ -1,3 +1,4 @@
+import { Form, TextField } from '@elements/Form'
 import * as React from 'react'
 import { Category, CategoryID, CategoryType, NewCategory } from '~/types'
 
@@ -50,23 +51,24 @@ export class CategoryForm extends React.Component<Props, State> {
     })
   }
 
-  handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({ name: e.currentTarget.value })
+  handleChange = (name: string) => {
+    this.setState({ name })
   }
 
   render() {
     return (
-      <form onSubmit={this.onFormSubmit}>
-        <input
-          ref={this.inputRef}
+      <Form onSubmit={this.onFormSubmit}>
+        <TextField
+          box={true}
+          inputRef={this.inputRef}
           disabled={this.state.disabled}
           type="text"
           value={this.state.name}
-          onChange={this.handleChange}
-          placeholder="Add Category"
+          onChangeValue={this.handleChange}
+          label="Add Category"
           required={true}
         />
-      </form>
+      </Form>
     )
   }
 }

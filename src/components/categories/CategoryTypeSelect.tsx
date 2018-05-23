@@ -11,8 +11,8 @@ interface Props {
 }
 
 export class CategoryTypeSelect extends React.PureComponent<Props> {
-  handleChange = (event: React.FormEvent<HTMLSelectElement>) => {
-    this.props.onChange(event.currentTarget.value as CategoryType)
+  handleChange = ({ currentTarget }: React.FormEvent<HTMLSelectElement>) => {
+    this.props.onChange(currentTarget.value as CategoryType)
   }
 
   render() {
