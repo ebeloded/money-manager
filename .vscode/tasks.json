@@ -10,15 +10,27 @@
         "kind": "build",
         "isDefault": true
       },
-      "dependsOn": ["tsc", "tslint", "start"]
+      "dependsOn": ["tsc", "tslint", "start-sass", "start-dev-server"]
     },
     {
-      "identifier": "start",
+      "identifier": "start-dev-server",
       "label": "Start Dev Server",
       "type": "npm",
-      "script": "start",
+      "script": "start-js",
       "isBackground": true,
       "problemMatcher": [],
+      "presentation": {
+        "reveal": "silent",
+        "panel": "dedicated"
+      }
+    },
+    {
+      "identifier": "start-sass",
+      "label": "Watch SASS",
+      "type": "npm",
+      "script": "watch-css",
+      "isBackground": true,
+      "problemMatcher": ["$node-sass"],
       "presentation": {
         "reveal": "silent",
         "panel": "dedicated"
