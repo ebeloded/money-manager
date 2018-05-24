@@ -5,6 +5,7 @@
     "jsx-no-multiline-js": [false],
     "no-var-requires": [false],
     "no-unused-variable": [true],
+    "no-console": false,
     "no-empty-interface": [false],
     "quotemark": [true, "single", "jsx-double"],
     "semicolon": [true, "never"],
