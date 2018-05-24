@@ -6,7 +6,8 @@ import { filter, find, first, some } from 'lodash'
 import { map } from 'rxjs/operators'
 import { NO_CATEGORY_EXPENSE, NO_CATEGORY_INCOME } from '~/db/constants'
 
-import { Input } from '@elements/Form'
+import { Card, CardAction, CardActions } from '@elements/Card'
+import { Button, Input, TextField } from '@elements/Form'
 import { Database } from '~/db/db'
 import { connectDB } from '~/db/react-db/DatabaseContext'
 import {
@@ -96,9 +97,8 @@ export class TransactionForm extends React.Component<Props, State> {
     this.setState({ categoryID })
   }
 
-  isValid = () => {
-    // TODO: Implement form validation
-    return true
+  onChangeComment = (comment: string) => {
+    this.setState({ comment })
   }
 
   onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -113,12 +113,14 @@ export class TransactionForm extends React.Component<Props, State> {
 
   render() {
     const { categoryID, fromAccountID, toAccountID, transactionType, value, transactionDate } = this.state
+    // tslint:disable-next-line:no-debugger
+    // debugger
     const { accounts, categories } = this.props
-    return categoryID && fromAccountID && toAccountID && accounts && categories && transactionType ? (
+    return accounts && categories && transactionType ? (
       <form onSubmit={this.onSubmit}>
-        <fieldset>
+        <Card>
           <TransactionTypeSelect value={transactionType} onChange={this.onChangeTransactionType} />
-          <Input type="number" value={value} onChangeValue={this.onChangeValue} required={true} />
+          <TextField label="value" box={true} type="number" value={value} onChangeValue={this.onChangeValue} />
 
           {transactionType !== TransactionType.INCOME &&
             fromAccountID && (
@@ -143,8 +145,9 @@ export class TransactionForm extends React.Component<Props, State> {
               />
             )}
           {/* <Input type="date" value={transactionDate} onChangeDate={this.onChangeDate} required={true} /> */}
-          <button type="submit">Submit</button>
-        </fieldset>
+          <TextField fullwidth={true} label="Comment" onChangeValue={this.onChangeComment} />
+          <Button type="submit">Submit</Button>
+        </Card>
       </form>
     ) : null
   }

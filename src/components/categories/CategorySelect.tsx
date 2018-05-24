@@ -1,5 +1,7 @@
-import { filter } from 'lodash'
 import * as React from 'react'
+
+import { Option, Select } from '@elements/Form'
+import { filter } from 'lodash'
 import { map } from 'rxjs/operators'
 import { connectDB } from '~/db/react-db/DatabaseContext'
 import { Category, CategoryID, CategoryType } from '~/types'
@@ -26,13 +28,13 @@ export class CategorySelect extends React.PureComponent<Props, State> {
     const { categories, categoryType } = this.props
     const categoriesOfType = categories.filter((c) => c.categoryType === categoryType)
     return (
-      <select value={this.props.value} onChange={this.handleChange}>
+      <Select label="Category" box={true} value={this.props.value} onChange={this.handleChange}>
         {categoriesOfType.map((category) => (
-          <option key={category.id} value={category.id}>
+          <Option key={category.id} value={category.id}>
             {category.name}
-          </option>
+          </Option>
         ))}
-      </select>
+      </Select>
     )
   }
 }

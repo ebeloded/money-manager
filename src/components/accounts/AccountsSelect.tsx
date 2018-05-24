@@ -1,4 +1,6 @@
 import * as React from 'react'
+
+import { Option, Select } from '@elements/Form'
 import { connectDB } from '~/db/react-db/DatabaseContext'
 import { Account, AccountID } from '~/types'
 import { Log } from '~/utils/log'
@@ -21,18 +23,13 @@ export class AccountsSelect extends React.Component<Props> {
   render() {
     const { accounts, label, value } = this.props
     return accounts && value ? (
-      <React.Fragment>
-        <label>
-          {label}
-          <select value={value} onChange={this.handleChange}>
-            {accounts.map(({ id, name }) => (
-              <option key={id} value={id}>
-                {name}
-              </option>
-            ))}
-          </select>
-        </label>
-      </React.Fragment>
+      <Select box={true} value={value} onChange={this.handleChange} label={label}>
+        {accounts.map(({ id, name }) => (
+          <Option key={id} value={id}>
+            {name}
+          </Option>
+        ))}
+      </Select>
     ) : null
   }
 }

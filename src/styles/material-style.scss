@@ -1,11 +1,14 @@
-@import 'material-components-web/material-components-web';
+$income-color: #00c853;
+$expense-color: #ff6d00;
+$transfer-color: #0091ea;
 
-// $mdc-theme-primary: hsl(84, 100%, 59%);
+// $mdc-theme-primary: #00c853;
 // $mdc-theme-on-primary: #ffffff;
 // $mdc-theme-background: #212121;
 // $mdc-theme-surface: #212121;
 
-// $mdc-typography-font-family: 'Fira Mono';
+$mdc-typography-font-family: 'Fira Mono';
+@import 'material-components-web/material-components-web';
 
 // @import '@material/theme/mdc-theme';
 // @import '@material/button/mdc-button';

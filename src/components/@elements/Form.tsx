@@ -25,6 +25,7 @@ interface TextFieldProps extends React.InputHTMLAttributes<HTMLInputElement> {
   fullwidth?: boolean
   inputRef?: React.Ref<HTMLInputElement>
 }
+
 export class TextField extends React.Component<TextFieldProps> {
   handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { onChange, onChangeValue } = this.props
