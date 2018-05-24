@@ -20,8 +20,12 @@ declare module 'rmwc/Card'
 
 declare module 'rmwc/Button'
 
+declare module 'rmwc/Select'
+
 declare module 'rmwc/Grid'
 
 declare module 'rmwc/List'
 
 declare module 'rmwc/FormField'
+
+declare module 'rmwc/TextField'
