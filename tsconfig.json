@@ -21,13 +21,17 @@
     "experimentalDecorators": true,
     "suppressImplicitAnyIndexErrors": true,
     "noUnusedLocals": false,
+    // "skipLibCheck": true,
+    // "skipDefaultLibCheck": true,
     "noEmitOnError": false,
     "baseUrl": "src",
     "paths": {
       "~/db/*": ["db/*"],
       "~/types": ["types.ts"],
       "~/utils/*": ["utils/*"],
-      "@elements/*": ["components/@elements/*"]
+      "@elements/*": ["components/@elements/*"],
+      "~/containers/*": ["containers/*"],
+      "~/components/*": ["components/*"]
     }
   },
   "exclude": [

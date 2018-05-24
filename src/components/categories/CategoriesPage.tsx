@@ -1,5 +1,6 @@
 import * as React from 'react'
-import { CategoriesManagerContainer } from './CategoriesManager'
+
+import { CategoriesManagerContainer } from '~/containers/CategoriesManagerContainer'
 
 export class CategoriesPage extends React.Component {
   render() {

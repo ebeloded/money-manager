@@ -1,8 +1,8 @@
 import * as React from 'react'
 
 import { Grid, GridCell } from '@elements/Layout'
+import { CategoriesManagerContainer } from '~/containers/CategoriesManagerContainer'
 import { AccountsManager } from './accounts/AccountsManager'
-import { CategoriesManagerContainer } from './categories/CategoriesManager'
 import { TransactionsManager } from './transactions/TransactionsManager'
 
 export class Dashboard extends React.Component {

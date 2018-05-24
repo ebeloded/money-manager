@@ -3,8 +3,6 @@ import * as React from 'react'
 
 import { Card } from '@elements/Card'
 import { Button, TextField } from '@elements/Form'
-import { Database } from '~/db/db'
-import { connectDB } from '~/db/react-db/DatabaseContext'
 import {
   Account,
   AccountID,
@@ -17,11 +15,11 @@ import {
   TransactionID,
   TransactionType,
 } from '~/types'
-import { Log } from '~/utils/log'
 import { AccountsSelect } from '../accounts/AccountsSelect'
 import { CategorySelect } from '../categories/CategorySelect'
 import { TransactionTypeSelect } from './TransactionTypeSelect'
 
+import { Log } from '~/utils/log'
 const log = Log('App:TransactionForm')
 
 interface Props {
@@ -145,24 +143,6 @@ export class TransactionForm extends React.Component<Props, State> {
     ) : null
   }
 }
-
-const mapDataToProps = (db) => {
-  return {
-    accounts: db.accounts.all,
-    categories: db.categories.all,
-  }
-}
-
-const mapActionsToProps = (db: Database) => ({
-  onSubmitTransaction: (t: NewTransaction) => {
-    log('onSubmitTransaction', t)
-    return db.transactions.add(t)
-  },
-})
-
-const withDB = connectDB(mapDataToProps, mapActionsToProps)
-
-export const TransactionFormContainer = withDB(TransactionForm)
 
 function getFirstCategoryOfType(categories: Category[], transactionType: TransactionType) {
   return find(categories, { categoryType: (transactionType as string) as CategoryType })

@@ -3,7 +3,6 @@ import * as React from 'react'
 import { CategoriesList } from './CategoriesList'
 import { CategoryTypeSelect } from './CategoryTypeSelect'
 
-import { connectDB } from '~/db/react-db/DatabaseContext'
 import { Category, CategoryID, CategoryType, NewCategory } from '~/types'
 
 interface Props {
@@ -39,15 +38,3 @@ export class CategoriesManager extends React.Component<Props, State> {
     )
   }
 }
-
-const withDB = connectDB(
-  (db) => ({
-    categories: db.categories.all,
-  }),
-  (db) => ({
-    onDeleteCategory: (cid: CategoryID) => db.categories.remove(cid),
-    onSubmitCategory: (c: NewCategory) => db.categories.add(c),
-  }),
-)
-
-export const CategoriesManagerContainer = withDB(CategoriesManager)

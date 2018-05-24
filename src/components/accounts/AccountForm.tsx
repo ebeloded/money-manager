@@ -1,11 +1,6 @@
-import { Button, Fieldset, Form, Legend, TextField } from '@elements/Form'
+import { Button, Fieldset, Form, TextField } from '@elements/Form'
 import * as React from 'react'
-import { Database } from '~/db/db'
-import { connectDB } from '~/db/react-db/DatabaseContext'
 import { AccountID, CreateAccount } from '~/types'
-import { Log } from '~/utils/log'
-
-const log = Log('AccountForm')
 
 interface Props {
   submitAccount: (newAccount: CreateAccount) => AccountID
@@ -47,7 +42,6 @@ export class AccountForm extends React.Component<Props, State> {
     return (
       <Form onSubmit={this.onSubmit}>
         <Fieldset disabled={this.state.isDisabled}>
-          <Legend>Add a new Money Account</Legend>
           <TextField
             type="text"
             required={true}
@@ -72,16 +66,3 @@ export class AccountForm extends React.Component<Props, State> {
     )
   }
 }
-
-const mapActionsToProps = (db: Database) => {
-  return {
-    submitAccount: (newAccount: CreateAccount) => {
-      log('submitAccount', newAccount)
-      return db.accounts.add(newAccount)
-    },
-  }
-}
-
-const withDB = connectDB(null, mapActionsToProps)
-
-export const AccountFormContainer = withDB(AccountForm)

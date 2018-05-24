@@ -1,13 +1,11 @@
 import { List } from '@elements/Layout'
 import * as React from 'react'
-import styled from 'react-emotion'
-import { connectDB } from '~/db/react-db/DatabaseContext'
 import { Account, AccountID } from '~/types'
 import { AccountsListItem } from './AccountsListItem'
 
-const AccountsGroupContainer = styled('div')``
+const AccountsGroupContainer = (props) => <div {...props} />
 
-const TotalBalance = styled('div')``
+const TotalBalance = (props) => <div {...props} />
 
 interface Props {
   accounts?: Account[]
@@ -25,14 +23,3 @@ export const AccountsList: React.SFC<Props> = ({ accounts, deleteAccount }: Prop
     </AccountsGroupContainer>
   )
 }
-
-const withDB = connectDB(
-  (db) => ({
-    accounts: db.accounts.all,
-  }),
-  (db) => ({
-    deleteAccount: (id: AccountID) => db.accounts.remove(id),
-  }),
-)
-
-export const AccountsListController = withDB(AccountsList)
