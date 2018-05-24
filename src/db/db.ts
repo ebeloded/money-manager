@@ -1,4 +1,4 @@
-import firebase from 'firebase/app'
+import firebase from '@firebase/app'
 import 'firebase/firestore'
 import { flatten } from 'lodash'
 import { from, Observable } from 'rxjs'
