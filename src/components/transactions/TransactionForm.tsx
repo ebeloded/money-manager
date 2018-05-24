@@ -131,7 +131,7 @@ export class TransactionForm extends React.Component<Props, State> {
               <CategorySelect
                 categories={categories}
                 categoryType={(transactionType as string) as CategoryType}
-                value={categoryID}
+                selectedCategoryID={categoryID}
                 onChange={this.onChangeCategory}
               />
             )}

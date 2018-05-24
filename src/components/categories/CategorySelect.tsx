@@ -5,7 +5,7 @@ import { Category, CategoryID, CategoryType } from '~/types'
 
 interface Props {
   categories: Category[]
-  value: CategoryID
+  selectedCategoryID: CategoryID
   categoryType: CategoryType
   onChange: (category: CategoryID) => void
 }
@@ -19,10 +19,16 @@ export class CategorySelect extends React.PureComponent<Props, State> {
   }
 
   render() {
-    const { categories, categoryType } = this.props
+    const { categories, categoryType, selectedCategoryID } = this.props
     const categoriesOfType = categories.filter((c) => c.categoryType === categoryType)
     return (
-      <Select label="Category" box={true} value={this.props.value} onChange={this.handleChange}>
+      <Select
+        data-testid="category-select"
+        label="Category"
+        box={true}
+        value={selectedCategoryID}
+        onChange={this.handleChange}
+      >
         {categoriesOfType.map((category) => (
           <Option key={category.id} value={category.id}>
             {category.name}
