@@ -1,6 +1,5 @@
-import { from, Observable } from 'rxjs'
-import { concatMap, first, map, shareReplay, take, tap } from 'rxjs/operators'
-import { FirestoreFacade } from '~/db/FirestoreFacade'
+import { from } from 'rxjs'
+import { concatMap, first, map, shareReplay, tap } from 'rxjs/operators'
 import { Category, CategoryID, CategoryType, NewCategory } from '~/types'
 import { Log } from '~/utils/log'
 import { ConstructorProps, Database } from './db'

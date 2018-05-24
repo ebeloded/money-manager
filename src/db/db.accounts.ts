@@ -1,7 +1,5 @@
-import { from, Observable, of, Subscriber } from 'rxjs'
-import { concatMap, map, pluck, shareReplay, subscribeOn, tap } from 'rxjs/operators'
+import { concatMap, map, shareReplay } from 'rxjs/operators'
 import { ConstructorProps, Database } from '~/db/db'
-import { FirestoreFacade } from '~/db/FirestoreFacade'
 import { Account, AccountID, CreateAccount } from '~/types'
 import { Log } from '~/utils/log'
 

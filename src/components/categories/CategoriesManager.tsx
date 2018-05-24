@@ -1,17 +1,10 @@
 import * as React from 'react'
-import styled from 'react-emotion'
-import { filter } from 'rxjs/operators'
 
 import { CategoriesList } from './CategoriesList'
-import { CategoryForm } from './CategoryForm'
 import { CategoryTypeSelect } from './CategoryTypeSelect'
 
 import { connectDB } from '~/db/react-db/DatabaseContext'
 import { Category, CategoryID, CategoryType, NewCategory } from '~/types'
-
-const debug = require('debug')('App:CategoriesManager')
-
-const CategoriesManagerWrap = styled('div')({})
 
 interface Props {
   onSubmitCategory: (category: NewCategory) => Promise<CategoryID>
@@ -38,11 +31,11 @@ export class CategoriesManager extends React.Component<Props, State> {
 
   render() {
     return (
-      <CategoriesManagerWrap>
+      <div>
         <CategoryTypeSelect defaultValue={this.state.categoryType} onChange={this.onCategoryTypeChange} />
         <CategoriesList categories={this.getCategories()} onDeleteCategory={this.props.onDeleteCategory} />
         {/* <CategoryForm type={this.state.categoryType} onSubmit={this.props.onSubmitCategory} /> */}
-      </CategoriesManagerWrap>
+      </div>
     )
   }
 }

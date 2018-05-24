@@ -13,6 +13,7 @@
     "noImplicitReturns": true,
     "noImplicitThis": true,
     "noImplicitAny": false,
+    "noUnusedParameters": true,
     // "importHelpers": true,
     // "noEmitHelpers": true,
     "allowSyntheticDefaultImports": true,

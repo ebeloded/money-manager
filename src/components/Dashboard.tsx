@@ -1,5 +1,4 @@
 import * as React from 'react'
-import styled from 'react-emotion'
 
 import { Grid, GridCell } from '@elements/Layout'
 import { AccountsManager } from './accounts/AccountsManager'

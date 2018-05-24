@@ -1,10 +1,8 @@
-import { filter, find, first, some } from 'lodash'
+import { find, first, some } from 'lodash'
 import * as React from 'react'
-import { Observable, of } from 'rxjs'
-import { map } from 'rxjs/operators'
 
-import { Card, CardAction, CardActions } from '@elements/Card'
-import { Button, Input, TextField } from '@elements/Form'
+import { Card } from '@elements/Card'
+import { Button, TextField } from '@elements/Form'
 import { Database } from '~/db/db'
 import { connectDB } from '~/db/react-db/DatabaseContext'
 import {
@@ -73,12 +71,10 @@ export class TransactionForm extends React.Component<Props, State> {
   }
 
   onChangeTransactionType = (transactionType: TransactionType) => {
-    this.setState((state, props) => {
-      const category = getFirstCategoryOfType(this.props.categories, transactionType)
-      return {
-        categoryID: category && category.id,
-        transactionType,
-      }
+    const category = getFirstCategoryOfType(this.props.categories, transactionType)
+    this.setState({
+      categoryID: category && category.id,
+      transactionType,
     })
   }
 
@@ -109,7 +105,7 @@ export class TransactionForm extends React.Component<Props, State> {
   }
 
   render() {
-    const { categoryID, fromAccountID, toAccountID, transactionType, value, transactionDate } = this.state
+    const { categoryID, fromAccountID, toAccountID, transactionType, value } = this.state
     // tslint:disable-next-line:no-debugger
     // debugger
     const { accounts, categories } = this.props

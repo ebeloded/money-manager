@@ -1,6 +1,5 @@
-import { combineLatest, forkJoin, from, Observable, of } from 'rxjs'
-import { concatMap, find, first, map, reduce, tap } from 'rxjs/operators'
-import { FirestoreFacade } from '~/db/FirestoreFacade'
+import { forkJoin, from } from 'rxjs'
+import { concatMap, first, map } from 'rxjs/operators'
 import { NewTransaction, Transaction, TransactionID, TransactionType } from '~/types'
 import { Log } from '~/utils/log'
 import { ConstructorProps, Database } from './db'

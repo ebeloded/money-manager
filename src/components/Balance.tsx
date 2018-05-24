@@ -4,7 +4,7 @@ interface Props {
   value: number
 }
 
-export class Balance extends React.Component {
+export class Balance extends React.Component<Props> {
   render() {
     return <div>Balance</div>
   }

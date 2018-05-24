@@ -1,9 +1,6 @@
 import { Option, Select } from '@elements/Form'
 import * as React from 'react'
 import { CategoryType } from '~/types'
-import { Log } from '~/utils/log'
-
-const debug = Log('App:CategoryTypeSelect')
 
 interface Props {
   onChange: (categoryType: CategoryType) => void

@@ -1,7 +1,7 @@
-import { Button, Fieldset, Form, FormField, Input, Legend, TextField } from '@elements/Form'
+import { Button, Fieldset, Form, Legend, TextField } from '@elements/Form'
 import * as React from 'react'
 import { Database } from '~/db/db'
-import { connectDB, ConnectedContainer } from '~/db/react-db/DatabaseContext'
+import { connectDB } from '~/db/react-db/DatabaseContext'
 import { AccountID, CreateAccount } from '~/types'
 import { Log } from '~/utils/log'
 

@@ -1,8 +1,7 @@
 import React from 'react'
 
-import { List, ListItem, ListItemGraphic, ListItemText } from '@elements/Layout'
+import { List, ListItem, ListItemText } from '@elements/Layout'
 import { Category, CategoryID } from '~/types'
-import { CategoryListItem } from './CategoryListItem'
 
 interface CategoriesListProps {
   categories: Category[]

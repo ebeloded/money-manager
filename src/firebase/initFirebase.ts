@@ -1,5 +1,5 @@
+import firebase from '@firebase/app'
 import { FirebaseApp } from '@firebase/app-types'
-import firebase from 'firebase/app'
 
 let app: FirebaseApp
 

@@ -1,5 +1,4 @@
 import * as React from 'react'
-import { connectDB } from '~/db/react-db/DatabaseContext'
 import { ExtendedTransaction, TransactionType } from '~/types'
 import { Log } from '~/utils/log'
 

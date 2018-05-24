@@ -1,11 +1,7 @@
 import * as React from 'react'
 
 import { Option, Select } from '@elements/Form'
-import { connectDB } from '~/db/react-db/DatabaseContext'
 import { Account, AccountID } from '~/types'
-import { Log } from '~/utils/log'
-
-const log = Log('AccountsSelect')
 
 interface Props {
   accounts: Account[]

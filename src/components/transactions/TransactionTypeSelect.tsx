@@ -1,6 +1,5 @@
 import * as React from 'react'
 
-import { Option, Select } from '@elements/Form'
 import { Tab, TabBar } from '@elements/Tabs'
 import { TransactionType } from '~/types'
 import { Log } from '~/utils/log'

@@ -3,8 +3,6 @@ import { Observable, Subscription } from 'rxjs'
 import { Log } from '~/utils/log'
 import { Database } from '../db'
 
-const log = Log('DatabaseContext')
-
 interface DatabaseProviderProps {
   db: Database
   children: React.ReactNode

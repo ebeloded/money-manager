@@ -6,23 +6,18 @@ import {
   FirebaseFirestore,
   OrderByDirection,
   Query,
-  QueryDocumentSnapshot,
   QuerySnapshot,
   SetOptions,
-  Settings,
   SnapshotListenOptions,
   SnapshotOptions,
   UpdateData,
   WhereFilterOp,
   WriteBatch,
 } from '@firebase/firestore-types'
-import firebase from 'firebase/app'
 import 'firebase/firestore'
 
-import { FirebaseApp } from '@firebase/app-types'
 import { Observable } from 'rxjs'
 import * as DB from '~/types'
-import { Log } from '~/utils/log'
 
 interface $$DocumentReference<T extends DocumentData | UpdateData> extends DocumentReference {
   set(data: T, options?: SetOptions): Promise<void>
@@ -91,8 +86,6 @@ interface $$WriteBatch extends WriteBatch {
   ): $$WriteBatch
   delete(documentRef: DocumentReference): $$WriteBatch
 }
-
-const log = Log('FirestoreFacade')
 
 export class FirestoreFacade {
   accounts = this.firestore.collection('accounts') as $$CollectionReference<DB.Account>

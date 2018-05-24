@@ -1,23 +1,19 @@
 import firebase from 'firebase/app'
 import 'firebase/firestore'
-import { flatten, mapValues } from 'lodash'
-import { empty, forkJoin, from, Observable, of } from 'rxjs'
-import { catchError, concatMap, map, mapTo, mergeAll, pluck, shareReplay } from 'rxjs/operators'
+import { flatten } from 'lodash'
+import { from, Observable } from 'rxjs'
+import { map } from 'rxjs/operators'
 import * as uuid from 'uuid/v4'
 import { FirestoreFacade } from '~/db/FirestoreFacade'
 
 import { FirebaseApp } from '@firebase/app-types'
-import { FirebaseFirestore, QuerySnapshot } from '@firebase/firestore-types'
+import { FirebaseFirestore } from '@firebase/firestore-types'
 import { Accounts } from '~/db/db.accounts'
 import { Log } from '~/utils/log'
 import { Categories } from './db.categories'
 import { Transactions } from './db.transactions'
 
 const log = Log('Database:Init')
-
-interface DatabaseSettings {
-  enablePersistence: boolean
-}
 
 export interface ConstructorProps {
   db: Database

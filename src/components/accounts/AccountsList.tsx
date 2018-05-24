@@ -1,7 +1,7 @@
 import { List } from '@elements/Layout'
 import * as React from 'react'
 import styled from 'react-emotion'
-import { connectDB, ConnectedContainer } from '~/db/react-db/DatabaseContext'
+import { connectDB } from '~/db/react-db/DatabaseContext'
 import { Account, AccountID } from '~/types'
 import { AccountsListItem } from './AccountsListItem'
 
