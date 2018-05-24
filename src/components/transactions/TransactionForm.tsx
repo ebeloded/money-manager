@@ -1,10 +1,7 @@
-import * as React from 'react'
-import { connect } from 'react-redux'
-import { Observable, of } from 'rxjs'
-
 import { filter, find, first, some } from 'lodash'
+import * as React from 'react'
+import { Observable, of } from 'rxjs'
 import { map } from 'rxjs/operators'
-import { NO_CATEGORY_EXPENSE, NO_CATEGORY_INCOME } from '~/db/constants'
 
 import { Card, CardAction, CardActions } from '@elements/Card'
 import { Button, Input, TextField } from '@elements/Form'

@@ -10,7 +10,7 @@ const log = Log('db.categories')
 export const NO_CATEGORY = {
   created: 0,
   id: 'NO_CATEGORY_ID',
-  name: 'No Category',
+  name: '❓No Category',
 }
 
 const NO_CATEGORY_EXPENSE: Category = {

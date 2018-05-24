@@ -2,7 +2,7 @@ import { keyBy, reduce } from 'lodash'
 import * as React from 'react'
 import { combineLatest } from 'rxjs'
 import { withLatestFrom } from 'rxjs/operators'
-import { NO_CATEGORY } from '~/db/constants'
+
 import { connectDB } from '~/db/react-db/DatabaseContext'
 import { Account, Category, ExtendedTransaction, TransactionID, TransactionType } from '~/types'
 import { Log } from '~/utils/log'

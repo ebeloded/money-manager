@@ -1,5 +1,6 @@
-import { List, ListItem, ListItemText } from '@elements/Layout'
-import * as React from 'react'
+import React from 'react'
+
+import { List, ListItem, ListItemGraphic, ListItemText } from '@elements/Layout'
 import { Category, CategoryID } from '~/types'
 import { CategoryListItem } from './CategoryListItem'
 
