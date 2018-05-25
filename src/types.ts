@@ -46,7 +46,7 @@ export interface Category extends NewCategory, Creatable, Updatable {
   id: CategoryID
 }
 
-export interface TransactionBasics {
+export interface UndefinedTransaction {
   value: number
   transactionDate: Timestamp
   comment: string
@@ -58,19 +58,19 @@ export interface TransactionBasics {
   toAccountID?: AccountID
 }
 
-interface NewExpenseTransaction extends TransactionBasics {
+interface NewExpenseTransaction extends UndefinedTransaction {
   transactionType: TransactionType.EXPENSE
   categoryID: CategoryID
   fromAccountID: AccountID
 }
 
-interface NewIncomeTransaction extends TransactionBasics {
+interface NewIncomeTransaction extends UndefinedTransaction {
   transactionType: TransactionType.INCOME
   categoryID: CategoryID
   toAccountID: AccountID
 }
 
-interface NewTransferTransaction extends TransactionBasics {
+interface NewTransferTransaction extends UndefinedTransaction {
   transactionType: TransactionType.TRANSFER
   fromAccountID: AccountID
   toAccountID: AccountID
@@ -85,19 +85,19 @@ interface SharedTransactionInterface extends Creatable, Updatable {
   toAccount?: Account
 }
 
-interface CreatedExpenseTransaction extends TransactionBasics, SharedTransactionInterface {
+interface CreatedExpenseTransaction extends UndefinedTransaction, SharedTransactionInterface {
   transactionType: TransactionType.EXPENSE
   categoryID: CategoryID
   fromAccountID: AccountID
 }
 
-interface CreatedIncomeTransaction extends TransactionBasics, SharedTransactionInterface {
+interface CreatedIncomeTransaction extends UndefinedTransaction, SharedTransactionInterface {
   transactionType: TransactionType.INCOME
   categoryID: CategoryID
   toAccountID: AccountID
 }
 
-interface CreatedTransferTransaction extends TransactionBasics, SharedTransactionInterface {
+interface CreatedTransferTransaction extends UndefinedTransaction, SharedTransactionInterface {
   transactionType: TransactionType.TRANSFER
   fromAccountID: AccountID
   toAccountID: AccountID

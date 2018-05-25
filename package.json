@@ -6,11 +6,12 @@
     "tslint:fix": "tslint -p . --fix --force",
     "tslint:watch": "chokidar './src/**/*.ts' './src/**/*.tsx'  -c 'tslint -p . --fix --force'",
     "tslint:fix:watch": "yarn run tslint:fix && yarn run tslint:watch",
-    "tsc:watch": "tsc --project ./tsconfig.json --noEmit --watch",
+    "tsc:watch": "tsc --project ./tsconfig.json --noEmit --watch --pretty",
     "start-js": "react-scripts-ts start",
     "build-js": "react-scripts-ts build",
     "build-css": "node-sass-chokidar src/styles -o src/styles --include-path ./node_modules",
-    "watch-css": "npm run build-css && node-sass-chokidar src/styles -o src/styles --watch --recursive --include-path ./node_modules",
+    "watch-css":
+      "npm run build-css && node-sass-chokidar src/styles -o src/styles --watch --recursive --include-path ./node_modules",
     "start": "npm-run-all -p watch-css start-js",
     "build": "npm-run-all build-css build-js",
     "test": "react-scripts-ts test --env=jsdom",
@@ -63,6 +64,11 @@
   "jest": {
     "moduleNameMapper": {
       "~/types": "<rootDir>/src/types.ts",
+      "~/components/(.*)": "<rootDir>/src/components/$1",
+      "~/containers/(.*)": "<rootDir>/src/containers/$1",
+      "~/utils/(.*)": "<rootDir>/src/utils/$1",
+      "~/db/(.*)": "<rootDir>/src/db/$1",
+      "test-utils": "<rootDir>/src/test-utils",
       "@elements/(.*)": "<rootDir>/src/components/@elements/$1"
     }
   }

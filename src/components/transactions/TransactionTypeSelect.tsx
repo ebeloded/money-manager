@@ -17,11 +17,13 @@ export class TransactionTypeSelect extends React.Component<Props> {
   handleChange = ({ target }) => this.props.onChange(TransactionTypesArray[target.value])
 
   render() {
-    log('render %o', this.props)
-
     return (
       <TabBar onChange={this.handleChange}>
-        {TransactionTypesArray.map((name, index) => <Tab key={index}>{name}</Tab>)}
+        {TransactionTypesArray.map((name, index) => (
+          <Tab data-testid={`tab-${name}`} key={index}>
+            {name}
+          </Tab>
+        ))}
       </TabBar>
     )
   }
